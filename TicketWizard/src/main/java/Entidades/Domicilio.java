@@ -1,12 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+/**
+ * 
  */
 package Entidades;
 
 /**
- *
- * @author skevi
+ * 
+ * @author/(s) Kevin Jared Sánchez Figueroa - 240798.
+ *             Daniel Alejandro Castro Félix - 235294.
  */
 public class Domicilio {
     
@@ -19,6 +19,10 @@ public class Domicilio {
     private int codigo_postal;
 
     public Domicilio() {
+    }
+    
+    public Domicilio(int id) {
+        this.id = id;
     }
 
     public Domicilio(String ciudad, String colonia, String calle, 

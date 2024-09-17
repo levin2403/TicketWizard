@@ -1,6 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+/**
+ * 
  */
 package Conexion;
 
@@ -11,15 +10,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author skevi
+ * 
+ * @author/(s) Kevin Jared Sánchez Figueroa - 240798.
+ *             Daniel Alejandro Castro Félix - 235294.
  */
 
 public class Conexion implements IConexion {
     private static final Logger logger = Logger.getLogger(Conexion.class.getName()); // Instancia del logger
     String cadena = "jdbc:mysql://localhost:3306/ticketwizard";
     String user = "root";
-    String password = "Saymyname15";
+    String password = "13137Cas";
     
     @Override
     public Connection crearConexion() {

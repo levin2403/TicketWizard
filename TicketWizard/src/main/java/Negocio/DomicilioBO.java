@@ -1,42 +1,84 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+/**
+ *
  */
 package Negocio;
 
+import Convertidores.DomicilioCVR;
 import DAO.DomicilioDAO;
 import DTOs.DomicilioDTO;
+import Entidades.Domicilio;
 import Excepciones.BOException;
+import Excepciones.DAOException;
 import InterfacesDAO.IDomicilioDAO;
 import InterfacesNegocio.IDomicilioBO;
 
 /**
- *
- * @author skevi
+ * 
+ * @author/(s) Kevin Jared Sánchez Figueroa - 240798.
+ *             Daniel Alejandro Castro Félix - 235294.
  */
-public class DomicilioBO implements IDomicilioBO{
+public class DomicilioBO implements IDomicilioBO {
 
-    IDomicilioDAO domicilio;
+    private final IDomicilioDAO domicilioDAO;
+    private DomicilioCVR convertidor;
 
     public DomicilioBO() {
-        this.domicilio = new DomicilioDAO();
-    }
- 
-    
-    @Override
-    public void agregar(DomicilioDTO domicilio) throws BOException {
- 
+        this.domicilioDAO = new DomicilioDAO(); // Asegúrate de pasar la conexión si es necesario
+        this.convertidor = new DomicilioCVR();
     }
 
     @Override
-    public void actualizar(DomicilioDTO domicilio) throws BOException {
-        
+    public void agregar(DomicilioDTO dto) throws BOException {
+        try {
+            Domicilio domicilio = convertirAEntidad(dto);
+            domicilioDAO.agregar(domicilio);
+        } catch (DAOException ex) {
+            throw new BOException("Error al agregar el domicilio: " + ex.getMessage(), ex);
+        }
     }
 
     @Override
-    public DomicilioDTO consultar(DomicilioDTO domicilio) throws BOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void actualizar(DomicilioDTO dto) throws BOException {
+        try {
+            Domicilio domicilio = convertirAEntidad(dto);
+            domicilioDAO.actualizar(domicilio);
+        } catch (DAOException ex) {
+            throw new BOException("Error al actualizar el domicilio: " + ex.getMessage(), ex);
+        }
     }
-    
-    
+
+    @Override
+    public DomicilioDTO consultar(DomicilioDTO dto) throws BOException {
+        try {
+            Domicilio domicilio = convertirAEntidad(dto);
+            Domicilio resultado = domicilioDAO.consultar(domicilio);
+            return convertirADTO(resultado);
+        } catch (DAOException ex) {
+            throw new BOException("Error al consultar el domicilio: " + ex.getMessage(), ex);
+        }
+    }
+
+    private Domicilio convertirAEntidad(DomicilioDTO dto) {
+        return new Domicilio(
+                dto.getId(),
+                dto.getCiudad(),
+                dto.getColonia(),
+                dto.getCalle(),
+                dto.getNumExterior(),
+                dto.getNumInterior(),
+                dto.getCodigoPostal()
+        );
+    }
+
+    private DomicilioDTO convertirADTO(Domicilio domicilio) {
+        return new DomicilioDTO(
+                domicilio.getId(),
+                domicilio.getCiudad(),
+                domicilio.getColonia(),
+                domicilio.getCalle(),
+                domicilio.getNum_exterior(),
+                domicilio.getNum_interior(),
+                domicilio.getCodigo_postal()
+        );
+    }
 }

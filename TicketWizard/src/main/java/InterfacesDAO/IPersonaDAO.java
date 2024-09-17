@@ -1,6 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
+/**
+ * 
  */
 package InterfacesDAO;
 
@@ -8,8 +7,9 @@ import Entidades.Persona;
 import Excepciones.DAOException;
 
 /**
- *
- * @author skevi
+ * 
+ * @author/(s) Kevin Jared Sánchez Figueroa - 240798.
+ *             Daniel Alejandro Castro Félix - 235294.
  */
 public interface IPersonaDAO {
     
