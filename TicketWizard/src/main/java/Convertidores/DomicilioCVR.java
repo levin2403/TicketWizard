@@ -10,4 +10,6 @@ package Convertidores;
  */
 public class DomicilioCVR {
     
+    
+    
 }

@@ -20,14 +20,14 @@ public class Persona {
     private String correo;
     private int edad;
     private BigDecimal saldo;
-    private int idDomicilio;
+    private Domicilio domicilio;
     private String generatedKey;
 
     public Persona() {
     }
 
     public Persona(String nombre, String contraseña, Date fechaNacimiento, 
-            String correo, int edad, BigDecimal saldo, int idDomicilio, 
+            String correo, int edad, BigDecimal saldo, Domicilio domicilio, 
             String generatedKey) {
         this.nombre = nombre;
         this.contraseña = contraseña;
@@ -35,12 +35,12 @@ public class Persona {
         this.correo = correo;
         this.edad = edad;
         this.saldo = saldo;
-        this.idDomicilio = idDomicilio;
+        this.domicilio = domicilio;
         this.generatedKey = generatedKey;
     }
 
     public Persona(int id, String nombre, String contraseña, Date fechaNacimiento, 
-            String correo, int edad, BigDecimal saldo, int idDomicilio, 
+            String correo, int edad, BigDecimal saldo, Domicilio domicilio, 
             String generatedKey) {
         this.id = id;
         this.nombre = nombre;
@@ -49,7 +49,7 @@ public class Persona {
         this.correo = correo;
         this.edad = edad;
         this.saldo = saldo;
-        this.idDomicilio = idDomicilio;
+        this.domicilio = domicilio;
         this.generatedKey = generatedKey;
     }
     

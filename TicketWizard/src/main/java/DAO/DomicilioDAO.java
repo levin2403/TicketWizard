@@ -14,6 +14,8 @@ import InterfacesDAO.IDomicilioDAO;
  */
 public class DomicilioDAO implements IDomicilioDAO{
 
+    
+    
     @Override
     public void agregar(Domicilio domicilio) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -21,6 +23,11 @@ public class DomicilioDAO implements IDomicilioDAO{
 
     @Override
     public void actualizar(Domicilio domicilio) throws DAOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Domicilio consultar(Domicilio domicilio) throws DAOException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

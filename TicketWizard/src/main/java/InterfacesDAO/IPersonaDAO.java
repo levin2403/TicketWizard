@@ -13,6 +13,7 @@ import Excepciones.DAOException;
  */
 public interface IPersonaDAO {
     
+    public Persona consultar(String correo)throws DAOException;
     public void agregar(Persona persona) throws DAOException;
     public void actualizar(Persona persona) throws DAOException;
     

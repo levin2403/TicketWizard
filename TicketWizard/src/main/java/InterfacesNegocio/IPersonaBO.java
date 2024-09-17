@@ -4,7 +4,7 @@
  */
 package InterfacesNegocio;
 
-import Entidades.Persona;
+import DTOs.PersonaDTO;
 import Excepciones.DAOException;
 
 /**
@@ -13,7 +13,8 @@ import Excepciones.DAOException;
  */
 public interface IPersonaBO {
     
-    public void agregar(Persona persona) throws DAOException;
-    public void actualizar(Persona persona) throws DAOException;
+    public PersonaDTO consultar(String correo)throws DAOException;
+    public void agregar(PersonaDTO persona) throws DAOException;
+    public void actualizar(PersonaDTO persona) throws DAOException;
     
 }
