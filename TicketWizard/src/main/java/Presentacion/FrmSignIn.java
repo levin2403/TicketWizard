@@ -101,10 +101,18 @@ public class FrmSignIn extends javax.swing.JFrame {
         }
     }
     
-    private void getSecretKey(){
-        encriptador.getSecretKey();
+    /**
+     * 
+     * @return 
+     */
+    private String getSecretKey(){
+        return encriptador.getSecretKey();
     }
     
+    /**
+     * 
+     * @return 
+     */
     private String getPassword(){
         try{
             // Obtener la contraseña como un arreglo de caracteres
@@ -128,9 +136,13 @@ public class FrmSignIn extends javax.swing.JFrame {
         return null;
     }
     
+    /**
+     * 
+     * @return 
+     */
     public DomicilioDTO recolectarDatosDomicilio(){
         return new DomicilioDTO(
-            this.txfCalle.getText(),
+            this.txfCiudad.getText(),
             this.txfColonia.getText(),
             this.txfCalle.getText(),
             Integer.parseInt(this.txfNumExterior.getText()),
@@ -139,14 +151,25 @@ public class FrmSignIn extends javax.swing.JFrame {
         );
     }
     
+    /**
+     * 
+     * @return 
+     */
     public PersonaDTO recolectarDatosPersona(){
         return new PersonaDTO(
             this.txfNombre.getText(),
             getPassword(),
-                
+            this.dcFechaNacimiento.getDate(),
+            this.txfCorreoElectronico.getText(),
+            0.0,
+            recolectarDatosDomicilio(),
+            getSecretKey()    
         );
     }
     
+    /**
+     * 
+     */
     public void registrar(){
         try{
             personaBO.agregar(recolectarDatosPersona());
