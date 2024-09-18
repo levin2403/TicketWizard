@@ -5,7 +5,6 @@ package DAO;
 
 import Conexion.Conexion;
 import Conexion.IConexion;
-import Convertidores.DomicilioCVR;
 import Entidades.Domicilio;
 import Excepciones.DAOException;
 import InterfacesDAO.IDomicilioDAO;
@@ -21,7 +20,7 @@ import java.sql.SQLException;
  */
 public class DomicilioDAO implements IDomicilioDAO {
 
-    private IConexion conexionBD;
+    private final IConexion conexionBD;
 
     public DomicilioDAO() {
         this.conexionBD = new Conexion();
@@ -110,47 +109,60 @@ public class DomicilioDAO implements IDomicilioDAO {
             }
         }
     }
+    
 
-    @Override
-    public Domicilio consultar(Domicilio domicilio) throws DAOException {
-        Connection conexion = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultado = null;
+   @Override
+public Domicilio consultar(Domicilio domicilio) throws DAOException {
+    Connection conexion = null;
+    PreparedStatement preparedStatement = null;
+    ResultSet resultado = null;
 
+    try {
+        conexion = conexionBD.crearConexion();
+        String sentenciaSQL = "SELECT id, ciudad, colonia, calle, num_exterior, num_interior, codigo_postal FROM Direccion WHERE id = ?";
+        preparedStatement = conexion.prepareStatement(sentenciaSQL);
+        preparedStatement.setInt(1, domicilio.getId());
+
+        resultado = preparedStatement.executeQuery();
+
+        if (resultado.next()) {
+            // Crear y devolver la entidad Domicilio
+            Domicilio domicilioResult = new Domicilio();
+            domicilioResult.setId(resultado.getInt("id"));
+            domicilioResult.setCiudad(resultado.getString("ciudad"));
+            domicilioResult.setColonia(resultado.getString("colonia"));
+            domicilioResult.setCalle(resultado.getString("calle"));
+            domicilioResult.setNum_exterior(resultado.getInt("num_exterior"));
+
+            // Manejar el valor de num_interior como int, asignando 0 si es NULL
+            Object numInteriorObj = resultado.getObject("num_interior");
+            int numInterior = (numInteriorObj != null) ? (Integer) numInteriorObj : 0;
+            domicilioResult.setNum_interior(numInterior);
+
+            domicilioResult.setCodigo_postal(resultado.getInt("codigo_postal"));
+            
+            return domicilioResult;
+        } else {
+            throw new DAOException("No se encontró el domicilio con ID: " + domicilio.getId());
+        }
+
+    } catch (SQLException ex) {
+        throw new DAOException("Error al consultar el domicilio: " + ex.getMessage(), ex);
+    } finally {
         try {
-            conexion = conexionBD.crearConexion();
-            String sentenciaSQL = "SELECT id, ciudad, colonia, calle, num_exterior, num_interior, codigo_postal FROM Direccion WHERE id = ?";
-            preparedStatement = conexion.prepareStatement(sentenciaSQL);
-
-            preparedStatement.setInt(1, domicilio.getId());
-
-            resultado = preparedStatement.executeQuery();
-
-            if (resultado.next()) {
-                // Usamos el ConversorDomicilio para convertir el ResultSet a una Entidad.
-                DomicilioCVR convertidor = new DomicilioCVR();
-                return convertidor.convertirAEntidad(resultado);
-            } else {
-                throw new DAOException("No se encontró el domicilio con ID: " + domicilio.getId());
+            if (resultado != null) {
+                resultado.close();
             }
-
-        } catch (SQLException ex) {
-            throw new DAOException("Error al consultar el domicilio: " + ex.getMessage());
-        } finally {
-            try {
-                if (resultado != null) {
-                    resultado.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (conexion != null) {
-                    conexion.close();
-                }
-            } catch (SQLException e) {
-                throw new DAOException("Error al cerrar los recursos: " + e.getMessage());
+            if (preparedStatement != null) {
+                preparedStatement.close();
             }
+            if (conexion != null) {
+                conexion.close();
+            }
+        } catch (SQLException e) {
+            throw new DAOException("Error al cerrar los recursos: " + e.getMessage(), e);
         }
     }
+}
 
 }

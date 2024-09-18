@@ -5,6 +5,7 @@ package InterfacesDAO;
 
 import Entidades.Persona;
 import Excepciones.DAOException;
+import java.math.BigDecimal;
 
 /**
  * 
@@ -16,5 +17,6 @@ public interface IPersonaDAO {
     public Persona consultar(String correo)throws DAOException;
     public void agregar(Persona persona) throws DAOException;
     public void actualizar(Persona persona) throws DAOException;
+    public void actualizarSaldo(int idPersona, BigDecimal nuevoSaldo) throws DAOException;
     
 }

@@ -22,7 +22,6 @@ Presentacion\FrmUpdateUser$2.class
 Presentacion\FrmRechargeWP$1.class
 Presentacion\Panels\PnlSalesHistory.class
 DAO\DomicilioDAO.class
-Presentacion\Component\AES.class
 InterfacesNegocio\IPersonaBO.class
 Presentacion\FrmUpdateUser$5.class
 Presentacion\Panels\PnlSucces.class
@@ -52,8 +51,11 @@ Presentacion\FrmSignIn$4.class
 Presentacion\FrmUpdateUser$4.class
 Presentacion\FrmModelMenu$3.class
 Presentacion\Panels\PnlShoppingHistory.class
+mainpruebas\Pruebas.class
 Presentacion\FrmUpdateUser$6.class
 Convertidores\PersonaCVR.class
+Presentacion\Component\AESEncrypter.class
+Presentacion\FrmLogin$4.class
 Presentacion\FrmRechargeWP$3.class
 Presentacion\Panels\PnlBuyDetails$1.class
 Presentacion\FrmUpdateUser.class

@@ -3,6 +3,7 @@
  */
 package DTOs;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 /**
@@ -17,27 +18,44 @@ public class PersonaDTO {
     private String contraseña;
     private Date fechaNacimiento;
     private String correo;
-    private int edad;
-    private double saldo;
-    private int idDomicilio;
+    private BigDecimal saldo;
+    private DomicilioDTO domicilioDto;
     private String generatedKey;
 
     public PersonaDTO() {
     }
 
     public PersonaDTO(String nombre, String contraseña, Date fechaNacimiento, 
-                      String correo, int edad, double saldo, int idDomicilio, String generatedKey) {
+                      String correo, BigDecimal saldo, DomicilioDTO domicilioDto, String generatedKey) {
         this.nombre = nombre;
         this.contraseña = contraseña;
         this.fechaNacimiento = fechaNacimiento;
         this.correo = correo;
-        this.edad = edad;
         this.saldo = saldo;
-        this.idDomicilio = idDomicilio;
+        this.domicilioDto = domicilioDto;
         this.generatedKey = generatedKey;
     }
 
+    public PersonaDTO(String id, String nombre, String contraseña, Date fechaNacimiento, String correo, BigDecimal saldo, DomicilioDTO domicilioDto, String generatedKey) {
+        this.id = id;
+        this.nombre = nombre;
+        this.contraseña = contraseña;
+        this.fechaNacimiento = fechaNacimiento;
+        this.correo = correo;
+        this.saldo = saldo;
+        this.domicilioDto = domicilioDto;
+        this.generatedKey = generatedKey;
+    }
     
+    
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getNombre() {
         return nombre;
@@ -71,28 +89,20 @@ public class PersonaDTO {
         this.correo = correo;
     }
 
-    public int getEdad() {
-        return edad;
-    }
-
-    public void setEdad(int edad) {
-        this.edad = edad;
-    }
-
-    public double getSaldo() {
+    public BigDecimal getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
+    public void setSaldo(BigDecimal saldo) {
         this.saldo = saldo;
     }
 
-    public int getIdDomicilio() {
-        return idDomicilio;
+    public DomicilioDTO getDomicilioDto() {
+        return domicilioDto;
     }
 
-    public void setIdDomicilio(int idDomicilio) {
-        this.idDomicilio = idDomicilio;
+    public void setDomicilioDto(DomicilioDTO domicilioDto) {
+        this.domicilioDto = domicilioDto;
     }
 
     public String getGeneratedKey() {
@@ -106,13 +116,13 @@ public class PersonaDTO {
     @Override
     public String toString() {
         return "PersonaDTO{" +
+               "id=" + id + 
                ", nombre=" + nombre + 
                ", contraseña=" + contraseña + 
                ", fechaNacimiento=" + fechaNacimiento + 
                ", correo=" + correo + 
-               ", edad=" + edad + 
                ", saldo=" + saldo + 
-               ", idDomicilio=" + idDomicilio + 
+               ", domicilioDto=" + domicilioDto + 
                ", generatedKey=" + generatedKey + '}';
     }
 }

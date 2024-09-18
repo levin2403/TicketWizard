@@ -1,40 +1,49 @@
 /**
- * 
+ *
  */
 package Convertidores;
 
+import DTOs.PersonaDTO;
 import Entidades.Persona;
 import Entidades.Domicilio;
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 /**
- * 
- * @author/(s) Kevin Jared Sánchez Figueroa - 240798.
+ *
+ * @author/(s) Kevin Jared Sánchez Figueroa - 240798. 
  *             Daniel Alejandro Castro Félix - 235294.
  */
-
 public class PersonaCVR {
 
-    public Persona convertirAEntidad(ResultSet resultado) throws SQLException {
-        int id = resultado.getInt("id");
-        String nombre = resultado.getString("nombre");
-        String contraseña = resultado.getString("contraseña");
-        java.sql.Date fechaNacimientoSQL = resultado.getDate("fecha_nacimiento");
-        java.util.Date fechaNacimiento = new java.util.Date(fechaNacimientoSQL.getTime());
-        String correo = resultado.getString("correo");
-        int edad = resultado.getInt("edad");
-        BigDecimal saldo = resultado.getBigDecimal("saldo");
-        String generatedKey = resultado.getString("generated_key");
+    public Persona convertirAEntidad(PersonaDTO dto, Domicilio domicilio) {
 
-        // Obtener el domicilio asociado
-        int idDomicilio = resultado.getInt("id_domicilio");
-        Domicilio domicilio = new Domicilio();
-        domicilio.setId(idDomicilio);
-
-        // Crear y devolver el objeto Persona
-        return new Persona(id, nombre, contraseña, (Date) fechaNacimiento, correo, edad, saldo, domicilio, generatedKey);
+        // Convertir el ID de String a int
+        int id = Integer.parseInt(dto.getId());
+        return new Persona(
+                id,
+                dto.getNombre(),
+                dto.getContraseña(),
+                dto.getFechaNacimiento(),
+                dto.getCorreo(),
+                dto.getSaldo(),
+                domicilio,
+                dto.getGeneratedKey()
+        );
+    }
+    
+    // Método para convertir de Persona a PersonaDTO
+    public PersonaDTO convertirADTO(Persona persona) {
+        // Crear y devolver el DTO a partir de la entidad Persona
+        return new PersonaDTO(
+                String.valueOf(persona.getId()), // Convertir el ID de int a String
+                persona.getNombre(),
+                persona.getContraseña(),
+                persona.getFechaNacimiento(),
+                persona.getCorreo(),
+                persona.getSaldo(),
+                // No se necesita idDomicilio en PersonaDTO.
+                // Asumiendo que no se utiliza, o se pasa el objeto DomicilioDTO a otro lugar si es necesario.
+                null,
+                persona.getGeneratedKey()
+        );
     }
 }

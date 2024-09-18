@@ -13,14 +13,14 @@ import InterfacesDAO.IDomicilioDAO;
 import InterfacesNegocio.IDomicilioBO;
 
 /**
- * 
- * @author/(s) Kevin Jared Sánchez Figueroa - 240798.
- *             Daniel Alejandro Castro Félix - 235294.
+ *
+ * @author/(s) Kevin Jared Sánchez Figueroa - 240798. Daniel Alejandro Castro
+ * Félix - 235294.
  */
 public class DomicilioBO implements IDomicilioBO {
 
     private final IDomicilioDAO domicilioDAO;
-    private DomicilioCVR convertidor;
+    private final DomicilioCVR convertidor;
 
     public DomicilioBO() {
         this.domicilioDAO = new DomicilioDAO(); // Asegúrate de pasar la conexión si es necesario
@@ -30,7 +30,15 @@ public class DomicilioBO implements IDomicilioBO {
     @Override
     public void agregar(DomicilioDTO dto) throws BOException {
         try {
+            // Verificar que dto no sea nulo y tenga valores válidos
+            if (dto == null) {
+                throw new BOException("DomicilioDTO es nulo.");
+            }
+
+            // Convertir DomicilioDTO a Domicilio
             Domicilio domicilio = convertirAEntidad(dto);
+
+            // Agregar el Domicilio usando el DAO
             domicilioDAO.agregar(domicilio);
         } catch (DAOException ex) {
             throw new BOException("Error al agregar el domicilio: " + ex.getMessage(), ex);
@@ -49,36 +57,11 @@ public class DomicilioBO implements IDomicilioBO {
 
     @Override
     public DomicilioDTO consultar(DomicilioDTO dto) throws BOException {
-//        try {
-//            Domicilio domicilio = convertirAEntidad(dto);
-//            Domicilio resultado = domicilioDAO.consultar(domicilio);
-//            return convertirADTO(resultado);
-//        } catch (DAOException ex) {
-//            throw new BOException("Error al consultar el domicilio: " + ex.getMessage(), ex);
-//        }
-return null;
+        return null; //CAMBIAR
     }
 
-    private Domicilio convertirAEntidad(DomicilioDTO dto) {
-        return new Domicilio(
-                Integer.parseInt(dto.getId()),
-                dto.getCiudad(),
-                dto.getColonia(),
-                dto.getCalle(),
-                dto.getNumExterior(),
-                dto.getNumInterior(),
-                dto.getCodigoPostal()
-        );
+    // Usar el método de convertirAEntidad de DomicilioCVR
+    private Domicilio convertirAEntidad(DomicilioDTO dto) throws BOException {
+        return convertidor.convertirAEntidad(dto);
     }
-
-//    private DomicilioDTO convertirADTO(Domicilio domicilio) {
-//        return new DomicilioDTO(
-//                domicilio.getCiudad(),
-//                domicilio.getColonia(),
-//                domicilio.getCalle(),
-//                domicilio.getNum_exterior(),
-//                domicilio.getNum_interior(),
-//                domicilio.getCodigo_postal()
-//        );
-//    }
 }

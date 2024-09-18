@@ -10,6 +10,7 @@ import Entidades.Persona;
 import Excepciones.DAOException;
 import InterfacesDAO.IDomicilioDAO;
 import InterfacesDAO.IPersonaDAO;
+import java.math.BigDecimal;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -44,17 +45,16 @@ public class PersonaDAO implements IPersonaDAO {
             domicilioDAO.agregar(persona.getDomicilio());
 
             // Ahora, agregamos la persona usando el id_domicilio recién generado
-            String sentenciaSQL = "INSERT INTO Persona (nombre, contraseña, fecha_nacimiento, correo, edad, saldo, id_domicilio, generated_key) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+            String sentenciaSQL = "INSERT INTO Persona (nombre, contraseña, fecha_nacimiento, correo, saldo, id_domicilio, generated_key) VALUES (?, ?, ?, ?, ?, ?, ?)";
             preparedStatement = conexion.prepareStatement(sentenciaSQL, PreparedStatement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1, persona.getNombre());
             preparedStatement.setString(2, persona.getContraseña());
             preparedStatement.setDate(3, new java.sql.Date(persona.getFechaNacimiento().getTime()));
             preparedStatement.setString(4, persona.getCorreo());
-            preparedStatement.setInt(5, persona.getEdad());
-            preparedStatement.setBigDecimal(6, persona.getSaldo());
-            preparedStatement.setInt(7, persona.getDomicilio().getId()); 
-            preparedStatement.setString(8, persona.getGeneratedKey());
+            preparedStatement.setBigDecimal(5, persona.getSaldo()); // Cambiado de 6 a 5
+            preparedStatement.setInt(6, persona.getDomicilio().getId()); 
+            preparedStatement.setString(7, persona.getGeneratedKey());
 
             preparedStatement.executeUpdate();
 
@@ -94,18 +94,17 @@ public class PersonaDAO implements IPersonaDAO {
             domicilioDAO.actualizar(persona.getDomicilio());
 
             // Ahora actualizamos la persona
-            String sentenciaSQL = "UPDATE Persona SET nombre = ?, contraseña = ?, fecha_nacimiento = ?, correo = ?, edad = ?, saldo = ?, id_domicilio = ?, generated_key = ? WHERE id = ?";
+            String sentenciaSQL = "UPDATE Persona SET nombre = ?, contraseña = ?, fecha_nacimiento = ?, correo = ?, saldo = ?, id_domicilio = ?, generated_key = ? WHERE id = ?";
             preparedStatement = conexion.prepareStatement(sentenciaSQL);
 
             preparedStatement.setString(1, persona.getNombre());
             preparedStatement.setString(2, persona.getContraseña());
             preparedStatement.setDate(3, new java.sql.Date(persona.getFechaNacimiento().getTime()));
             preparedStatement.setString(4, persona.getCorreo());
-            preparedStatement.setInt(5, persona.getEdad());
-            preparedStatement.setBigDecimal(6, persona.getSaldo());
-            preparedStatement.setInt(7, persona.getDomicilio().getId());
-            preparedStatement.setString(8, persona.getGeneratedKey());
-            preparedStatement.setInt(9, persona.getId());
+            preparedStatement.setBigDecimal(5, persona.getSaldo()); // Cambiado de 6 a 5
+            preparedStatement.setInt(6, persona.getDomicilio().getId());
+            preparedStatement.setString(7, persona.getGeneratedKey());
+            preparedStatement.setInt(8, persona.getId()); // Cambiado de 9 a 8
 
             preparedStatement.executeUpdate();
 
@@ -133,7 +132,7 @@ public class PersonaDAO implements IPersonaDAO {
 
         try {
             conexion = conexionBD.crearConexion();
-            String sentenciaSQL = "SELECT id, nombre, contraseña, fecha_nacimiento, correo, edad, saldo, id_domicilio, generated_key FROM Persona WHERE correo = ?";
+            String sentenciaSQL = "SELECT id, nombre, contraseña, fecha_nacimiento, correo, saldo, id_domicilio, generated_key FROM Persona WHERE correo = ?";
             preparedStatement = conexion.prepareStatement(sentenciaSQL);
 
             preparedStatement.setString(1, correo);
@@ -148,7 +147,6 @@ public class PersonaDAO implements IPersonaDAO {
                 persona.setContraseña(resultado.getString("contraseña"));
                 persona.setFechaNacimiento(resultado.getDate("fecha_nacimiento"));
                 persona.setCorreo(resultado.getString("correo"));
-                persona.setEdad(resultado.getInt("edad"));
                 persona.setSaldo(resultado.getBigDecimal("saldo"));
                 persona.setGeneratedKey(resultado.getString("generated_key"));
 
@@ -178,6 +176,39 @@ public class PersonaDAO implements IPersonaDAO {
                 }
             } catch (SQLException e) {
                 throw new DAOException("Error al cerrar los recursos: " + e.getMessage());
+            }
+        }
+    }
+    
+    @Override
+    public void actualizarSaldo(int idPersona, BigDecimal nuevoSaldo) throws DAOException {
+        Connection conexion = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            conexion = conexionBD.crearConexion();
+            String sentenciaSQL = "UPDATE Persona SET saldo = ? WHERE id = ?";
+            preparedStatement = conexion.prepareStatement(sentenciaSQL);
+
+            preparedStatement.setBigDecimal(1, nuevoSaldo);
+            preparedStatement.setInt(2, idPersona);
+
+            int filasActualizadas = preparedStatement.executeUpdate();
+            if (filasActualizadas == 0) {
+                throw new DAOException("No se encontró la persona con ID: " + idPersona);
+            }
+        } catch (SQLException ex) {
+            throw new DAOException("Error al actualizar el saldo: " + ex.getMessage(), ex);
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (conexion != null) {
+                    conexion.close();
+                }
+            } catch (SQLException e) {
+                throw new DAOException("Error al cerrar los recursos: " + e.getMessage(), e);
             }
         }
     }

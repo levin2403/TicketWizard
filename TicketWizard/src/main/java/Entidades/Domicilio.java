@@ -1,15 +1,15 @@
 /**
- * 
+ *
  */
 package Entidades;
 
 /**
- * 
- * @author/(s) Kevin Jared Sánchez Figueroa - 240798.
+ *
+ * @author/(s) Kevin Jared Sánchez Figueroa - 240798. 
  *             Daniel Alejandro Castro Félix - 235294.
  */
 public class Domicilio {
-    
+
     private int id;
     private String ciudad;
     private String colonia;
@@ -20,12 +20,12 @@ public class Domicilio {
 
     public Domicilio() {
     }
-    
+
     public Domicilio(int id) {
         this.id = id;
     }
 
-    public Domicilio(String ciudad, String colonia, String calle, 
+    public Domicilio(String ciudad, String colonia, String calle,
             int num_exterior, int num_interior, int codigo_postal) {
         this.ciudad = ciudad;
         this.colonia = colonia;
@@ -35,7 +35,7 @@ public class Domicilio {
         this.codigo_postal = codigo_postal;
     }
 
-    public Domicilio(int id, String ciudad, String colonia, String calle, 
+    public Domicilio(int id, String ciudad, String colonia, String calle,
             int num_exterior, int num_interior, int codigo_postal) {
         this.id = id;
         this.ciudad = ciudad;
@@ -46,13 +46,20 @@ public class Domicilio {
         this.codigo_postal = codigo_postal;
     }
 
-    public Domicilio(String ciudad, String colonia, String calle, 
+    public Domicilio(String ciudad, String colonia, String calle,
             int num_exterior, int codigo_postal) {
         this.ciudad = ciudad;
         this.colonia = colonia;
         this.calle = calle;
         this.num_exterior = num_exterior;
         this.codigo_postal = codigo_postal;
+    }
+    
+    public Domicilio(String calle, int numExterior, String ciudad, int codigoPostal) {
+        this.calle = calle;
+        this.num_exterior = numExterior;
+        this.ciudad = ciudad;
+        this.codigo_postal = codigoPostal;
     }
 
     public int getId() {
@@ -110,6 +117,5 @@ public class Domicilio {
     public void setCodigo_postal(int codigo_postal) {
         this.codigo_postal = codigo_postal;
     }
-    
-    
+
 }
