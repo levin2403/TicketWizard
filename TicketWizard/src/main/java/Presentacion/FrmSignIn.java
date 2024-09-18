@@ -6,15 +6,17 @@ package Presentacion;
 
 import DTOs.DomicilioDTO;
 import DTOs.PersonaDTO;
-import Entidades.Domicilio;
 import Excepciones.BOException;
 import InterfacesNegocio.IPersonaBO;
 import Negocio.PersonaBO;
+import Presentacion.Component.AESEncrypter;
 import Presentacion.Component.RoundedBorder;
 import java.awt.Color;
 import java.awt.Image;
 import java.net.URL;
+import javax.crypto.SecretKey;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,6 +25,7 @@ import javax.swing.ImageIcon;
 public class FrmSignIn extends javax.swing.JFrame {
 
     IPersonaBO personaBO;
+    AESEncrypter encriptador;
     
     public FrmSignIn() {
         initComponents();
@@ -34,6 +37,7 @@ public class FrmSignIn extends javax.swing.JFrame {
     public void intialConfig(){
         this.setLocationRelativeTo(this);
         this.personaBO = new PersonaBO();
+        this.encriptador = new AESEncrypter();
     }
     
     private void setLogoIcon(){
@@ -97,12 +101,50 @@ public class FrmSignIn extends javax.swing.JFrame {
         }
     }
     
+    private void getSecretKey(){
+        encriptador.getSecretKey();
+    }
+    
+    private String getPassword(){
+        try{
+            // Obtener la contraseña como un arreglo de caracteres
+            char[] passwordChars = psfContrasena.getPassword();
+
+            // Convertir el arreglo de caracteres a una cadena
+            String contraseña = new String(passwordChars);
+            
+            //generamos la llave secreta para contraseña
+            SecretKey secretKey = encriptador.generateKey();
+            
+            //encriptamos la contraseña 
+            String encrypted_password = encriptador.encrypt(contraseña, secretKey);
+            
+            //retornamos la contraseña generada
+            return encrypted_password;
+        }    
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(this, ex);
+        }   
+        return null;
+    }
+    
     public DomicilioDTO recolectarDatosDomicilio(){
-        //return new Domicilio();
+        return new DomicilioDTO(
+            this.txfCalle.getText(),
+            this.txfColonia.getText(),
+            this.txfCalle.getText(),
+            Integer.parseInt(this.txfNumExterior.getText()),
+            Integer.parseInt(this.txfNumInterior.getText()),
+            Integer.parseInt(this.txfCP.getText())        
+        );
     }
     
     public PersonaDTO recolectarDatosPersona(){
-        return null;
+        return new PersonaDTO(
+            this.txfNombre.getText(),
+            getPassword(),
+                
+        );
     }
     
     public void registrar(){

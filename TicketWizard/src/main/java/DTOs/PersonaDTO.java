@@ -12,6 +12,7 @@ import java.sql.Date;
  */
 public class PersonaDTO {
 
+    private String id;
     private String nombre;
     private String contraseña;
     private Date fechaNacimiento;
@@ -36,6 +37,7 @@ public class PersonaDTO {
         this.generatedKey = generatedKey;
     }
 
+    
 
     public String getNombre() {
         return nombre;

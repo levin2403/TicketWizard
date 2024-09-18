@@ -15,7 +15,7 @@ public class DomicilioDTO {
     private String colonia;
     private String calle;
     private int numExterior;
-    private Integer numInterior;
+    private int numInterior;
     private int codigoPostal;
 
     public DomicilioDTO() {
@@ -25,8 +25,18 @@ public class DomicilioDTO {
         this.id = id;
     }
 
+    public DomicilioDTO(String ciudad, String colonia, String calle, 
+            int numExterior, int numInterior, int codigoPostal) {
+        this.ciudad = ciudad;
+        this.colonia = colonia;
+        this.calle = calle;
+        this.numExterior = numExterior;
+        this.numInterior = numInterior;
+        this.codigoPostal = codigoPostal;
+    }
+
     public DomicilioDTO(String id, String ciudad, String colonia, String calle, 
-                        int numExterior, Integer numInterior, int codigoPostal) {
+                        int numExterior, Integer numInterior, int codigoPostal){
         this.id = id;
         this.ciudad = ciudad;
         this.colonia = colonia;

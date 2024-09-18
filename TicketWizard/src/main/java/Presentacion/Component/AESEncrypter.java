@@ -16,6 +16,8 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class AESEncrypter {
     
+    private static SecretKey secretGeneratedKey;
+    
     /**
      * 
      * @return
@@ -24,7 +26,13 @@ public class AESEncrypter {
     public SecretKey generateKey() throws Exception {
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
         keyGen.init(128); // Puedes usar 128, 192, o 256 bits para AES
+        // keyGen.generateKey();
+        this.secretGeneratedKey = keyGen.generateKey();
         return keyGen.generateKey();
+    }
+    
+    public String getSecretKey(){
+        return secretKeyToString(secretGeneratedKey);
     }
     
     /**
