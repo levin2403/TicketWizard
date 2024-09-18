@@ -4,11 +4,20 @@
  */
 package Presentacion;
 
+import DTOs.DomicilioDTO;
+import DTOs.PersonaDTO;
+import Excepciones.BOException;
+import InterfacesNegocio.IPersonaBO;
+import Negocio.PersonaBO;
+import Presentacion.Component.AESEncrypter;
 import Presentacion.Component.RoundedBorder;
+import Singletone.Singletone;
 import java.awt.Color;
 import java.awt.Image;
 import java.net.URL;
+import javax.crypto.SecretKey;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,18 +25,25 @@ import javax.swing.ImageIcon;
  */
 public class FrmUpdateUser extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrmNewUser
-     */
+    private IPersonaBO personaBO;
+    private AESEncrypter encriptador;
+    private Singletone singletone;
+    
     public FrmUpdateUser() {
         initComponents();
         intialConfig();
         setLogoIcon();
         styles();
+        showPersonInfo();
+        setPassword();
+        showDomicilioInfo();
     }
     
     public void intialConfig(){
         this.setLocationRelativeTo(this);
+        this.personaBO = new PersonaBO();
+        this.encriptador = new AESEncrypter();
+        this.singletone = new Singletone();
     }
     
     private void setLogoIcon(){
@@ -88,6 +104,119 @@ public class FrmUpdateUser extends javax.swing.JFrame {
         } else {
             System.err.println("No se pudo encontrar el archivo de imagen: " + path);
             return null;
+        }
+    }
+    
+    public void showDomicilioInfo(){
+        DomicilioDTO domicilio = new DomicilioDTO() ; //lo cambias cuando lo arregles
+        
+        this.txfCiudad.setText(domicilio.getCiudad());
+        this.txfColonia.setText(domicilio.getColonia());
+        this.txfCalle.setText(domicilio.getCalle());
+        this.txfNumExterior.setText(String.valueOf(domicilio.getNumInterior()));
+        this.txfNumInterior.setText(String.valueOf(domicilio.getNumInterior()));
+        this.txfCP.setText(String.valueOf(domicilio.getCodigoPostal())); 
+    }
+    
+    public void showPersonInfo(){
+        PersonaDTO persona = singletone.getPersona();
+        
+        this.txfNombre.setText(persona.getNombre());
+        this.txfCorreoElectronico.setText(persona.getCorreo());
+  
+    }
+    
+    public void setPassword(){
+        try{
+        //recuperamos el texto encriptado guarado en la instancia global
+        String encrypted_password = singletone.getPersona().getContraseña();
+        
+        //recuperamos la llave secrete de la instancia global
+        String savedSecretKey = singletone.getPersona().getGeneratedKey();
+        
+        //convertimos la llave secreta de String a secretKey
+        SecretKey secretKey = encriptador.stringToSecretKey(savedSecretKey);
+        
+        //desencriptamos la contraseña
+        String password = encriptador.decrypt(encrypted_password, secretKey);
+        
+        this.psfContrasena.setText(password);
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    private String getPassword(){
+        try{
+            // Obtener la contraseña como un arreglo de caracteres
+            char[] passwordChars = psfContrasena.getPassword();
+
+            // Convertir el arreglo de caracteres a una cadena
+            String contraseña = new String(passwordChars);
+            
+            //obtenemos la llave secreta 
+            String savedSecretKey = singletone.getPersona().getGeneratedKey();
+            
+            //convertimos la llave secreta de String a secretKey
+            SecretKey secretKey = encriptador.stringToSecretKey(savedSecretKey);
+            
+            //encriptamos la contraseña 
+            String encrypted_password = encriptador.encrypt(contraseña, secretKey);
+            
+            //retornamos la contraseña generada
+            return encrypted_password;
+        }    
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(this, ex);
+        }   
+        return null;
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public DomicilioDTO recolectarDatosDomicilio(){
+        return new DomicilioDTO(
+            this.txfCalle.getText(),
+            this.txfColonia.getText(),
+            this.txfCalle.getText(),
+            Integer.parseInt(this.txfNumExterior.getText()),
+            Integer.parseInt(this.txfNumInterior.getText()),
+            Integer.parseInt(this.txfCP.getText())        
+        );
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public PersonaDTO recolectarDatosPersona(){
+        return new PersonaDTO(
+            this.txfNombre.getText(),
+            getPassword(),
+            this.dcFechaNacimiento.getDate(),
+            this.txfCorreoElectronico.getText(),
+            singletone.getPersona().getSaldo(),
+            recolectarDatosDomicilio(),
+            singletone.getPersona().getGeneratedKey(),    
+        );
+    }
+    
+    /**
+     * 
+     */
+    public void actualizar(){
+        try{
+            personaBO.actualizar(recolectarDatosPersona());
+        }
+        catch(BOException ex){
+            
         }
     }
     
@@ -403,11 +532,11 @@ public class FrmUpdateUser extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarMouseEntered
 
     private void cbContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbContrasenaActionPerformed
-        if (rootPaneCheckingEnabled) {
-            
+        if (cbContrasena.isSelected()) {
+            psfContrasena.setEchoChar((char) 0);
         }
         else{
-            
+            psfContrasena.setEchoChar('●');
         }
     }//GEN-LAST:event_cbContrasenaActionPerformed
 
