@@ -13,6 +13,7 @@ import Presentacion.Component.AESEncrypter;
 import Presentacion.Component.RoundedBorder;
 import java.awt.Color;
 import java.awt.Image;
+import java.math.BigDecimal;
 import java.net.URL;
 import javax.crypto.SecretKey;
 import javax.swing.ImageIcon;
@@ -150,7 +151,7 @@ public class FrmSignIn extends javax.swing.JFrame {
             Integer.parseInt(this.txfCP.getText())        
         );
     }
-    
+
     /**
      * 
      * @return 
@@ -161,7 +162,7 @@ public class FrmSignIn extends javax.swing.JFrame {
             getPassword(),
             this.dcFechaNacimiento.getDate(),
             this.txfCorreoElectronico.getText(),
-            0.0,
+            new BigDecimal(0.0),
             recolectarDatosDomicilio(),
             getSecretKey()    
         );

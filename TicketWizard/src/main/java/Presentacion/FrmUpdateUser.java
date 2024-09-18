@@ -204,7 +204,7 @@ public class FrmUpdateUser extends javax.swing.JFrame {
             this.txfCorreoElectronico.getText(),
             singletone.getPersona().getSaldo(),
             recolectarDatosDomicilio(),
-            singletone.getPersona().getGeneratedKey(),    
+            singletone.getPersona().getGeneratedKey()    
         );
     }
     
