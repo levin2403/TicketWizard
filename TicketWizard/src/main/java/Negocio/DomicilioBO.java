@@ -49,18 +49,19 @@ public class DomicilioBO implements IDomicilioBO {
 
     @Override
     public DomicilioDTO consultar(DomicilioDTO dto) throws BOException {
-        try {
-            Domicilio domicilio = convertirAEntidad(dto);
-            Domicilio resultado = domicilioDAO.consultar(domicilio);
-            return convertirADTO(resultado);
-        } catch (DAOException ex) {
-            throw new BOException("Error al consultar el domicilio: " + ex.getMessage(), ex);
-        }
+//        try {
+//            Domicilio domicilio = convertirAEntidad(dto);
+//            Domicilio resultado = domicilioDAO.consultar(domicilio);
+//            return convertirADTO(resultado);
+//        } catch (DAOException ex) {
+//            throw new BOException("Error al consultar el domicilio: " + ex.getMessage(), ex);
+//        }
+return null;
     }
 
     private Domicilio convertirAEntidad(DomicilioDTO dto) {
         return new Domicilio(
-                dto.getId(),
+                Integer.parseInt(dto.getId()),
                 dto.getCiudad(),
                 dto.getColonia(),
                 dto.getCalle(),
@@ -70,15 +71,14 @@ public class DomicilioBO implements IDomicilioBO {
         );
     }
 
-    private DomicilioDTO convertirADTO(Domicilio domicilio) {
-        return new DomicilioDTO(
-                domicilio.getId(),
-                domicilio.getCiudad(),
-                domicilio.getColonia(),
-                domicilio.getCalle(),
-                domicilio.getNum_exterior(),
-                domicilio.getNum_interior(),
-                domicilio.getCodigo_postal()
-        );
-    }
+//    private DomicilioDTO convertirADTO(Domicilio domicilio) {
+//        return new DomicilioDTO(
+//                domicilio.getCiudad(),
+//                domicilio.getColonia(),
+//                domicilio.getCalle(),
+//                domicilio.getNum_exterior(),
+//                domicilio.getNum_interior(),
+//                domicilio.getCodigo_postal()
+//        );
+//    }
 }

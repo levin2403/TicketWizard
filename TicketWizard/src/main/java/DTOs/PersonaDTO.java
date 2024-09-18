@@ -12,7 +12,6 @@ import java.sql.Date;
  */
 public class PersonaDTO {
 
-    private int id;
     private String nombre;
     private String contraseña;
     private Date fechaNacimiento;
@@ -25,9 +24,8 @@ public class PersonaDTO {
     public PersonaDTO() {
     }
 
-    public PersonaDTO(int id, String nombre, String contraseña, Date fechaNacimiento, 
+    public PersonaDTO(String nombre, String contraseña, Date fechaNacimiento, 
                       String correo, int edad, double saldo, int idDomicilio, String generatedKey) {
-        this.id = id;
         this.nombre = nombre;
         this.contraseña = contraseña;
         this.fechaNacimiento = fechaNacimiento;
@@ -38,13 +36,6 @@ public class PersonaDTO {
         this.generatedKey = generatedKey;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getNombre() {
         return nombre;
@@ -112,7 +103,7 @@ public class PersonaDTO {
 
     @Override
     public String toString() {
-        return "PersonaDTO{" + "id=" + id + 
+        return "PersonaDTO{" +
                ", nombre=" + nombre + 
                ", contraseña=" + contraseña + 
                ", fechaNacimiento=" + fechaNacimiento + 

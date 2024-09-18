@@ -4,10 +4,24 @@
  */
 package Singletone;
 
+import DTOs.PersonaDTO;
+
 /**
  *
  * @author skevi
  */
 public class Singletone {
+    
+    private static PersonaDTO persona;
+
+    
+    
+    public PersonaDTO getPersona() {
+        return persona;
+    }
+
+    public void setPersona(PersonaDTO persona) {
+        Singletone.persona = persona;
+    }
     
 }

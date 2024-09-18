@@ -3,6 +3,7 @@
  */
 package DAO;
 
+import Conexion.Conexion;
 import Conexion.IConexion;
 import Entidades.Domicilio;
 import Entidades.Persona;
@@ -25,9 +26,9 @@ public class PersonaDAO implements IPersonaDAO {
     private final IConexion conexionBD;
     private final IDomicilioDAO domicilioDAO;
 
-    public PersonaDAO(IConexion conexionBD) {
-        this.conexionBD = conexionBD;
-        this.domicilioDAO = new DomicilioDAO(conexionBD); // Se pasa la conexión a DomicilioDAO
+    public PersonaDAO() {
+        this.conexionBD = new Conexion();
+        this.domicilioDAO = new DomicilioDAO();
     }
 
     @Override

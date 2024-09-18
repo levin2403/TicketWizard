@@ -3,6 +3,7 @@
  */
 package DAO;
 
+import Conexion.Conexion;
 import Conexion.IConexion;
 import Convertidores.DomicilioCVR;
 import Entidades.Domicilio;
@@ -23,11 +24,7 @@ public class DomicilioDAO implements IDomicilioDAO {
     private IConexion conexionBD;
 
     public DomicilioDAO() {
-
-    }
-
-    public DomicilioDAO(IConexion conexion) {
-        this.conexionBD = conexion;
+        this.conexionBD = new Conexion();
     }
 
     @Override

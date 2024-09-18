@@ -10,7 +10,7 @@ package DTOs;
  */
 public class DomicilioDTO {
 
-    private int id;
+    private String id;
     private String ciudad;
     private String colonia;
     private String calle;
@@ -21,11 +21,11 @@ public class DomicilioDTO {
     public DomicilioDTO() {
     }
     
-    public DomicilioDTO(int id){
+    public DomicilioDTO(String id){
         this.id = id;
     }
 
-    public DomicilioDTO(int id, String ciudad, String colonia, String calle, 
+    public DomicilioDTO(String id, String ciudad, String colonia, String calle, 
                         int numExterior, Integer numInterior, int codigoPostal) {
         this.id = id;
         this.ciudad = ciudad;
@@ -36,11 +36,11 @@ public class DomicilioDTO {
         this.codigoPostal = codigoPostal;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

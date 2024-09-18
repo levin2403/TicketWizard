@@ -4,6 +4,9 @@
  */
 package Presentacion;
 
+import DTOs.PersonaDTO;
+import Negocio.PersonaBO;
+import Presentacion.Component.AESEncrypter;
 import Presentacion.Component.RoundedBorder;
 import Singletone.Singletone;
 import java.awt.Color;
@@ -11,13 +14,14 @@ import java.awt.Image;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-
 /**
  *
  * @author skevi
  */
 public class FrmLogin extends javax.swing.JFrame {
 
+    AESEncrypter aes;
+    PersonaBO personaBO;
     
     public FrmLogin() {
         initComponents();
@@ -26,6 +30,7 @@ public class FrmLogin extends javax.swing.JFrame {
         intialConfig();
         setLogoIcon();
         styles();
+        this.personaBO = new PersonaBO();
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -34,6 +39,7 @@ public class FrmLogin extends javax.swing.JFrame {
     
     public void intialConfig(){
         this.setLocationRelativeTo(this);
+        this.aes = new AESEncrypter();
     }
     
     public void styles(){
@@ -42,8 +48,8 @@ public class FrmLogin extends javax.swing.JFrame {
         RoundedBorder border2 = new RoundedBorder(30);
         
         //redondeamos los text fields
-        this.txfUsuario.setOpaque(false);
-        this.txfUsuario.setBorder(border);
+        this.txfCorreo.setOpaque(false);
+        this.txfCorreo.setBorder(border);
         
         //redondeamos el campo para la contraseña
         this.psfContrasena.setOpaque(false);
@@ -71,6 +77,33 @@ public class FrmLogin extends javax.swing.JFrame {
     //itll return a user
     private void procesUser(){
         try{
+            //obtenemos el correo
+            String correo = this.txfCorreo.getText();
+            
+            // Obtener la contraseña como un arreglo de caracteres
+            char[] passwordChars = psfContrasena.getPassword();
+
+            // Convertir el arreglo de caracteres a una cadena
+            String contraseña = new String(passwordChars);
+            
+            //cosultamos si el usuario existe por correo y traemos su informacion
+            PersonaDTO persona = personaBO.consultar(correo);
+            
+            //encriptamos la contraseña
+            String  encrypted = aes.encrypt(correo, aes.stringToSecretKey(persona.getGeneratedKey()));
+            String encrypted_password = encrypted;
+            
+            if (personaBO.consultarContrasena(correo, encrypted_password)) {
+                Singletone single = new Singletone();
+                single.setPersona(persona);
+                
+                FrmModelMenu menu = new FrmModelMenu(); 
+                menu.setVisible(true);
+                this.dispose();
+            }
+            
+            // Limpiar el arreglo de caracteres para mayor seguridad
+            java.util.Arrays.fill(passwordChars, '\0');
             
         }
         catch(Exception e){
@@ -98,7 +131,7 @@ public class FrmLogin extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txfUsuario = new javax.swing.JTextField();
+        txfCorreo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
         psfContrasena = new javax.swing.JPasswordField();
@@ -125,6 +158,11 @@ public class FrmLogin extends javax.swing.JFrame {
 
         jLabel1.setText("¿Aun no tienes una cuenta? presiona para registrarte. ");
         jLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel2.setText("Contraseña:");
@@ -132,12 +170,12 @@ public class FrmLogin extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel3.setText("Inicio de sesion");
 
-        txfUsuario.setBackground(new java.awt.Color(62, 160, 236));
-        txfUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        txfUsuario.setForeground(new java.awt.Color(0, 0, 0));
+        txfCorreo.setBackground(new java.awt.Color(62, 160, 236));
+        txfCorreo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txfCorreo.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel4.setText("Usuario:");
+        jLabel4.setText("Correo:");
 
         lblLogo.setToolTipText("");
 
@@ -154,7 +192,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txfUsuario)
+                    .addComponent(txfCorreo)
                     .addComponent(jLabel2)
                     .addComponent(psfContrasena))
                 .addContainerGap(65, Short.MAX_VALUE))
@@ -181,7 +219,7 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addGap(38, 38, 38)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txfUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txfCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -219,6 +257,12 @@ public class FrmLogin extends javax.swing.JFrame {
         this.btnIngresar.setForeground( Color.BLACK);
     }//GEN-LAST:event_btnIngresarMouseExited
 
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        FrmSignIn registrar = new FrmSignIn();
+        registrar.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel1MouseClicked
+
     
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -237,6 +281,6 @@ public class FrmLogin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JPasswordField psfContrasena;
-    private javax.swing.JTextField txfUsuario;
+    private javax.swing.JTextField txfCorreo;
     // End of variables declaration//GEN-END:variables
 }
