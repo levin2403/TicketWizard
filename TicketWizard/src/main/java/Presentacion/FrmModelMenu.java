@@ -11,6 +11,7 @@ import Singletone.Singletone;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
+import java.math.BigDecimal;
 import java.net.URL;
 import javax.swing.ImageIcon;
 
@@ -20,10 +21,8 @@ import javax.swing.ImageIcon;
  */
 public class FrmModelMenu extends javax.swing.JFrame {
 
-  
-    /** constructor de la clase
-     * 
-    */
+    Singletone single;
+    
     public FrmModelMenu() {
         initComponents();
         initialConfig();
@@ -34,7 +33,7 @@ public class FrmModelMenu extends javax.swing.JFrame {
     /**
      * 
      */
-    public void loadPanel(){
+    private void loadPanel(){
         PnlBuy comprar = new PnlBuy();
         
         comprar.setSize(860,530);
@@ -49,23 +48,23 @@ public class FrmModelMenu extends javax.swing.JFrame {
     /**
      * 
      */
-    public void initialConfig(){
+    private void initialConfig(){
         this.setLocationRelativeTo(this);
-//        this.singletone = new Singletone();
-//        this.lblMoneyAmount.setText(singletone.getPersona().getSaldo().toString());
+        this.single = new Singletone();
+        this.lblMoneyAmount.setText(single.getPersona().getSaldo().toString());
     }
     
     /**
      * Load the icos on their respective labels 
      */
-    public void loadIcons(){
-        this.lblComprar.setIcon(createImageIcon("cart", 30, 30, "png"));
-        this.lblVender.setIcon(createImageIcon("hand", 30, 30, "png"));
-        this.lblHistorial.setIcon(createImageIcon("history", 30, 30, "png"));
-        this.lblApartados.setIcon(createImageIcon("save", 30, 30, "png"));
-        this.lblWizardIcon.setIcon(createImageIcon("mobile-logo", 60, 60, "png"));
-        this.lblMoney.setIcon(createImageIcon("money-bag", 40, 40, "png"));
-        this.lblUser.setIcon(createImageIcon("user", 40, 40, "png"));
+    private void loadIcons(){
+      this.lblComprar.setIcon(createImageIcon("cart", 30, 30, "png"));
+      this.lblVender.setIcon(createImageIcon("hand", 30, 30, "png"));
+      this.lblHistorial.setIcon(createImageIcon("history", 30, 30, "png"));
+      this.lblApartados.setIcon(createImageIcon("save", 30, 30, "png"));
+      this.lblWizardIcon.setIcon(createImageIcon("mobile-logo", 60, 60, "png"));
+      this.lblMoney.setIcon(createImageIcon("money-bag", 40, 40, "png"));
+      this.lblUser.setIcon(createImageIcon("user", 40, 40, "png"));
     }
     
     /**
@@ -73,18 +72,25 @@ public class FrmModelMenu extends javax.swing.JFrame {
      * @param path
      * @return 
      */
-    private ImageIcon createImageIcon(String path, int x, int y, String extension) {
-        URL imgURL = FrmModelMenu.class.getResource("/icons/" + path + "." + extension);
+    private ImageIcon createImageIcon(String path, int x, int y, 
+            String extension) {
+        URL imgURL = FrmModelMenu.class.getResource("/icons/" + path + "." + 
+                extension);
         if (imgURL != null) {
             ImageIcon originalIcon = new ImageIcon(imgURL);
-            Image image = originalIcon.getImage().getScaledInstance(x, y, Image.SCALE_SMOOTH);
+            Image image = originalIcon.getImage().getScaledInstance(x, y, 
+                    Image.SCALE_SMOOTH);
             return new ImageIcon(image);
         } else {
-            System.err.println("No se pudo encontrar el archivo de imagen: " + path);
+            System.err.println("No se pudo encontrar el archivo de imagen: " + 
+                    path);
             return null;
         }
     }
     
+    public void refreshMoney(BigDecimal amount){
+        this.lblMoney.setText(amount.toString());
+    }
     
     
     /**
