@@ -19,7 +19,7 @@ public class Conexion implements IConexion {
     private static final Logger logger = Logger.getLogger(Conexion.class.getName()); // Instancia del logger
     String cadena = "jdbc:mysql://localhost:3306/ticketwizard";
     String user = "root";
-    String password = "Saymyname15";
+    String password = "13137Cas";
     
     @Override
     public Connection crearConexion() {

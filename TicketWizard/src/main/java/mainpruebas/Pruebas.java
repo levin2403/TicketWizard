@@ -10,11 +10,16 @@ import InterfacesNegocio.IDomicilioBO;
 import InterfacesNegocio.IPersonaBO;
 import Negocio.DomicilioBO;
 import Negocio.PersonaBO;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  *
- * @author/(s) Kevin Jared Sánchez Figueroa - 240798. 
- *             Daniel Alejandro Castro Félix - 235294.
+ * @author/(s) Kevin Jared Sánchez Figueroa - 240798. Daniel Alejandro Castro
+ * Félix - 235294.
  */
 public class Pruebas {
 
@@ -63,6 +68,76 @@ public class Pruebas {
         } catch (BOException e) {
             e.printStackTrace();
         }
+
+        // Crear una instancia de PersonaDTO
+        PersonaDTO personaDTO = new PersonaDTO();
+        personaDTO.setNombre("Juan Pérez");
+        personaDTO.setContraseña("miContrasena");
+        personaDTO.setCorreo("juan.perez@ejemplo.com");
+        personaDTO.setSaldo(new BigDecimal("1000.50"));
+
+        // Asignar una fecha de nacimiento válida
+        try {
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+            Date fechaNacimiento = formatoFecha.parse("1990-05-15");
+            personaDTO.setFechaNacimiento(fechaNacimiento);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        // Asignar un DomicilioDTO válido
+        DomicilioDTO domicilioDTO = new DomicilioDTO();
+        domicilioDTO.setCiudad("Ciudad Ejemplo");
+        domicilioDTO.setColonia("Colonia Ejemplo");
+        domicilioDTO.setCalle("Calle Ejemplo");
+        domicilioDTO.setNumExterior(123);
+        domicilioDTO.setNumInterior(10);
+        domicilioDTO.setCodigoPostal(12345);
+
+        personaDTO.setDomicilioDto(domicilioDTO);
+        
+        // Generar una clave única para generatedKey
+        String generatedKey = UUID.randomUUID().toString(); // Generar un UUID
+        personaDTO.setGeneratedKey(generatedKey);
+
+        // Ahora puedes usar personaDTO con una fecha de nacimiento válida
+        try {
+            personaBO.agregar(personaDTO);  // Aquí se invocará el método agregar
+            System.out.println("Persona agregada exitosamente.");
+        } catch (BOException e) {
+            System.err.println("Error al agregar la persona: " + e.getMessage());
+        }
+        // Probar el método consultarContrasena
+        String correo = "juan.perez@ejemplo.com";
+        String contrasena = "miContrasena";  // La misma que se usó para crear personaDTO
+
+        try {
+            boolean esValido = personaBO.consultarContrasena(correo, contrasena);
+
+            if (esValido) {
+                System.out.println("La combinación de correo y contraseña es válida.");
+            } else {
+                System.out.println("Correo o contraseña incorrectos.");
+            }
+
+        } catch (BOException e) {
+            System.err.println("Error al consultar la contraseña: " + e.getMessage());
+        }
+
+        // Probar la consulta por correo
+        try {
+            PersonaDTO personaConsultada = personaBO.consultar(correo);
+
+            if (personaConsultada != null) {
+                System.out.println("Persona encontrada: " + personaConsultada.getNombre());
+            } else {
+                System.out.println("No se encontró a la persona.");
+            }
+
+        } catch (BOException e) {
+            System.err.println("Error al consultar la persona: " + e.getMessage());
+        }
+        
     }
 
 }

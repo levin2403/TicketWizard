@@ -18,8 +18,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * 
- * @author/(s) Kevin Jared Sánchez Figueroa - 240798.
+ *
+ * @author/(s) Kevin Jared Sánchez Figueroa - 240798. 
  *             Daniel Alejandro Castro Félix - 235294.
  */
 public class PersonaDAO implements IPersonaDAO {
@@ -53,14 +53,15 @@ public class PersonaDAO implements IPersonaDAO {
             preparedStatement.setDate(3, new java.sql.Date(persona.getFechaNacimiento().getTime()));
             preparedStatement.setString(4, persona.getCorreo());
             preparedStatement.setBigDecimal(5, persona.getSaldo()); // Cambiado de 6 a 5
-            preparedStatement.setInt(6, persona.getDomicilio().getId()); 
+            preparedStatement.setInt(6, persona.getDomicilio().getId());
             preparedStatement.setString(7, persona.getGeneratedKey());
 
             preparedStatement.executeUpdate();
 
+            // Dentro del método agregar en PersonaDAO
             resultado = preparedStatement.getGeneratedKeys();
             if (resultado.next()) {
-                persona.setId(resultado.getInt(1));
+                persona.setId(resultado.getInt(1)); // Asignar el ID generado al objeto Persona
             }
 
         } catch (SQLException ex) {
@@ -179,7 +180,7 @@ public class PersonaDAO implements IPersonaDAO {
             }
         }
     }
-    
+
     @Override
     public void actualizarSaldo(int idPersona, BigDecimal nuevoSaldo) throws DAOException {
         Connection conexion = null;
@@ -212,8 +213,61 @@ public class PersonaDAO implements IPersonaDAO {
             }
         }
     }
-    
-    
-    
-    
+
+    @Override
+    public Persona consultarPorCorreoYContrasena(String correo, String contrasena) throws DAOException {
+        Connection conexion = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultado = null;
+
+        try {
+            conexion = conexionBD.crearConexion();
+            String sentenciaSQL = "SELECT id, nombre, contraseña, fecha_nacimiento, correo, saldo, id_domicilio, generated_key FROM Persona WHERE correo = ? AND contraseña = ?";
+            preparedStatement = conexion.prepareStatement(sentenciaSQL);
+
+            preparedStatement.setString(1, correo);
+            preparedStatement.setString(2, contrasena);
+
+            resultado = preparedStatement.executeQuery();
+
+            if (resultado.next()) {
+                // Creamos el objeto Persona
+                Persona persona = new Persona();
+                persona.setId(resultado.getInt("id"));
+                persona.setNombre(resultado.getString("nombre"));
+                persona.setContraseña(resultado.getString("contraseña"));
+                persona.setFechaNacimiento(resultado.getDate("fecha_nacimiento"));
+                persona.setCorreo(resultado.getString("correo"));
+                persona.setSaldo(resultado.getBigDecimal("saldo"));
+                persona.setGeneratedKey(resultado.getString("generated_key"));
+
+                // Obtener domicilio asociado
+                int idDomicilio = resultado.getInt("id_domicilio");
+                Domicilio domicilio = domicilioDAO.consultar(new Domicilio(idDomicilio));
+                persona.setDomicilio(domicilio);
+
+                return persona;
+            } else {
+                throw new DAOException("No se encontró la persona con el correo y contraseña proporcionados.");
+            }
+
+        } catch (SQLException ex) {
+            throw new DAOException("Error al consultar la persona: " + ex.getMessage());
+        } finally {
+            try {
+                if (resultado != null) {
+                    resultado.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (conexion != null) {
+                    conexion.close();
+                }
+            } catch (SQLException e) {
+                throw new DAOException("Error al cerrar los recursos: " + e.getMessage());
+            }
+        }
+    }
+
 }

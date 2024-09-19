@@ -3,7 +3,6 @@
  */
 package Negocio;
 
-
 import Convertidores.PersonaCVR;
 import DAO.PersonaDAO;
 import DTOs.PersonaDTO;
@@ -16,8 +15,8 @@ import java.math.BigDecimal;
 
 /**
  *
- * @author/(s) Kevin Jared Sánchez Figueroa - 240798. 
- *             Daniel Alejandro Castro Félix - 235294.
+ * @author/(s) Kevin Jared Sánchez Figueroa - 240798. Daniel Alejandro Castro
+ * Félix - 235294.
  */
 public class PersonaBO implements IPersonaBO {
 
@@ -28,9 +27,8 @@ public class PersonaBO implements IPersonaBO {
     public PersonaBO() {
         this.personaDAO = new PersonaDAO();
         this.domicilioBO = new DomicilioBO();
-        this.personaCVR = new PersonaCVR(); 
+        this.personaCVR = new PersonaCVR();
     }
-
 
     @Override
     public PersonaDTO consultar(String correo) throws BOException {
@@ -79,19 +77,33 @@ public class PersonaBO implements IPersonaBO {
 //
 //            // Comparar la contraseña proporcionada con la almacenada
 //            return persona.getContraseña().equals(contrasena);
-return true;
+        return true;
 
 //        } catch (DAOException ex) {
 //            throw new BOException("Error al consultar la contraseña: " + ex.getMessage());
 //        }
     }
-    
+
     @Override
     public void actualizarSaldo(int idPersona, BigDecimal nuevoSaldo) throws BOException {
         try {
             personaDAO.actualizarSaldo(idPersona, nuevoSaldo);
         } catch (DAOException ex) {
             throw new BOException("Error al actualizar el saldo: " + ex.getMessage(), ex);
+        }
+    }
+
+    @Override
+    public boolean consultarPorCorreoYContrasena(String correo, String contrasena) throws BOException {
+        try {
+            // Consultar la persona con el correo y la contraseña
+            Persona persona = personaDAO.consultarPorCorreoYContrasena(correo, contrasena);
+
+            // Si se encuentra la persona, significa que la combinación de correo y contraseña es válida
+            return persona != null;
+
+        } catch (DAOException ex) {
+            throw new BOException("Error al consultar la contraseña: " + ex.getMessage());
         }
     }
 
