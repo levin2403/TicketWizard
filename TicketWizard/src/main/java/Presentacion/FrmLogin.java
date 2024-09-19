@@ -8,7 +8,6 @@ import DTOs.PersonaDTO;
 import Negocio.PersonaBO;
 import Presentacion.Component.AESEncrypter;
 import Presentacion.Component.RoundedBorder;
-import Singletone.Singletone;
 import java.awt.Color;
 import java.awt.Image;
 import java.net.URL;
@@ -69,10 +68,6 @@ public class FrmLogin extends javax.swing.JFrame {
         }
     }
     
-    private void saveUser(){
-        Singletone save = new Singletone();
-        
-    }
     
     //itll return a user
     private void procesUser(){
@@ -88,14 +83,13 @@ public class FrmLogin extends javax.swing.JFrame {
             
             //cosultamos si el usuario existe por correo y traemos su informacion
             PersonaDTO persona = personaBO.consultar(correo);
+            System.out.println(persona.toString());
             
-            //encriptamos la contraseña
-            String  encrypted = aes.encrypt(correo, aes.stringToSecretKey(persona.getGeneratedKey()));
-            String encrypted_password = encrypted;
+            //encriptamos la contraseña tomando la llave secreta del usuario consultado
+            String  encrypted = aes.encrypt(contraseña, aes.stringToSecretKey(persona.getGeneratedKey()));
+            System.out.println(encrypted);
             
-            if (personaBO.consultarContrasena(correo, encrypted_password)) {
-                Singletone single = new Singletone();
-                single.setPersona(persona);
+            if (personaBO.consultarContrasena(correo, encrypted)) {
                 
                 FrmModelMenu menu = new FrmModelMenu(); 
                 menu.setVisible(true);

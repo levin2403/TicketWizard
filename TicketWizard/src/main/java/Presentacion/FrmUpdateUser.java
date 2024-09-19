@@ -14,7 +14,9 @@ import Presentacion.Component.RoundedBorder;
 import Singletone.Singletone;
 import java.awt.Color;
 import java.awt.Image;
+import java.math.BigDecimal;
 import java.net.URL;
+import java.util.Date;
 import javax.crypto.SecretKey;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -43,7 +45,11 @@ public class FrmUpdateUser extends javax.swing.JFrame {
         this.setLocationRelativeTo(this);
         this.personaBO = new PersonaBO();
         this.encriptador = new AESEncrypter();
+
         this.singletone = new Singletone();
+        
+        System.out.println("datos llegados del singletone: ");
+        System.out.println(singletone.getPersona().toString());
     }
     
     private void setLogoIcon(){
@@ -140,6 +146,8 @@ public class FrmUpdateUser extends javax.swing.JFrame {
         //desencriptamos la contraseña
         String password = encriptador.decrypt(encrypted_password, secretKey);
         
+            System.out.println("contraseña desencriptada: " + password);
+        
         this.psfContrasena.setText(password);
         }
         catch(Exception ex){
@@ -212,12 +220,10 @@ public class FrmUpdateUser extends javax.swing.JFrame {
      * 
      */
     public void actualizar(){
-        try{
-            personaBO.actualizar(recolectarDatosPersona());
-        }
-        catch(BOException ex){
-            
-        }
+        
+            //personaBO.actualizar(recolectarDatosPersona());
+            System.out.println();
+        
     }
     
     /**

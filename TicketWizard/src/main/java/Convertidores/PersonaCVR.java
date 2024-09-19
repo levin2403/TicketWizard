@@ -5,7 +5,7 @@ package Convertidores;
 
 import DTOs.PersonaDTO;
 import Entidades.Persona;
-import Entidades.Domicilio;
+import Excepciones.BOException;
 
 /**
  *
@@ -14,8 +14,14 @@ import Entidades.Domicilio;
  */
 public class PersonaCVR {
 
-    public Persona convertirAEntidad(PersonaDTO dto, Domicilio domicilio) {
+    private DomicilioCVR domicilioCVR;
 
+    public PersonaCVR() {
+        domicilioCVR = new DomicilioCVR();
+    }
+    
+    public Persona convertirAEntidad(PersonaDTO dto) throws BOException{
+        try{
         // Convertir el ID de String a int
         int id = Integer.parseInt(dto.getId());
         return new Persona(
@@ -25,13 +31,17 @@ public class PersonaCVR {
                 dto.getFechaNacimiento(),
                 dto.getCorreo(),
                 dto.getSaldo(),
-                domicilio,
+                domicilioCVR.convertirAEntidad(dto.getDomicilioDto()),
                 dto.getGeneratedKey()
         );
+        }
+        catch(BOException ex) {
+            throw new BOException("Error al covertir a entidad");
+        }
     }
     
     // Método para convertir de Persona a PersonaDTO
-    public PersonaDTO convertirADTO(Persona persona) {
+    public PersonaDTO convertirADTO(Persona persona) throws BOException{
         // Crear y devolver el DTO a partir de la entidad Persona
         return new PersonaDTO(
                 String.valueOf(persona.getId()), // Convertir el ID de int a String
@@ -41,9 +51,22 @@ public class PersonaCVR {
                 persona.getCorreo(),
                 persona.getSaldo(),
                 // No se necesita idDomicilio en PersonaDTO.
-                // Asumiendo que no se utiliza, o se pasa el objeto DomicilioDTO a otro lugar si es necesario.
                 null,
                 persona.getGeneratedKey()
         );
     }
+    
+    public Persona convertirAEntidadAgregar(PersonaDTO dto) throws BOException{
+
+        return new Persona(
+                dto.getNombre(),
+                dto.getContraseña(),
+                dto.getFechaNacimiento(),
+                dto.getCorreo(),
+                dto.getSaldo(),
+                domicilioCVR.convertirAEntidadAgregar(dto.getDomicilioDto()),
+                dto.getGeneratedKey()
+        );
+    }
+    
 }

@@ -4,10 +4,12 @@
  */
 package Presentacion.Component;
 
+import java.security.SecureRandom;
 import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -61,12 +63,28 @@ public class AESEncrypter {
      * @return
      * @throws Exception 
      */
-    public String encrypt(String data, SecretKey key) throws Exception {
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.ENCRYPT_MODE, key);
-        byte[] encryptedBytes = cipher.doFinal(data.getBytes());
-        return Base64.getEncoder().encodeToString(encryptedBytes);
+
+    public String encrypt(String plainText, SecretKey key) throws Exception {
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+
+        // Generar IV aleatorio
+        byte[] iv = new byte[16];
+        SecureRandom random = new SecureRandom();
+        random.nextBytes(iv);
+        IvParameterSpec ivSpec = new IvParameterSpec(iv);
+
+        cipher.init(Cipher.ENCRYPT_MODE, key, ivSpec);
+
+        byte[] encryptedBytes = cipher.doFinal(plainText.getBytes("UTF-8"));
+
+        // Concatenar el IV con los datos encriptados y codificar todo en Base64
+        byte[] ivAndEncrypted = new byte[iv.length + encryptedBytes.length];
+        System.arraycopy(iv, 0, ivAndEncrypted, 0, iv.length);
+        System.arraycopy(encryptedBytes, 0, ivAndEncrypted, iv.length, encryptedBytes.length);
+
+        return Base64.getEncoder().encodeToString(ivAndEncrypted);
     }
+
 
     /**
      * 
@@ -76,11 +94,24 @@ public class AESEncrypter {
      * @throws Exception 
      */
     public String decrypt(String encryptedData, SecretKey key) throws Exception {
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.DECRYPT_MODE, key);
-        byte[] decodedBytes = Base64.getDecoder().decode(encryptedData);
-        byte[] decryptedBytes = cipher.doFinal(decodedBytes);
-        return new String(decryptedBytes);
+        byte[] ivAndEncrypted = Base64.getDecoder().decode(encryptedData);
+
+        // Extraer el IV (los primeros 16 bytes)
+        byte[] iv = new byte[16];
+        System.arraycopy(ivAndEncrypted, 0, iv, 0, iv.length);
+
+        // Extraer el texto encriptado
+        byte[] encryptedBytes = new byte[ivAndEncrypted.length - iv.length];
+        System.arraycopy(ivAndEncrypted, iv.length, encryptedBytes, 0, encryptedBytes.length);
+
+        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+        IvParameterSpec ivSpec = new IvParameterSpec(iv);
+        cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
+
+        byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
+
+        return new String(decryptedBytes, "UTF-8");
     }
+
 
 }

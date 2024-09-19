@@ -14,7 +14,8 @@ public class Singletone {
     
     private static PersonaDTO persona;
 
-    
+    public Singletone() {
+    }
     
     public PersonaDTO getPersona() {
         return persona;

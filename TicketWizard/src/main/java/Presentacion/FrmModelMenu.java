@@ -7,6 +7,7 @@ package Presentacion;
 import Presentacion.Panels.PnlBuy;
 import Presentacion.Panels.PnlRecords;
 import Presentacion.Panels.PnlSelling;
+import Singletone.Singletone;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Image;
@@ -50,6 +51,8 @@ public class FrmModelMenu extends javax.swing.JFrame {
      */
     public void initialConfig(){
         this.setLocationRelativeTo(this);
+//        this.singletone = new Singletone();
+//        this.lblMoneyAmount.setText(singletone.getPersona().getSaldo().toString());
     }
     
     /**

@@ -23,7 +23,7 @@ public class DomicilioBO implements IDomicilioBO {
     private final DomicilioCVR convertidor;
 
     public DomicilioBO() {
-        this.domicilioDAO = new DomicilioDAO(); // Asegúrate de pasar la conexión si es necesario
+        this.domicilioDAO = new DomicilioDAO(); 
         this.convertidor = new DomicilioCVR();
     }
 

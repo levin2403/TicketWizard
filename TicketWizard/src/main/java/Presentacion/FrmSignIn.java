@@ -127,21 +127,24 @@ public class FrmSignIn extends javax.swing.JFrame {
             
             //encriptamos la contraseña 
             String encrypted_password = encriptador.encrypt(contraseña, secretKey);
+           
             
             //retornamos la contraseña generada
             return encrypted_password;
         }    
         catch(Exception ex){
             JOptionPane.showMessageDialog(this, ex);
-        }   
+        }
         return null;
     }
     
     /**
      * 
      * @return 
+     * @throws java.lang.Exception 
      */
-    public DomicilioDTO recolectarDatosDomicilio(){
+    public DomicilioDTO recolectarDatosDomicilio() throws Exception{
+        try{
         return new DomicilioDTO(
             this.txfCiudad.getText(),
             this.txfColonia.getText(),
@@ -150,34 +153,59 @@ public class FrmSignIn extends javax.swing.JFrame {
             Integer.parseInt(this.txfNumInterior.getText()),
             Integer.parseInt(this.txfCP.getText())        
         );
+        }
+        catch(Exception ex){
+            throw new Exception("Error al recolectar los datos del domicilio");
+        }
     }
 
     /**
      * 
      * @return 
+     * @throws java.lang.Exception 
      */
-    public PersonaDTO recolectarDatosPersona(){
+    public PersonaDTO recolectarDatosPersona() throws Exception{
+        try{
         return new PersonaDTO(
             this.txfNombre.getText(),
             getPassword(),
             this.dcFechaNacimiento.getDate(),
             this.txfCorreoElectronico.getText(),
-            new BigDecimal(0.0),
+            new BigDecimal(1000.0),
             recolectarDatosDomicilio(),
             getSecretKey()    
         );
+        }
+        catch(Exception ex){
+            throw new Exception("error al recolectar los datos de la persona");
+        }
     }
     
     /**
      * 
+     * @throws java.lang.Exception
      */
-    public void registrar(){
-        try{
-            personaBO.agregar(recolectarDatosPersona());
+    public void registrar() throws Exception{
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Desea realizar el registro?", "Registro", JOptionPane.YES_NO_OPTION);
+        
+        if (opcion == 0) {
+            try{
+                //personaBO.agregar(recolectarDatosPersona());
+                System.out.println(recolectarDatosPersona().toString());
+                personaBO.agregar(recolectarDatosPersona());
+                JOptionPane.showMessageDialog(this, "Registro exitoso");
+                
+                //abrimos de nuevo el frame de menu 
+                FrmModelMenu menu = new FrmModelMenu();
+                menu.setVisible(true);
+                this.dispose();
+                
+            }
+            catch(BOException ex){
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
         }
-        catch(BOException ex){
-            
-        }
+        
     }
     
     /**
@@ -408,7 +436,7 @@ public class FrmSignIn extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(psfContrasena1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbContrasena))
-                .addGap(41, 41, 41)
+                .addGap(44, 44, 44)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -468,7 +496,12 @@ public class FrmSignIn extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegistrarseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarseActionPerformed
+        try{
         registrar();
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
     }//GEN-LAST:event_btnRegistrarseActionPerformed
 
     private void btnRegistrarseMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrarseMouseEntered
@@ -480,7 +513,13 @@ public class FrmSignIn extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegistrarseMouseExited
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        // TODO add your handling code here:
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Desea cancelar el registro?", "Cancelacion", JOptionPane.YES_NO_OPTION);
+        
+        if (opcion == 0) {
+            FrmLogin login = new FrmLogin();
+            login.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnCancelarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseExited
@@ -492,12 +531,15 @@ public class FrmSignIn extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarMouseEntered
 
     private void cbContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbContrasenaActionPerformed
-        if (cbContrasena.isSelected()) {
-            psfContrasena.setEchoChar((char) 0);
-        }
-        else{
-            psfContrasena.setEchoChar('●');
-        }
+    if (cbContrasena.isSelected()) {
+        // Mostrar la contraseña en texto plano
+        psfContrasena.setEchoChar((char) 0);
+        System.out.println("Contraseña visible");
+    } else {
+        // Ocultar la contraseña con un carácter de máscara
+        psfContrasena.setEchoChar('*');
+        System.out.println("Contraseña oculta");
+    }
     }//GEN-LAST:event_cbContrasenaActionPerformed
 
     /**
