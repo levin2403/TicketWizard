@@ -11,7 +11,6 @@ import Excepciones.DAOException;
 import InterfacesDAO.IDomicilioDAO;
 import InterfacesDAO.IPersonaDAO;
 import java.math.BigDecimal;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,7 +21,7 @@ import java.sql.SQLException;
  * @author/(s) Kevin Jared Sánchez Figueroa - 240798. 
  *             Daniel Alejandro Castro Félix - 235294.
  */
-public class PersonaDAO implements IPersonaDAO {
+public class PersonaDAO implements  IPersonaDAO{
 
     private final IConexion conexionBD;
     private final IDomicilioDAO domicilioDAO;
@@ -127,57 +126,40 @@ public class PersonaDAO implements IPersonaDAO {
 
     @Override
     public Persona consultar(String correo) throws DAOException {
-        Connection conexion = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultado = null;
+        String sentenciaSQL = "SELECT * FROM Persona WHERE correo = ?";
 
-        try {
-            conexion = conexionBD.crearConexion();
-            String sentenciaSQL = "SELECT id, nombre, contraseña, fecha_nacimiento, correo, saldo, id_domicilio, generated_key FROM Persona WHERE correo = ?";
-            preparedStatement = conexion.prepareStatement(sentenciaSQL);
+        try (Connection conexion = conexionBD.crearConexion();
+             PreparedStatement preparedStatement = conexion.prepareStatement(sentenciaSQL)) {
 
             preparedStatement.setString(1, correo);
 
-            resultado = preparedStatement.executeQuery();
+            try (ResultSet resultado = preparedStatement.executeQuery()) {
+                if (resultado.next()) {
+                    // Creamos el objeto Persona
+                    Persona persona = new Persona();
+                    persona.setId(resultado.getInt("id"));
+                    persona.setNombre(resultado.getString("nombre"));
+                    persona.setContraseña(resultado.getString("contraseña"));
+                    persona.setFechaNacimiento(resultado.getDate("fecha_nacimiento"));
+                    persona.setCorreo(resultado.getString("correo"));
+                    persona.setSaldo(resultado.getBigDecimal("saldo"));
+                    persona.setGeneratedKey(resultado.getString("generated_key"));
 
-            if (resultado.next()) {
-                // Creamos el objeto Persona
-                Persona persona = new Persona();
-                persona.setId(resultado.getInt("id"));
-                persona.setNombre(resultado.getString("nombre"));
-                persona.setContraseña(resultado.getString("contraseña"));
-                persona.setFechaNacimiento(resultado.getDate("fecha_nacimiento"));
-                persona.setCorreo(resultado.getString("correo"));
-                persona.setSaldo(resultado.getBigDecimal("saldo"));
-                persona.setGeneratedKey(resultado.getString("generated_key"));
-
-                // Ahora obtenemos el domicilio asociado a la persona
-                int idDomicilio = resultado.getInt("id_domicilio");
-                Domicilio domicilio = domicilioDAO.consultar(new Domicilio(idDomicilio));
-                persona.setDomicilio(domicilio);
-
-                return persona;
-
-            } else {
-                throw new DAOException("No se encontró la persona con el correo: " + correo);
+                    // Ahora obtenemos el domicilio asociado a la persona, si existe
+                    int idDomicilio = resultado.getInt("id_domicilio");
+                    if (idDomicilio > 0) {
+                        Domicilio domicilio = domicilioDAO.consultar(idDomicilio);
+                        persona.setDomicilio(domicilio);
+                    }
+                    System.out.println(persona.toString());
+                    return persona;
+                } else {
+                    throw new DAOException("No se encontró la persona con el correo: " + correo);
+                }
             }
 
         } catch (SQLException ex) {
-            throw new DAOException("Error al consultar la persona: " + ex.getMessage());
-        } finally {
-            try {
-                if (resultado != null) {
-                    resultado.close();
-                }
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (conexion != null) {
-                    conexion.close();
-                }
-            } catch (SQLException e) {
-                throw new DAOException("Error al cerrar los recursos: " + e.getMessage());
-            }
+            throw new DAOException("Error al consultar la persona", ex);
         }
     }
 
@@ -243,7 +225,7 @@ public class PersonaDAO implements IPersonaDAO {
 
                 // Obtener domicilio asociado
                 int idDomicilio = resultado.getInt("id_domicilio");
-                Domicilio domicilio = domicilioDAO.consultar(new Domicilio(idDomicilio));
+                Domicilio domicilio = domicilioDAO.consultar(idDomicilio);
                 persona.setDomicilio(domicilio);
 
                 return persona;

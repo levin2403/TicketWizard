@@ -13,7 +13,7 @@ import Excepciones.BOException;
  */
 public interface IDomicilioBO {
     
-    public DomicilioDTO consultar(DomicilioDTO domicilio) throws BOException;
+    public DomicilioDTO consultar(String id) throws BOException;
     public void agregar(DomicilioDTO domicilio) throws BOException;
     public void actualizar(DomicilioDTO domicilio) throws BOException;
     

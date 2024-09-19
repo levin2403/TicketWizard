@@ -113,6 +113,15 @@ public class Persona {
     public void setGeneratedKey(String generatedKey) {
         this.generatedKey = generatedKey;
     }
+
+    @Override
+    public String toString() {
+        return "Persona{" + "id=" + id + ", nombre=" + nombre + 
+                ", contrase\u00f1a=" + contraseña + ", fechaNacimiento=" + 
+                fechaNacimiento + ", correo=" + correo + ", saldo=" + saldo + 
+                ", domicilio=" + domicilio + ", generatedKey=" + generatedKey + 
+                '}';
+    }
     
     
 }

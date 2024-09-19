@@ -148,10 +148,10 @@ public class FrmSignIn extends javax.swing.JFrame {
     public PersonaDTO recolectarDatosPersona() throws Exception{
         try{
         return new PersonaDTO(
-            this.txfCorreoElectronico.getText(),
+            this.txfNombre.getText(),
             getPassword(),
             this.dcFechaNacimiento.getDate(),
-            this.txfCorreoElectronico.getText(),
+            this.txfCorreoElectronico.getText().trim(),
             new BigDecimal(1000.0),
             new DomicilioDTO(
                 this.txfCiudad.getText(),
@@ -186,8 +186,8 @@ public class FrmSignIn extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Registro exitoso");
                 
                 //abrimos de nuevo el frame de menu 
-                FrmModelMenu menu = new FrmModelMenu();
-                menu.setVisible(true);
+                FrmLogin login = new FrmLogin();
+                login.setVisible(true);
                 this.dispose();
                 
             }

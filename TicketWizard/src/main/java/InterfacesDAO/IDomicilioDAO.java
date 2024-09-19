@@ -13,7 +13,7 @@ import Excepciones.DAOException;
  */
 public interface IDomicilioDAO {
     
-    public Domicilio consultar(Domicilio domicilio)throws DAOException;
+    public Domicilio consultar(int id)throws DAOException;
     public void agregar(Domicilio domicilio) throws DAOException;
     public void actualizar(Domicilio domicilio) throws DAOException;
        

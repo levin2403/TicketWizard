@@ -56,8 +56,14 @@ public class DomicilioBO implements IDomicilioBO {
     }
 
     @Override
-    public DomicilioDTO consultar(DomicilioDTO dto) throws BOException {
-        return null; //CAMBIAR
+    public DomicilioDTO consultar(String id) throws BOException {
+        try {
+            int idPersona = Integer.parseInt(id);
+            Domicilio domicilio = domicilioDAO.consultar(idPersona);
+            return convertidor.convertirADTO(domicilio);
+        } catch (DAOException ex) {
+            throw new BOException("Error al actualizar el domicilio: " + ex.getMessage(), ex);
+        }
     }
 
     // Usar el método de convertirAEntidad de DomicilioCVR

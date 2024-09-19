@@ -8,6 +8,7 @@ import DTOs.PersonaDTO;
 import Negocio.PersonaBO;
 import Presentacion.Component.AESEncrypter;
 import Presentacion.Component.RoundedBorder;
+import Singletone.Singletone;
 import java.awt.Color;
 import java.awt.Image;
 import java.net.URL;
@@ -21,6 +22,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
     AESEncrypter aes;
     PersonaBO personaBO;
+    Singletone single;
     
     public FrmLogin() {
         initComponents();
@@ -39,6 +41,7 @@ public class FrmLogin extends javax.swing.JFrame {
     public void intialConfig(){
         this.setLocationRelativeTo(this);
         this.aes = new AESEncrypter();
+        this.single = new Singletone();
     }
     
     public void styles(){
@@ -74,6 +77,7 @@ public class FrmLogin extends javax.swing.JFrame {
         try{
             //obtenemos el correo
             String correo = this.txfCorreo.getText();
+            System.out.println("correo obtenido: " + correo);
             
             // Obtener la contraseña como un arreglo de caracteres
             char[] passwordChars = psfContrasena.getPassword();
@@ -89,7 +93,9 @@ public class FrmLogin extends javax.swing.JFrame {
             String  encrypted = aes.encrypt(contraseña, aes.stringToSecretKey(persona.getGeneratedKey()));
             System.out.println(encrypted);
             
-            if (personaBO.consultarContrasena(correo, encrypted)) {
+            if (personaBO.consultarContrasena(correo, "")) {
+                
+                single.setPersona(persona);
                 
                 FrmModelMenu menu = new FrmModelMenu(); 
                 menu.setVisible(true);
