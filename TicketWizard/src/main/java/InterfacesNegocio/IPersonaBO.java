@@ -18,6 +18,6 @@ public interface IPersonaBO {
     public void agregar(PersonaDTO persona) throws BOException;
     public void actualizar(PersonaDTO persona) throws BOException;
     public boolean consultarContrasena(String correo, String contrasena)throws BOException;
-    public void actualizarSaldo(int idPersona, BigDecimal nuevoSaldo) throws BOException;
+    public void actualizarSaldo(String idPersona, BigDecimal nuevoSaldo) throws BOException;
     public boolean consultarPorCorreoYContrasena(String correo, String contrasena) throws BOException;
 }

@@ -402,7 +402,7 @@ public class FrmModelMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_lblMoneyMouseClicked
 
     private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
-        FrmUpdateUser actualizar = new FrmUpdateUser();
+        FrmUpdatePerson actualizar = new FrmUpdatePerson();
         actualizar.setVisible(true);
     }//GEN-LAST:event_lblUserMouseClicked
 

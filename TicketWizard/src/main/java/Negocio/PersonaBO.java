@@ -85,9 +85,10 @@ public class PersonaBO implements IPersonaBO {
     }
 
     @Override
-    public void actualizarSaldo(int idPersona, BigDecimal nuevoSaldo) throws BOException {
+    public void actualizarSaldo(String idPersona, BigDecimal nuevoSaldo) throws BOException {
         try {
-            personaDAO.actualizarSaldo(idPersona, nuevoSaldo);
+            int id = Integer.parseInt(idPersona);
+            personaDAO.actualizarSaldo(id, nuevoSaldo);
         } catch (DAOException ex) {
             throw new BOException("Error al actualizar el saldo: " + ex.getMessage(), ex);
         }

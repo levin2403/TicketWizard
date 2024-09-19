@@ -4,11 +4,14 @@
  */
 package Presentacion;
 
+import Excepciones.BOException;
 import InterfacesNegocio.IPersonaBO;
 import Negocio.PersonaBO;
 import Presentacion.Component.RoundedBorder;
+import Singletone.Singletone;
 import java.awt.Color;
 import java.math.BigDecimal;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,6 +20,7 @@ import java.math.BigDecimal;
 public class FrmRechargeWP extends javax.swing.JFrame {
 
     IPersonaBO personaBO;
+    Singletone single;
     
     public FrmRechargeWP() {
         initComponents();
@@ -27,6 +31,7 @@ public class FrmRechargeWP extends javax.swing.JFrame {
     public void intialConfig(){
         this.setLocationRelativeTo(this);
         this.personaBO = new PersonaBO();
+        this.single = new Singletone();
     }
 
     public void styles(){
@@ -46,7 +51,22 @@ public class FrmRechargeWP extends javax.swing.JFrame {
     }
     
     private void rechargeWP(){
-        BigDecimal cantidad = (BigDecimal) cbxCantidad.getSelectedItem();
+        try{
+            //calculamos el nuevo saldo
+         BigDecimal nuevoSaldo = (BigDecimal)this.cbxCantidad.getSelectedItem();
+         BigDecimal saldoActual = single.getPersona().getSaldo();
+         BigDecimal saldo = saldoActual.add(nuevoSaldo);
+         
+         String id = single.getPersona().getId();
+            
+            personaBO.actualizarSaldo(id, saldo);
+        }
+        catch(BOException ex){
+            JOptionPane.showMessageDialog(this, 
+                    "Error", 
+                    "error al agregar saldo", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -75,7 +95,7 @@ public class FrmRechargeWP extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Cantidad:");
 
-        cbxCantidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "100", "200", "300", "400", "500" }));
+        cbxCantidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "100.0", "200.0", "300.0", "400.0", "500.0", " " }));
 
         btnRecargar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnRecargar.setText("Recargar");
