@@ -118,4 +118,13 @@ public class Domicilio {
         this.codigo_postal = codigo_postal;
     }
 
+    @Override
+    public String toString() {
+        return "Domicilio{" + "id=" + id + ", ciudad=" + ciudad + ", colonia=" + 
+                colonia + ", calle=" + calle + ", num_exterior=" + num_exterior + 
+                ", num_interior=" + num_interior + ", codigo_postal=" + 
+                codigo_postal + '}';
+    }
+ 
+    
 }

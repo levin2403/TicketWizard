@@ -93,7 +93,9 @@ public class FrmLogin extends javax.swing.JFrame {
             String  encrypted = aes.encrypt(contraseña, aes.stringToSecretKey(persona.getGeneratedKey()));
             System.out.println(encrypted);
             
-            if (personaBO.consultarContrasena(correo, "")) {
+            System.out.println("correo y contraseña enviados: " + correo + contraseña);
+            
+            if (personaBO.consultarContrasena(correo, encrypted)) {
                 
                 single.setPersona(persona);
                 

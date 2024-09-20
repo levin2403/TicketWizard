@@ -4,12 +4,9 @@
  */
 package Presentacion;
 
-import DTOs.DomicilioDTO;
 import DTOs.PersonaDTO;
 import Excepciones.BOException;
 import Negocio.PersonaBO;
-import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  *
@@ -21,31 +18,20 @@ public class NewMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        PersonaBO personaBO = new PersonaBO();
+        PersonaBO persona = new PersonaBO();
         
         try{
-            PersonaDTO persona= new PersonaDTO(
-                "9",
-                "levin",
-                "coyote",
-                new Date(),
-                "levin@gmail.com",
-                new BigDecimal(400.0),
-                new DomicilioDTO(
-                    "9",
-                    "asdasd",
-                    "asdasdasd",
-                    "asdasdasdasd",
-                    12,
-                    32,
-                    42    
-                ),
-                "llave nueva"
-            );
-            personaBO.actualizar(persona);
+            boolean personaDTO = persona.consultarPorCorreoYContrasena("kevin@gmail.com", "Cq1woIfMR3kPNmo+bs/JAQ==");
+            
+            if (personaDTO) {
+                System.out.println("si existe");
+            }
+            else{
+                System.out.println("no existe");
+            }
         }
         catch(BOException ex){
-            System.out.println("fallo al actualizar la persona");
+            System.out.println("no jalo");
         }
     }
     

@@ -51,6 +51,7 @@ public class FrmModelMenu extends javax.swing.JFrame {
     private void initialConfig(){
         this.setLocationRelativeTo(this);
         this.single = new Singletone();
+        System.out.println("datos llegados del singletone: " + single.getPersona().toString());
         this.lblMoneyAmount.setText(single.getPersona().getSaldo().toString());
     }
     

@@ -52,14 +52,28 @@ public class FrmRechargeWP extends javax.swing.JFrame {
     
     private void rechargeWP(){
         try{
-            //calculamos el nuevo saldo
+          int desicion = JOptionPane.showConfirmDialog(this, "Recarga", 
+                "¿Esta seguro que desea recargar datos?", 
+                JOptionPane.YES_NO_OPTION);
+          
+        if (desicion == 0) {
+         //calculamos el nuevo saldo
          BigDecimal nuevoSaldo = (BigDecimal)this.cbxCantidad.getSelectedItem();
          BigDecimal saldoActual = single.getPersona().getSaldo();
          BigDecimal saldo = saldoActual.add(nuevoSaldo);
          
          String id = single.getPersona().getId();
             
-            personaBO.actualizarSaldo(id, saldo);
+         personaBO.actualizarSaldo(id, saldo);
+         
+         FrmModelMenu menu = new FrmModelMenu();
+         menu.setVisible(true);
+         this.dispose();
+         
+         this.dispose();   
+        }
+   
+         
         }
         catch(BOException ex){
             JOptionPane.showMessageDialog(this, 

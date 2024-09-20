@@ -6,6 +6,7 @@ package Presentacion;
 
 import DTOs.DomicilioDTO;
 import DTOs.PersonaDTO;
+import Excepciones.BOException;
 import InterfacesNegocio.IPersonaBO;
 import Negocio.PersonaBO;
 import Presentacion.Component.AESEncrypter;
@@ -115,7 +116,7 @@ public class FrmUpdatePerson extends javax.swing.JFrame {
     }
     
     public void showDomicilioInfo(){
-        DomicilioDTO domicilio = new DomicilioDTO() ; 
+        DomicilioDTO domicilio = singletone.getPersona().getDomicilioDto(); 
         
         this.txfCiudad.setText(domicilio.getCiudad());
         this.txfColonia.setText(domicilio.getColonia());
@@ -128,9 +129,10 @@ public class FrmUpdatePerson extends javax.swing.JFrame {
     public void showPersonInfo(){
         PersonaDTO persona = singletone.getPersona();
         
-        this.txfCorreoElectronico.setText(persona.getNombre());
+        this.txfNombre1.setText(persona.getNombre());
+        this.psfContrasena.setText(getPassword());
+        this.dcFechaNacimiento.setDate(persona.getFechaNacimiento());
         this.txfCorreoElectronico.setText(persona.getCorreo());
-  
     }
     
     public void setPassword(){
@@ -221,10 +223,20 @@ public class FrmUpdatePerson extends javax.swing.JFrame {
      * 
      */
     public void actualizar(){
+        try{
+        int desicion = JOptionPane.showConfirmDialog(this, "Actualizar datos", 
+                "¿Esta seguro que desea actualizar los datos?", 
+                JOptionPane.YES_NO_OPTION);
         
-            //personaBO.actualizar(recolectarDatosPersona());
-            System.out.println();
-        
+        if (desicion == 0) {
+            personaBO.actualizar(recolectarDatosPersona());
+        }
+        else{
+            
+        }
+        }catch(BOException ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
     }
   
     @SuppressWarnings("unchecked")

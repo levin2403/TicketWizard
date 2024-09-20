@@ -62,7 +62,7 @@ public class DomicilioBO implements IDomicilioBO {
             Domicilio domicilio = domicilioDAO.consultar(idPersona);
             return convertidor.convertirADTO(domicilio);
         } catch (DAOException ex) {
-            throw new BOException("Error al actualizar el domicilio: " + ex.getMessage(), ex);
+            throw new BOException("Error al consultar el domicilio: " + ex.getMessage(), ex);
         }
     }
 

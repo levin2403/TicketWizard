@@ -27,9 +27,7 @@ public class AESEncrypter {
      */
     public SecretKey generateKey() throws Exception {
         KeyGenerator keyGen = KeyGenerator.getInstance("AES");
-        keyGen.init(128); // Puedes usar 128, 192, o 256 bits para AES
-        // keyGen.generateKey();
-        this.secretGeneratedKey = keyGen.generateKey();
+        keyGen.init(128); 
         return keyGen.generateKey();
     }
     
@@ -64,54 +62,46 @@ public class AESEncrypter {
      * @throws Exception 
      */
 
+    // Definir un IV constante (16 bytes para AES)
+    private static final String FIXED_IV = "1234567890123456";
+
     public String encrypt(String plainText, SecretKey key) throws Exception {
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
 
-        // Generar IV aleatorio
-        byte[] iv = new byte[16];
-        SecureRandom random = new SecureRandom();
-        random.nextBytes(iv);
-        IvParameterSpec ivSpec = new IvParameterSpec(iv);
+        // Convertir el IV fijo a un IvParameterSpec
+        IvParameterSpec ivSpec = new IvParameterSpec(FIXED_IV.getBytes("UTF-8"));
 
+        // Inicializar el cifrado en modo de encriptación
         cipher.init(Cipher.ENCRYPT_MODE, key, ivSpec);
 
+        // Encriptar el texto plano
         byte[] encryptedBytes = cipher.doFinal(plainText.getBytes("UTF-8"));
 
-        // Concatenar el IV con los datos encriptados y codificar todo en Base64
-        byte[] ivAndEncrypted = new byte[iv.length + encryptedBytes.length];
-        System.arraycopy(iv, 0, ivAndEncrypted, 0, iv.length);
-        System.arraycopy(encryptedBytes, 0, ivAndEncrypted, iv.length, encryptedBytes.length);
-
-        return Base64.getEncoder().encodeToString(ivAndEncrypted);
+        // Devolver el texto encriptado en Base64
+        return Base64.getEncoder().encodeToString(encryptedBytes);
     }
 
-
-    /**
-     * 
-     * @param encryptedData
-     * @param key
-     * @return
-     * @throws Exception 
-     */
     public String decrypt(String encryptedData, SecretKey key) throws Exception {
-        byte[] ivAndEncrypted = Base64.getDecoder().decode(encryptedData);
-
-        // Extraer el IV (los primeros 16 bytes)
-        byte[] iv = new byte[16];
-        System.arraycopy(ivAndEncrypted, 0, iv, 0, iv.length);
-
-        // Extraer el texto encriptado
-        byte[] encryptedBytes = new byte[ivAndEncrypted.length - iv.length];
-        System.arraycopy(ivAndEncrypted, iv.length, encryptedBytes, 0, encryptedBytes.length);
-
         Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        IvParameterSpec ivSpec = new IvParameterSpec(iv);
+
+        // Convertir el IV fijo a un IvParameterSpec
+        IvParameterSpec ivSpec = new IvParameterSpec(FIXED_IV.getBytes("UTF-8"));
+
+        // Inicializar el cifrado en modo de desencriptación
         cipher.init(Cipher.DECRYPT_MODE, key, ivSpec);
 
+        // Decodificar el texto encriptado de Base64
+        byte[] encryptedBytes = Base64.getDecoder().decode(encryptedData);
+
+        // Desencriptar los bytes encriptados
         byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
 
+        // Convertir los bytes desencriptados de vuelta a una cadena de texto
         return new String(decryptedBytes, "UTF-8");
     }
 
+    public static void main(String[] args) throws Exception {
+        // Aquí va el código de prueba con tu SecretKey (asegúrate de usar la misma clave)
+    }
 
 }

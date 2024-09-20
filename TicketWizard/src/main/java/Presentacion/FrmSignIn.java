@@ -26,6 +26,7 @@ public class FrmSignIn extends javax.swing.JFrame {
     
     IPersonaBO personaBO;
     AESEncrypter encriptador;
+    String generatedKey;
     
     public FrmSignIn() {
         initComponents();
@@ -108,14 +109,6 @@ public class FrmSignIn extends javax.swing.JFrame {
      * 
      * @return 
      */
-    private String getSecretKey(){
-        return encriptador.getSecretKey();
-    }
-    
-    /**
-     * 
-     * @return 
-     */
     private String getPassword(){
         try{
            // Obtener la contraseña como un arreglo de caracteres
@@ -126,6 +119,7 @@ public class FrmSignIn extends javax.swing.JFrame {
             
            //generamos la llave secreta para contraseña
            SecretKey secretKey = encriptador.generateKey();
+           this.generatedKey = encriptador.secretKeyToString(secretKey);
             
          //encriptamos la contraseña 
          String encrypted_password = encriptador.encrypt(contraseña, secretKey);
@@ -161,7 +155,7 @@ public class FrmSignIn extends javax.swing.JFrame {
                 Integer.parseInt(this.txfNumInterior.getText()),
                 Integer.parseInt(this.txfCP.getText())        
             ),
-            getSecretKey()    
+            this.generatedKey
         );
         }
         catch(Exception ex){
@@ -399,10 +393,11 @@ public class FrmSignIn extends javax.swing.JFrame {
                     .addComponent(lblColonia)
                     .addComponent(lblCalle))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txfCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txfColonia, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txfCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txfCiudad, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txfCalle, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txfColonia, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)

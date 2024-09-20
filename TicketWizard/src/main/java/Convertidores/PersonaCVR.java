@@ -50,8 +50,7 @@ public class PersonaCVR {
                 persona.getFechaNacimiento(),
                 persona.getCorreo(),
                 persona.getSaldo(),
-                // No se necesita idDomicilio en PersonaDTO.
-                null,
+                domicilioCVR.convertirADTO(persona.getDomicilio()),
                 persona.getGeneratedKey()
         );
     }
