@@ -51,20 +51,31 @@ public class PnlBuy extends javax.swing.JPanel {
         btnSiguiente = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
         lblPagina = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
+        fecha1 = new javax.swing.JLabel();
+        estado1 = new javax.swing.JLabel();
+        ciudad1 = new javax.swing.JLabel();
+        fecha3 = new javax.swing.JLabel();
+        estado3 = new javax.swing.JLabel();
+        ciudad3 = new javax.swing.JLabel();
+        fecha2 = new javax.swing.JLabel();
+        estado2 = new javax.swing.JLabel();
+        ciudad2 = new javax.swing.JLabel();
+        fecha4 = new javax.swing.JLabel();
+        estado4 = new javax.swing.JLabel();
+        ciudad4 = new javax.swing.JLabel();
 
         btnBuscar.setText("buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        btnPortada1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPortada1ActionPerformed(evt);
+            }
+        });
 
         btnTitulo1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnTitulo1.setText("El rey leon: el musical");
@@ -74,6 +85,12 @@ public class PnlBuy extends javax.swing.JPanel {
         jLabel3.setText("Estado:");
 
         jLabel4.setText("Ciudad:");
+
+        btnPortada3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPortada3ActionPerformed(evt);
+            }
+        });
 
         lblTitulo3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblTitulo3.setText("El rey leon: el musical");
@@ -90,6 +107,12 @@ public class PnlBuy extends javax.swing.JPanel {
 
         jLabel11.setText("Ciudad:");
 
+        btnPortada2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPortada2ActionPerformed(evt);
+            }
+        });
+
         lblTitulo2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblTitulo2.setText("El rey leon: el musical");
 
@@ -98,6 +121,12 @@ public class PnlBuy extends javax.swing.JPanel {
         jLabel14.setText("Estado:");
 
         jLabel15.setText("Ciudad:");
+
+        btnLogo4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLogo4ActionPerformed(evt);
+            }
+        });
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel16.setText("El rey leon: el musical");
@@ -110,29 +139,29 @@ public class PnlBuy extends javax.swing.JPanel {
 
         lblPagina.setText("1");
 
-        jLabel1.setText("jLabel1");
+        fecha1.setText("jLabel1");
 
-        jLabel5.setText("jLabel5");
+        estado1.setText("jLabel5");
 
-        jLabel12.setText("jLabel12");
+        ciudad1.setText("jLabel12");
 
-        jLabel17.setText("jLabel17");
+        fecha3.setText("jLabel17");
 
-        jLabel18.setText("jLabel18");
+        estado3.setText("jLabel18");
 
-        jLabel19.setText("jLabel19");
+        ciudad3.setText("jLabel19");
 
-        jLabel20.setText("jLabel20");
+        fecha2.setText("jLabel20");
 
-        jLabel21.setText("jLabel21");
+        estado2.setText("jLabel21");
 
-        jLabel22.setText("jLabel22");
+        ciudad2.setText("jLabel22");
 
-        jLabel23.setText("jLabel23");
+        fecha4.setText("jLabel23");
 
-        jLabel24.setText("jLabel24");
+        estado4.setText("jLabel24");
 
-        jLabel25.setText("jLabel25");
+        ciudad4.setText("jLabel19");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -150,15 +179,15 @@ public class PnlBuy extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel13)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(fecha3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel14)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(estado3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel15)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(ciudad3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(lblTitulo2)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnLogo4, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -167,15 +196,15 @@ public class PnlBuy extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(fecha4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(estado4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel11)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(ciudad4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jLabel16)))
                     .addComponent(btnBuscar))
                 .addGap(87, 87, 87))
@@ -191,15 +220,15 @@ public class PnlBuy extends javax.swing.JPanel {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel6)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(fecha2, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel7)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(estado2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel8)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(ciudad2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(lblTitulo3)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnPortada1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -208,15 +237,15 @@ public class PnlBuy extends javax.swing.JPanel {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(fecha1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel3)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(estado1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(ciudad1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(btnTitulo1)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(282, 282, 282)
@@ -242,30 +271,30 @@ public class PnlBuy extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel1))
+                            .addComponent(fecha1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel5))
+                            .addComponent(estado1))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel12)))
+                            .addComponent(ciudad1)))
                     .addComponent(btnPortada2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblTitulo2)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
-                            .addComponent(jLabel17))
+                            .addComponent(fecha3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel14)
-                            .addComponent(jLabel18))
+                            .addComponent(estado3))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15)
-                            .addComponent(jLabel19))))
+                            .addComponent(ciudad3))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnLogo4, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -274,30 +303,30 @@ public class PnlBuy extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(jLabel23))
+                            .addComponent(fecha4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
-                            .addComponent(jLabel24))
+                            .addComponent(estado4))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
-                            .addComponent(jLabel25)))
+                            .addComponent(ciudad4)))
                     .addComponent(btnPortada3, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblTitulo3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel20))
+                            .addComponent(fecha2))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
-                            .addComponent(jLabel21))
+                            .addComponent(estado2))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(jLabel22))))
+                            .addComponent(ciudad2))))
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSiguiente)
@@ -306,6 +335,26 @@ public class PnlBuy extends javax.swing.JPanel {
                 .addGap(21, 21, 21))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnPortada1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPortada1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPortada1ActionPerformed
+
+    private void btnPortada2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPortada2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPortada2ActionPerformed
+
+    private void btnPortada3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPortada3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPortada3ActionPerformed
+
+    private void btnLogo4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogo4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLogo4ActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -317,27 +366,27 @@ public class PnlBuy extends javax.swing.JPanel {
     private javax.swing.JButton btnPortada3;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JLabel btnTitulo1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel ciudad1;
+    private javax.swing.JLabel ciudad2;
+    private javax.swing.JLabel ciudad3;
+    private javax.swing.JLabel ciudad4;
+    private javax.swing.JLabel estado1;
+    private javax.swing.JLabel estado2;
+    private javax.swing.JLabel estado3;
+    private javax.swing.JLabel estado4;
+    private javax.swing.JLabel fecha1;
+    private javax.swing.JLabel fecha2;
+    private javax.swing.JLabel fecha3;
+    private javax.swing.JLabel fecha4;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
