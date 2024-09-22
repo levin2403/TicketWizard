@@ -4,10 +4,15 @@
  */
 package InterfacesNegocio;
 
+import DTOs.VenueDTO;
+import Excepciones.BOException;
+
 /**
  *
  * @author skevi
  */
 public interface IVenueBO {
+    
+    public VenueDTO obtenerVenuePorId(int id) throws BOException;
     
 }

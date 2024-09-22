@@ -8,6 +8,6 @@ package InterfacesNegocio;
  *
  * @author skevi
  */
-public interface ICompraBO {
+public interface IPersona_BoletoBO {
     
 }

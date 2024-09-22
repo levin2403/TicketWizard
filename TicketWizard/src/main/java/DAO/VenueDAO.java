@@ -6,24 +6,29 @@ package DAO;
 
 import Conexion.Conexion;
 import Entidades.Venue;
+import Excepciones.DAOException;
+import InterfacesDAO.IVenueDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 /**
  *
  * @author skevi
  */
-public class VenueDAO {
+public class VenueDAO implements IVenueDAO{
     
+    private static final Logger logger = Logger.getLogger(EventoDAO.class.getName());
     private Conexion conexion;
 
     public VenueDAO() {
         this.conexion = new Conexion();
     }
 
-    public Venue obtenerVenuePorId(int id) {
+    @Override
+    public Venue obtenerVenuePorId(int id) throws DAOException{
         Venue venue = null;
         String sql = "SELECT * FROM Venue WHERE id = ?";
 
@@ -41,8 +46,10 @@ public class VenueDAO {
                 venue.setEstado(rs.getString("estado"));
             }
         } catch (SQLException ex) {
-            ex.printStackTrace(); // Manejo de errores
+            logger.severe("Error al obtener el venue");
+            throw new DAOException("error al obtener el venue en dao", ex);
         }
+        logger.info("venue obtenido con exito");
         return venue;
     }
     

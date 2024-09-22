@@ -4,6 +4,7 @@
  */
 package Singletone;
 
+import DTOs.EventoDTO;
 import DTOs.PersonaDTO;
 
 /**
@@ -13,6 +14,7 @@ import DTOs.PersonaDTO;
 public class Singletone {
     
     private static PersonaDTO persona;
+    private static EventoDTO evento;
 
     public Singletone() {
     }
@@ -24,5 +26,14 @@ public class Singletone {
     public void setPersona(PersonaDTO persona) {
         Singletone.persona = persona;
     }
+
+    public EventoDTO getEvento() {
+        return evento;
+    }
+
+    public void setEvento(EventoDTO evento) {
+        Singletone.evento = evento;
+    }
+    
     
 }

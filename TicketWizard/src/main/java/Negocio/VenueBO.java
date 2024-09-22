@@ -4,10 +4,19 @@
  */
 package Negocio;
 
+import DTOs.VenueDTO;
+import Excepciones.BOException;
+import InterfacesNegocio.IVenueBO;
+
 /**
  *
  * @author skevi
  */
-public class VenueBO {
+public class VenueBO implements IVenueBO{
+
+    @Override
+    public VenueDTO obtenerVenuePorId(int id) throws BOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

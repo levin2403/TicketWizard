@@ -4,10 +4,14 @@
  */
 package InterfacesDAO;
 
+import Entidades.Venue;
+import Excepciones.DAOException;
+
 /**
  *
  * @author skevi
  */
 public interface IVenueDAO {
     
+    public Venue obtenerVenuePorId(int id) throws DAOException;
 }

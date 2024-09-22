@@ -14,27 +14,27 @@ public class Boleto {
     private String numero_serie;
     private String fila;
     private String asiento;
-    private String precio;
-    private int id_evento;
+    private String precio_original;
+    private Evento evento;
 
     public Boleto() {
     }
 
-    public Boleto(String numero_serie, String fila, String asiento, String precio, int id_evento) {
+    public Boleto(String numero_serie, String fila, String asiento, String precio_original, Evento evento) {
         this.numero_serie = numero_serie;
         this.fila = fila;
         this.asiento = asiento;
-        this.precio = precio;
-        this.id_evento = id_evento;
+        this.precio_original = precio_original;
+        this.evento = evento;
     }
 
-    public Boleto(int id, String numero_serie, String fila, String asiento, String precio, int id_evento) {
+    public Boleto(int id, String numero_serie, String fila, String asiento, String precio_original, Evento evento) {
         this.id = id;
         this.numero_serie = numero_serie;
         this.fila = fila;
         this.asiento = asiento;
-        this.precio = precio;
-        this.id_evento = id_evento;
+        this.precio_original = precio_original;
+        this.evento = evento;
     }
 
     public int getId() {
@@ -69,21 +69,29 @@ public class Boleto {
         this.asiento = asiento;
     }
 
-    public String getPrecio() {
-        return precio;
+    public String getPrecio_original() {
+        return precio_original;
     }
 
-    public void setPrecio(String precio) {
-        this.precio = precio;
+    public void setPrecio_original(String precio_original) {
+        this.precio_original = precio_original;
     }
 
-    public int getId_evento() {
-        return id_evento;
+    public Evento getEvento() {
+        return evento;
     }
 
-    public void setId_evento(int id_evento) {
-        this.id_evento = id_evento;
+    public void setEvento(Evento evento) {
+        this.evento = evento;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Boleto{" + "id=" + id + ", numero_serie=" + numero_serie + 
+                ", fila=" + fila + ", asiento=" + asiento + 
+                ", precio_original=" + precio_original + 
+                ", evento=" + evento + '}';
+    }
+
     
 }

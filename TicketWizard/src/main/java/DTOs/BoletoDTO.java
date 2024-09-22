@@ -14,27 +14,29 @@ public class BoletoDTO {
     private String numero_serie;
     private String fila;
     private String asiento;
-    private String precio;
-    private int id_evento;
+    private String precio_original;
+    private EventoDTO evento;
 
     public BoletoDTO() {
     }
 
-    public BoletoDTO(String numero_serie, String fila, String asiento, String precio, int id_evento) {
+    public BoletoDTO(String numero_serie, String fila, String asiento, 
+            String precio_original, EventoDTO evento) {
         this.numero_serie = numero_serie;
         this.fila = fila;
         this.asiento = asiento;
-        this.precio = precio;
-        this.id_evento = id_evento;
+        this.precio_original = precio_original;
+        this.evento = evento;
     }
 
-    public BoletoDTO(String id, String numero_serie, String fila, String asiento, String precio, int id_evento) {
+    public BoletoDTO(String id, String numero_serie, String fila, 
+            String asiento, String precio_original, EventoDTO evento) {
         this.id = id;
         this.numero_serie = numero_serie;
         this.fila = fila;
         this.asiento = asiento;
-        this.precio = precio;
-        this.id_evento = id_evento;
+        this.precio_original = precio_original;
+        this.evento = evento;
     }
 
     public String getId() {
@@ -69,20 +71,28 @@ public class BoletoDTO {
         this.asiento = asiento;
     }
 
-    public String getPrecio() {
-        return precio;
+    public String getPrecio_original() {
+        return precio_original;
     }
 
-    public void setPrecio(String precio) {
-        this.precio = precio;
+    public void setPrecio_original(String precio_original) {
+        this.precio_original = precio_original;
     }
 
-    public int getId_evento() {
-        return id_evento;
+    public EventoDTO getEvento() {
+        return evento;
     }
 
-    public void setId_evento(int id_evento) {
-        this.id_evento = id_evento;
+    public void setEvento(EventoDTO evento) {
+        this.evento = evento;
+    }
+
+    @Override
+    public String toString() {
+        return "BoletoDTO{" + "id=" + id + ", numero_serie=" + numero_serie + 
+                ", fila=" + fila + ", asiento=" + asiento + 
+                ", precio_original=" + precio_original + ", evento=" + 
+                evento + '}';
     }
     
     

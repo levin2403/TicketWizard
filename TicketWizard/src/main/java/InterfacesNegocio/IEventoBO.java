@@ -4,10 +4,26 @@
  */
 package InterfacesNegocio;
 
+import DTOs.EventoDTO;
+import Excepciones.BOException;
+import java.util.Date;
+import java.util.List;
+
 /**
  *
  * @author skevi
  */
 public interface IEventoBO {
     
+     public List<EventoDTO> obtenerEventos(int pagina, int tamañoPagina) 
+         throws BOException;
+
+     public List<EventoDTO> buscarEventos(String texto, int pagina, 
+             int tamanoPagina) throws BOException;
+
+     public List<EventoDTO> buscarEventosEntreFechas(Date fechaInicio, 
+             Date fechaFin,int pagina, int tamanoPagina) throws BOException;
+
+     public List<EventoDTO> buscarEventos(String texto, Date fechaInicio, 
+        Date fechaFin, int pagina, int tamanoPagina) throws BOException;
 }

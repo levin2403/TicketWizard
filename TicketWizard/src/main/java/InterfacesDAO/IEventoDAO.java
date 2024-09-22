@@ -4,10 +4,27 @@
  */
 package InterfacesDAO;
 
+import Entidades.Evento;
+import Excepciones.DAOException;
+import java.util.Date;
+import java.util.List;
+
 /**
  *
  * @author skevi
  */
 public interface IEventoDAO {
+    
+     public List<Evento> obtenerEventos(int pagina, int tamañoPagina) 
+             throws DAOException;
+     
+     public List<Evento> buscarEventos(String texto, int pagina, 
+             int tamanoPagina) throws DAOException;
+     
+     public List<Evento> buscarEventosEntreFechas(Date fechaInicio, 
+             Date fechaFin,int pagina, int tamanoPagina) throws DAOException;
+     
+     public List<Evento> buscarEventos(String texto, Date fechaInicio, 
+        Date fechaFin, int pagina, int tamanoPagina) throws DAOException;
     
 }
