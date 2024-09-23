@@ -35,14 +35,13 @@ public class EventoBO implements IEventoBO{
         try{
             List<Evento> lista = eventoDAO.obtenerEventos(pagina, tamañoPagina);
             List<EventoDTO> listaDTO = new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < lista.size(); i++) {
                 listaDTO.add(eventoCVR.toDTO(lista.get(i)));
             }
             return listaDTO;
         } catch(DAOException ex){
-                
+            throw new BOException("error al obtener la lista en negocio");
         }
-        return null;
     }
 
     @Override
@@ -50,7 +49,7 @@ public class EventoBO implements IEventoBO{
         try{
             List<Evento> lista = eventoDAO.buscarEventos(texto, pagina, tamanoPagina);
             List<EventoDTO> listaDTO = new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < lista.size(); i++) {
                 listaDTO.add(eventoCVR.toDTO(lista.get(i)));
             }
             return listaDTO;
@@ -64,7 +63,7 @@ public class EventoBO implements IEventoBO{
         try{
             List<Evento> lista = eventoDAO.buscarEventosEntreFechas(fechaInicio, fechaFin, pagina, tamanoPagina);
             List<EventoDTO> listaDTO = new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < lista.size(); i++) {
                 listaDTO.add(eventoCVR.toDTO(lista.get(i)));
             }
             return listaDTO;
@@ -78,7 +77,7 @@ public class EventoBO implements IEventoBO{
          try{
             List<Evento> lista = eventoDAO.buscarEventos(texto, fechaInicio, fechaFin, pagina, tamanoPagina);
             List<EventoDTO> listaDTO = new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < lista.size(); i++) {
                 listaDTO.add(eventoCVR.toDTO(lista.get(i)));
             }
             return listaDTO;

@@ -88,5 +88,12 @@ public class EventoDTO {
     public void setVenue(VenueDTO venue) {
         this.venue = venue;
     }
+
+    @Override
+    public String toString() {
+        return "EventoDTO{" + "id=" + id + ", nombre=" + nombre + 
+                ", fecha=" + fecha + ", descripcion=" + descripcion + 
+                ", imageURL=" + imageURL + ", venue=" + venue + '}';
+    }
     
 }

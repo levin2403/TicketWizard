@@ -88,6 +88,12 @@ public class Evento {
     public void setVenue(Venue venue) {
         this.venue = venue;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Evento{" + "id=" + id + ", nombre=" + nombre + ", fecha=" + 
+                fecha + ", descripcion=" + descripcion + ", imageURL=" + 
+                imageURL + ", venue=" + venue + '}';
+    }
     
 }
