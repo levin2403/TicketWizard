@@ -4,6 +4,7 @@
  */
 package DTOs;
 
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -16,28 +17,33 @@ public class Persona_BoletoDTO {
     private PersonaDTO persona;
     private BoletoDTO boleto;
     private Date fecha_adquisicion;
+    private Time hora_adquisicion;
 
     public Persona_BoletoDTO() {
     }
 
-    public Persona_BoletoDTO(PersonaDTO persona, BoletoDTO boleto, Date fecha_adquisicion) {
+    public Persona_BoletoDTO(PersonaDTO persona, BoletoDTO boleto, 
+            Date fecha_adquisicion, Time hora_adquisicion) {
         this.persona = persona;
         this.boleto = boleto;
         this.fecha_adquisicion = fecha_adquisicion;
+        this.hora_adquisicion = hora_adquisicion;
     }
 
-    public Persona_BoletoDTO(String id, PersonaDTO persona, BoletoDTO boleto, Date fecha_adquisicion) {
+    public Persona_BoletoDTO(String id, PersonaDTO persona, 
+            BoletoDTO boleto, Date fecha_adquisicion, Time hora_adquisicion) {
         this.id = id;
         this.persona = persona;
         this.boleto = boleto;
         this.fecha_adquisicion = fecha_adquisicion;
+        this.hora_adquisicion = hora_adquisicion;
     }
 
     public String getId() {
         return id;
     }
 
-    public void setId(String     id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -63,6 +69,22 @@ public class Persona_BoletoDTO {
 
     public void setFecha_adquisicion(Date fecha_adquisicion) {
         this.fecha_adquisicion = fecha_adquisicion;
+    }
+
+    public Time getHora_adquisicion() {
+        return hora_adquisicion;
+    }
+
+    public void setHora_adquisicion(Time hora_adquisicion) {
+        this.hora_adquisicion = hora_adquisicion;
+    }
+
+    @Override
+    public String toString() {
+        return "Persona_BoletoDTO{" + "id=" + id + ", persona=" + persona + 
+                ", boleto=" + boleto + ", fecha_adquisicion=" + 
+                fecha_adquisicion + ", hora_adquisicion=" + 
+                hora_adquisicion + '}';
     }
     
 }

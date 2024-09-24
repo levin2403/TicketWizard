@@ -6,7 +6,7 @@ package InterfacesDAO;
 
 import Entidades.Evento;
 import Excepciones.DAOException;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 /**

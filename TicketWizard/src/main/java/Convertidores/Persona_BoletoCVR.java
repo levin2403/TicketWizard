@@ -29,7 +29,8 @@ public class Persona_BoletoCVR {
                 String.valueOf(pb.getId()),
                 personaCVR.convertirADTO(pb.getPersona()),
                 boletoCVR.toDTO(pb.getBoleto()),
-                pb.getFecha_adquisicion()
+                pb.getFecha_adquisicion(),
+                pb.getHora_adquisicion()
             );
         }
         catch(BOException ex){
@@ -43,7 +44,8 @@ public class Persona_BoletoCVR {
                 Integer.parseInt(pbDTO.getId()),
                 personaCVR.convertirAEntidad(pbDTO.getPersona()),
                 boletoCVR.toEntity(pbDTO.getBoleto()),
-                pbDTO.getFecha_adquisicion()
+                pbDTO.getFecha_adquisicion(),
+                pbDTO.getHora_adquisicion()
             );
         }
         catch(BOException ex){

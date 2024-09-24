@@ -9,6 +9,6 @@ package Entidades;
  *
  * @author skevi
  */
-public enum Tipo_compra {
-    DIRECTO, REVENTA;
+public enum Tipo_boleto {
+    BOLETERA, REVENTA;
 }

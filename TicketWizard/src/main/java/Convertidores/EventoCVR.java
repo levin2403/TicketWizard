@@ -32,7 +32,7 @@ public class EventoCVR {
 
         return new EventoDTO(
            String.valueOf(evento.getId()),
-           evento.getNombre(),
+           evento.getNombre(), 
            evento.getFecha(),
            evento.getDescripcion(),
            evento.getImageURL(),

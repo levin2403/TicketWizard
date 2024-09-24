@@ -6,7 +6,7 @@ package InterfacesNegocio;
 
 import DTOs.EventoDTO;
 import Excepciones.BOException;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 /**

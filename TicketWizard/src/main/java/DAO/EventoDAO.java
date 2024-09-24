@@ -9,11 +9,11 @@ import Entidades.Evento;
 import Excepciones.DAOException;
 import InterfacesDAO.IEventoDAO;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -138,8 +138,8 @@ public class EventoDAO implements IEventoDAO{
         try (Connection conn = conexion.crearConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setDate(1, (java.sql.Date) fechaInicio);
-            pstmt.setDate(2, (java.sql.Date) fechaFin);
+            pstmt.setDate(1, fechaInicio);
+            pstmt.setDate(2, fechaFin);
             pstmt.setInt(3, limit);
             pstmt.setInt(4, offset);
 
@@ -208,5 +208,39 @@ public class EventoDAO implements IEventoDAO{
 
         return eventos;
     }
+    
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws DAOException 
+     */
+    public Evento obtenerEventoPorId(int id) throws DAOException{
+        String sql = "SELECT id, nombre, fecha, descripcion, image_url, "
+                + "id_venue FROM Evento WHERE id = ?";
+        Evento evento = null;
+
+        try (Connection conn = new Conexion().crearConexion();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                evento = new Evento();
+                evento.setId(rs.getInt("id"));
+                evento.setNombre(rs.getString("nombre"));
+                evento.setFecha(rs.getDate("fecha"));
+                evento.setDescripcion(rs.getString("descripcion"));
+                evento.setImageURL(rs.getString("image_url"));
+                evento.setVenue(venueDAO.obtenerVenuePorId(rs.getInt("id_venue")));
+            }
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Error al obtener el evento por ID: {0}", 
+                    ex.getMessage());
+            throw new DAOException(ex.getMessage());
+        }
+        return evento;
+        }
     
 }

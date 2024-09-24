@@ -11,8 +11,8 @@ import Entidades.Evento;
 import Excepciones.BOException;
 import Excepciones.DAOException;
 import InterfacesNegocio.IEventoBO;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

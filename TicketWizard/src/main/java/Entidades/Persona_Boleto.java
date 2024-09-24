@@ -4,6 +4,7 @@
  */
 package Entidades;
 
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -16,23 +17,26 @@ public class Persona_Boleto {
     private Persona persona;
     private Boleto boleto;
     private Date fecha_adquisicion;
+    private Time hora_adquisicion;
 
     public Persona_Boleto() {
     }
 
     public Persona_Boleto(Persona persona, Boleto boleto, 
-            Date fecha_adquisicion) {
+            Date fecha_adquisicion, Time hora_adquisicion) {
         this.persona = persona;
         this.boleto = boleto;
         this.fecha_adquisicion = fecha_adquisicion;
+        this.hora_adquisicion = hora_adquisicion;
     }
 
     public Persona_Boleto(int id, Persona persona, Boleto boleto, 
-            Date fecha_adquisicion) {
+            Date fecha_adquisicion, Time hora_adquisicion) {
         this.id = id;
         this.persona = persona;
         this.boleto = boleto;
         this.fecha_adquisicion = fecha_adquisicion;
+        this.hora_adquisicion = hora_adquisicion;
     }
 
     public int getId() {
@@ -65,6 +69,22 @@ public class Persona_Boleto {
 
     public void setFecha_adquisicion(Date fecha_adquisicion) {
         this.fecha_adquisicion = fecha_adquisicion;
+    }
+
+    public Time getHora_adquisicion() {
+        return hora_adquisicion;
+    }
+
+    public void setHora_adquisicion(Time hora_adquisicion) {
+        this.hora_adquisicion = hora_adquisicion;
+    }
+
+    @Override
+    public String toString() {
+        return "Persona_Boleto{" + "id=" + id + ", persona=" + persona + 
+                ", boleto=" + boleto + ", fecha_adquisicion=" + 
+                fecha_adquisicion + ", hora_adquisicion=" + 
+                hora_adquisicion + '}';
     }
     
 }

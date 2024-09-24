@@ -31,6 +31,11 @@ public class PersonaDAO implements  IPersonaDAO{
         this.domicilioDAO = new DomicilioDAO();
     }
 
+    /**
+     * 
+     * @param persona
+     * @throws DAOException 
+     */
     @Override
     public void agregar(Persona persona) throws DAOException {
         Connection conexion = null;
@@ -44,8 +49,11 @@ public class PersonaDAO implements  IPersonaDAO{
             domicilioDAO.agregar(persona.getDomicilio());
 
             // Ahora, agregamos la persona usando el id_domicilio recién generado
-            String sentenciaSQL = "INSERT INTO Persona (nombre, contraseña, fecha_nacimiento, correo, saldo, id_domicilio, generated_key) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            preparedStatement = conexion.prepareStatement(sentenciaSQL, PreparedStatement.RETURN_GENERATED_KEYS);
+            String sentenciaSQL = "INSERT INTO Persona (nombre, contraseña, "
+                    + "fecha_nacimiento, correo, saldo, id_domicilio, "
+                    + "generated_key) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            preparedStatement = conexion.prepareStatement(sentenciaSQL, 
+                    PreparedStatement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1, persona.getNombre());
             preparedStatement.setString(2, persona.getContraseña());
@@ -82,6 +90,11 @@ public class PersonaDAO implements  IPersonaDAO{
         }
     }
 
+    /**
+     * 
+     * @param persona
+     * @throws DAOException 
+     */
     @Override
     public void actualizar(Persona persona) throws DAOException {
         Connection conexion = null;
@@ -94,7 +107,10 @@ public class PersonaDAO implements  IPersonaDAO{
             domicilioDAO.actualizar(persona.getDomicilio());
 
             // Ahora actualizamos la persona
-            String sentenciaSQL = "UPDATE Persona SET nombre = ?, contraseña = ?, fecha_nacimiento = ?, correo = ?, saldo = ?, id_domicilio = ?, generated_key = ? WHERE id = ?";
+            String sentenciaSQL = "UPDATE Persona SET nombre = ?, "
+                    + "contraseña = ?, fecha_nacimiento = ?, "
+                    + "correo = ?, saldo = ?, id_domicilio = ?, "
+                    + "generated_key = ? WHERE id = ?";
             preparedStatement = conexion.prepareStatement(sentenciaSQL);
 
             preparedStatement.setString(1, persona.getNombre());
@@ -124,6 +140,12 @@ public class PersonaDAO implements  IPersonaDAO{
         }
     }
 
+    /**
+     * 
+     * @param correo
+     * @return
+     * @throws DAOException 
+     */
     @Override
     public Persona consultar(String correo) throws DAOException {
         String sentenciaSQL = "SELECT * FROM Persona WHERE correo = ?";
@@ -154,7 +176,8 @@ public class PersonaDAO implements  IPersonaDAO{
                     System.out.println(persona.toString());
                     return persona;
                 } else {
-                    throw new DAOException("No se encontró la persona con el correo: " + correo);
+                    throw new DAOException("No se encontró la persona con "
+                            + "el correo: " + correo);
                 }
             }
 
@@ -163,8 +186,15 @@ public class PersonaDAO implements  IPersonaDAO{
         }
     }
 
+    /**
+     * 
+     * @param idPersona
+     * @param nuevoSaldo
+     * @throws DAOException 
+     */
     @Override
-    public void actualizarSaldo(int idPersona, BigDecimal nuevoSaldo) throws DAOException {
+    public void actualizarSaldo(int idPersona, BigDecimal nuevoSaldo) 
+            throws DAOException {
         Connection conexion = null;
         PreparedStatement preparedStatement = null;
 
@@ -178,10 +208,12 @@ public class PersonaDAO implements  IPersonaDAO{
 
             int filasActualizadas = preparedStatement.executeUpdate();
             if (filasActualizadas == 0) {
-                throw new DAOException("No se encontró la persona con ID: " + idPersona);
+                throw new DAOException("No se encontró la persona con ID: " 
+                        + idPersona);
             }
         } catch (SQLException ex) {
-            throw new DAOException("Error al actualizar el saldo: " + ex.getMessage(), ex);
+            throw new DAOException("Error al actualizar el saldo: " 
+                    + ex.getMessage(), ex);
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -191,20 +223,32 @@ public class PersonaDAO implements  IPersonaDAO{
                     conexion.close();
                 }
             } catch (SQLException e) {
-                throw new DAOException("Error al cerrar los recursos: " + e.getMessage(), e);
+                throw new DAOException("Error al cerrar los recursos: " 
+                        + e.getMessage(), e);
             }
         }
     }
 
+    /**
+     * 
+     * @param correo
+     * @param contrasena
+     * @return
+     * @throws DAOException 
+     */
     @Override
-    public Persona consultarPorCorreoYContrasena(String correo, String contrasena) throws DAOException {
+    public Persona consultarPorCorreoYContrasena(String correo, 
+            String contrasena) throws DAOException {
         Connection conexion = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultado = null;
 
         try {
             conexion = conexionBD.crearConexion();
-            String sentenciaSQL = "SELECT id, nombre, contraseña, fecha_nacimiento, correo, saldo, id_domicilio, generated_key FROM Persona WHERE correo = ? AND contraseña = ?";
+            String sentenciaSQL = "SELECT id, nombre, contraseña, "
+                    + "fecha_nacimiento, correo, saldo, id_domicilio, "
+                    + "generated_key FROM Persona WHERE correo = ? "
+                    + "AND contraseña = ?";
             preparedStatement = conexion.prepareStatement(sentenciaSQL);
 
             preparedStatement.setString(1, correo);
@@ -230,11 +274,13 @@ public class PersonaDAO implements  IPersonaDAO{
 
                 return persona;
             } else {
-                throw new DAOException("No se encontró la persona con el correo y contraseña proporcionados.");
+                throw new DAOException("No se encontró la persona con el correo"
+                        + "y contraseña proporcionados.");
             }
 
         } catch (SQLException ex) {
-            throw new DAOException("Error al consultar la persona: " + ex.getMessage());
+            throw new DAOException("Error al consultar la persona: " 
+                    + ex.getMessage());
         } finally {
             try {
                 if (resultado != null) {
@@ -247,9 +293,43 @@ public class PersonaDAO implements  IPersonaDAO{
                     conexion.close();
                 }
             } catch (SQLException e) {
-                throw new DAOException("Error al cerrar los recursos: " + e.getMessage());
+                throw new DAOException("Error al cerrar los recursos: " 
+                        + e.getMessage());
             }
         }
+    }
+    
+    /**
+     * 
+     * @param idPersona
+     * @return 
+     * @throws Excepciones.DAOException 
+     */
+    public Persona obtenerPersonaPorId(int idPersona) throws DAOException {
+        String query = "SELECT * FROM Persona WHERE id = ?";
+        Persona persona = null;
+
+        try (Connection conn = conexionBD.crearConexion(); 
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, idPersona); 
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    persona.setId(rs.getInt("id"));
+                    persona.setNombre(rs.getString("nombre"));
+                    persona.setContraseña(rs.getString("contraseña"));
+                    persona.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
+                    persona.setCorreo(rs.getString("correo"));
+                    persona.setSaldo(rs.getBigDecimal("saldo"));
+                    persona.setGeneratedKey(rs.getString("generated_key"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DAOException("error al obtener la persona por id", e);
+        }
+
+        return persona; 
     }
 
 }
