@@ -4,10 +4,19 @@
  */
 package DAO;
 
+import Conexion.Conexion;
+
 /**
  *
  * @author skevi
  */
 public class Persona_BoletoDAO {
+    
+    private final Conexion conexion;
+
+    public Persona_BoletoDAO() {
+        this.conexion = new Conexion();
+    }
+    
     
 }
