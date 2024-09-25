@@ -65,4 +65,6 @@ public class Persona_BoletoDAO {
         logger.log(Level.INFO, "Exito al obtener los boletos asociados a una persona");
         return listaPersonaBoletos;
     }
+    
+    
 }

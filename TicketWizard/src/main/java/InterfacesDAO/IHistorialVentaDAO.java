@@ -8,6 +8,6 @@ package InterfacesDAO;
  *
  * @author skevi
  */
-public interface ICompraDAO {
+public interface IHistorialVentaDAO {
     
 }
