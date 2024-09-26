@@ -7,6 +7,7 @@ package DAO;
 import Conexion.Conexion;
 import Entidades.Venta;
 import Excepciones.DAOException;
+import InterfacesDAO.IVentaDAO;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @author skevi
  */
-public class VentaDAO {
+public class VentaDAO implements IVentaDAO{
     
     private static final Logger logger = Logger.getLogger(EventoDAO.class.getName());
     private final Conexion conexion;
@@ -83,6 +84,7 @@ public class VentaDAO {
      * @return 
      * @throws Excepciones.DAOException 
      */
+    @Override
     public List<Venta> obtenerVentasPaginadasPorPrecio(int idPersona, 
                 BigDecimal precioMin, BigDecimal precioMax, int limit, 
                 int offset) throws DAOException{

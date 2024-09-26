@@ -85,5 +85,10 @@ public class EventoBO implements IEventoBO{
             throw new BOException();     
         }    
     }
+
+    @Override
+    public EventoDTO obtenerEventoPorId(int id) throws BOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

@@ -26,4 +26,6 @@ public interface IEventoBO {
 
      public List<EventoDTO> buscarEventos(String texto, Date fechaInicio, 
         Date fechaFin, int pagina, int tamanoPagina) throws BOException;
+     
+     public EventoDTO obtenerEventoPorId(int id) throws BOException;
 }

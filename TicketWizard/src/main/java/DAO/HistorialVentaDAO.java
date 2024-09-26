@@ -7,6 +7,7 @@ package DAO;
 import Conexion.Conexion;
 import Entidades.HistorialVenta;
 import Excepciones.DAOException;
+import InterfacesDAO.IHistorialVentaDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +21,7 @@ import java.util.logging.Logger;
  *
  * @author skevi
  */
-public class HistorialVentaDAO {
+public class HistorialVentaDAO implements IHistorialVentaDAO{
 
     private static final Logger logger = Logger.getLogger(HistorialVentaDAO.class.getName());
  
@@ -34,6 +35,15 @@ public class HistorialVentaDAO {
         this.boletoDAO = new BoletoDAO();
     }
     
+    /**
+     * 
+     * @param id
+     * @param limit
+     * @param offset
+     * @return
+     * @throws DAOException 
+     */
+    @Override
     public List<HistorialVenta> obtenerHistorialVentasPaginado(int id, 
             int limit, int offset) throws DAOException {
         List<HistorialVenta> historialVentas = new ArrayList<>();

@@ -21,12 +21,10 @@ import java.math.BigDecimal;
 public class PersonaBO implements IPersonaBO {
 
     private final IPersonaDAO personaDAO;
-    private final DomicilioBO domicilioBO;
     private final PersonaCVR personaCVR;
 
     public PersonaBO() {
         this.personaDAO = new PersonaDAO();
-        this.domicilioBO = new DomicilioBO();
         this.personaCVR = new PersonaCVR();
     }
 
@@ -106,6 +104,11 @@ public class PersonaBO implements IPersonaBO {
         } catch (DAOException ex) {
             throw new BOException("Error al consultar la contraseña: " + ex.getMessage());
         }
+    }
+
+    @Override
+    public PersonaDTO obtenerPersonaPorId(int idPersona) throws DAOException {
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
 }

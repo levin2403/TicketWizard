@@ -4,10 +4,15 @@
  */
 package InterfacesDAO;
 
+import Entidades.Boleto;
+import Excepciones.DAOException;
+
 /**
  *
  * @author skevi
  */
 public interface IBoletoDAO {
+    
+    public Boleto obtenerBoletoPorId(int id) throws DAOException;
     
 }

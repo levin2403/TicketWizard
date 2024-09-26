@@ -4,10 +4,21 @@
  */
 package InterfacesDAO;
 
+import Entidades.Venta;
+import Excepciones.DAOException;
+import java.math.BigDecimal;
+import java.util.List;
+
 /**
  *
  * @author skevi
  */
 public interface IVentaDAO {
     
+    public List<Venta> obtenerVentasPaginadas(int idPersona, int limit, 
+            int offset) throws DAOException;
+    
+    public List<Venta> obtenerVentasPaginadasPorPrecio(int idPersona, 
+                BigDecimal precioMin, BigDecimal precioMax, int limit, 
+                int offset) throws DAOException;
 }

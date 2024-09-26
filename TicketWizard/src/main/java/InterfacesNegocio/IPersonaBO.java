@@ -5,6 +5,7 @@ package InterfacesNegocio;
 
 import DTOs.PersonaDTO;
 import Excepciones.BOException;
+import Excepciones.DAOException;
 import java.math.BigDecimal;
 
 /**
@@ -20,4 +21,6 @@ public interface IPersonaBO {
     public boolean consultarContrasena(String correo, String contrasena)throws BOException;
     public void actualizarSaldo(String idPersona, BigDecimal nuevoSaldo) throws BOException;
     public boolean consultarPorCorreoYContrasena(String correo, String contrasena) throws BOException;
+    public PersonaDTO obtenerPersonaPorId(int idPersona) throws DAOException;
+    
 }

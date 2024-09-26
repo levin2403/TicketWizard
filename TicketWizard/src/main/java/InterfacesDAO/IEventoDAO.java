@@ -26,5 +26,7 @@ public interface IEventoDAO {
      
      public List<Evento> buscarEventos(String texto, Date fechaInicio, 
         Date fechaFin, int pagina, int tamanoPagina) throws DAOException;
+     
+     public Evento obtenerEventoPorId(int id) throws DAOException;
     
 }

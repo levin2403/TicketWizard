@@ -4,10 +4,13 @@
  */
 package Negocio;
 
+
+
 /**
  *
  * @author skevi
  */
 public class VentaBO {
+    
     
 }

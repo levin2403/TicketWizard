@@ -305,6 +305,7 @@ public class PersonaDAO implements  IPersonaDAO{
      * @return 
      * @throws Excepciones.DAOException 
      */
+    @Override
     public Persona obtenerPersonaPorId(int idPersona) throws DAOException {
         String query = "SELECT * FROM Persona WHERE id = ?";
         Persona persona = null;

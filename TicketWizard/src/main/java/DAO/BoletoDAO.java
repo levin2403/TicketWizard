@@ -7,6 +7,7 @@ package DAO;
 import Conexion.Conexion;
 import Entidades.Boleto;
 import Excepciones.DAOException;
+import InterfacesDAO.IBoletoDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,18 +19,24 @@ import java.util.logging.Logger;
  *
  * @author skevi
  */
-public class BoletoDAO {
+public class BoletoDAO implements IBoletoDAO{
     
     private static final Logger logger = Logger.getLogger(EventoDAO.class.getName());
     private final Conexion conexion;
-    private EventoDAO eventoDAO;
+    private final EventoDAO eventoDAO;
 
     public BoletoDAO() {
         this.conexion = new Conexion();
         this.eventoDAO = new EventoDAO();
     }
     
-    
+    /**
+     *
+     * @param id
+     * @return
+     * @throws DAOException
+     */
+    @Override
     public Boleto obtenerBoletoPorId(int id) throws DAOException{
         String sql = "SELECT * WHERE id = ?";
         Boleto boleto = null;

@@ -19,5 +19,6 @@ public interface IPersonaDAO {
     public void actualizar(Persona persona) throws DAOException;
     public void actualizarSaldo(int idPersona, BigDecimal nuevoSaldo) throws DAOException;
     public Persona consultarPorCorreoYContrasena(String correo, String contrasena) throws DAOException;
+    public Persona obtenerPersonaPorId(int idPersona) throws DAOException;
     
 }

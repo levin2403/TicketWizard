@@ -34,14 +34,18 @@ public class DomicilioDAO implements IDomicilioDAO {
 
         try {
             conexion = conexionBD.crearConexion();
-            String sentenciaSQL = "INSERT INTO Direccion (ciudad, colonia, calle, num_exterior, num_interior, codigo_postal) VALUES (?, ?, ?, ?, ?, ?)";
-            preparedStatement = conexion.prepareStatement(sentenciaSQL, PreparedStatement.RETURN_GENERATED_KEYS);
+            String sentenciaSQL = "INSERT INTO Direccion (ciudad, colonia, "
+                    + "calle, num_exterior, num_interior, codigo_postal) "
+                    + "VALUES (?, ?, ?, ?, ?, ?)";
+            preparedStatement = conexion.prepareStatement(sentenciaSQL, 
+                    PreparedStatement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1, domicilio.getCiudad());
             preparedStatement.setString(2, domicilio.getColonia());
             preparedStatement.setString(3, domicilio.getCalle());
             preparedStatement.setInt(4, domicilio.getNum_exterior());
-            preparedStatement.setObject(5, domicilio.getNum_interior(), java.sql.Types.INTEGER);
+            preparedStatement.setObject(5, domicilio.getNum_interior(), 
+                    java.sql.Types.INTEGER);
             preparedStatement.setInt(6, domicilio.getCodigo_postal());
 
             preparedStatement.executeUpdate();
@@ -52,7 +56,8 @@ public class DomicilioDAO implements IDomicilioDAO {
             }
 
         } catch (SQLException ex) {
-            throw new DAOException("Error al agregar el domicilio: " + ex.getMessage());
+            throw new DAOException("Error al agregar el domicilio: " + 
+                    ex.getMessage());
         } finally {
             try {
                 if (resultado != null) {
@@ -65,7 +70,8 @@ public class DomicilioDAO implements IDomicilioDAO {
                     conexion.close();
                 }
             } catch (SQLException e) {
-                throw new DAOException("Error al cerrar los recursos: " + e.getMessage());
+                throw new DAOException("Error al cerrar los recursos: " + 
+                        e.getMessage());
             }
         }
     }
@@ -78,21 +84,25 @@ public class DomicilioDAO implements IDomicilioDAO {
 
         try {
             conexion = conexionBD.crearConexion();
-            String sentenciaSQL = "UPDATE Direccion SET ciudad = ?, colonia = ?, calle = ?, num_exterior = ?, num_interior = ?, codigo_postal = ? WHERE id = ?";
+            String sentenciaSQL = "UPDATE Direccion SET ciudad = ?, colonia "
+                    + "= ?, calle = ?, num_exterior = ?, num_interior = ?, "
+                    + "codigo_postal = ? WHERE id = ?";
             preparedStatement = conexion.prepareStatement(sentenciaSQL);
 
             preparedStatement.setString(1, domicilio.getCiudad());
             preparedStatement.setString(2, domicilio.getColonia());
             preparedStatement.setString(3, domicilio.getCalle());
             preparedStatement.setInt(4, domicilio.getNum_exterior());
-            preparedStatement.setObject(5, domicilio.getNum_interior(), java.sql.Types.INTEGER); // Puede ser null
+            preparedStatement.setObject(5, domicilio.getNum_interior(), 
+                    java.sql.Types.INTEGER); // Puede ser null
             preparedStatement.setInt(6, domicilio.getCodigo_postal());
             preparedStatement.setInt(7, domicilio.getId());
 
             preparedStatement.executeUpdate();
 
         } catch (SQLException ex) {
-            throw new DAOException("Error al actualizar el domicilio: " + ex.getMessage());
+            throw new DAOException("Error al actualizar el domicilio: " + 
+                    ex.getMessage());
         } finally {
             try {
                 if (resultado != null) {
@@ -105,7 +115,8 @@ public class DomicilioDAO implements IDomicilioDAO {
                     conexion.close();
                 }
             } catch (SQLException e) {
-                throw new DAOException("Error al cerrar los recursos: " + e.getMessage());
+                throw new DAOException("Error al cerrar los recursos: " + 
+                        e.getMessage());
             }
         }
     }
@@ -147,7 +158,8 @@ public class DomicilioDAO implements IDomicilioDAO {
             }
 
         } catch (SQLException ex) {
-            throw new DAOException("Error al consultar el domicilio: " + ex.getMessage(), ex);
+            throw new DAOException("Error al consultar el domicilio: " + 
+                    ex.getMessage(), ex);
         } finally {
             try {
                 if (resultado != null) {
@@ -160,7 +172,8 @@ public class DomicilioDAO implements IDomicilioDAO {
                     conexion.close();
                 }
             } catch (SQLException e) {
-                throw new DAOException("Error al cerrar los recursos: " + e.getMessage(), e);
+                throw new DAOException("Error al cerrar los recursos: " + 
+                        e.getMessage(), e);
             }
         }
 }

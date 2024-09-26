@@ -215,7 +215,7 @@ public class EventoDAO implements IEventoDAO{
      * @return
      * @throws DAOException 
      */
-    public Evento obtenerEventoPorId(int id) throws DAOException{
+    public Evento obtenerEventoPorId(int id) throws DAOException {
         String sql = "SELECT id, nombre, fecha, descripcion, image_url, "
                 + "id_venue FROM Evento WHERE id = ?";
         Evento evento = null;
