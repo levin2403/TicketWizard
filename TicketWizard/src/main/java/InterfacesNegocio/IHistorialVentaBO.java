@@ -4,7 +4,7 @@
  */
 package InterfacesNegocio;
 
-import DTOs.HistorialCompraDTO;
+import DTOs.HistorialVentaDTO;
 import Excepciones.BOException;
 import java.util.List;
 
@@ -14,6 +14,7 @@ import java.util.List;
  */
 public interface IHistorialVentaBO {
     
-    public List<HistorialCompraDTO> obtenerHistorialComprasPaginado(
-            int id,int paginaActual, int registrosPorPagina) throws BOException; 
+    public List<HistorialVentaDTO> obtenerHistorialVentasPaginado(int id, 
+            int limit, int offset) throws BOException;
+    
 }

@@ -4,10 +4,19 @@
  */
 package InterfacesDAO;
 
+import Entidades.HistorialVenta;
+import Excepciones.DAOException;
+import java.util.List;
+
 /**
  *
  * @author skevi
  */
 public interface IHistorialVentaDAO {
+    
+    
+    public List<HistorialVenta> obtenerHistorialVentasPaginado(int id, 
+            int limit, int offset) throws DAOException;
+    
     
 }

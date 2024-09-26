@@ -4,10 +4,14 @@
  */
 package Negocio;
 
+
 /**
  *
  * @author skevi
  */
 public class HistorialVentaBO {
+    
+    
+
     
 }

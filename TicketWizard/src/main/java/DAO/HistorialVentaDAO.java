@@ -34,17 +34,18 @@ public class HistorialVentaDAO {
         this.boletoDAO = new BoletoDAO();
     }
     
-    public List<HistorialVenta> obtenerHistorialVentasPaginado(int limit, 
-            int offset) throws DAOException {
+    public List<HistorialVenta> obtenerHistorialVentasPaginado(int id, 
+            int limit, int offset) throws DAOException {
         List<HistorialVenta> historialVentas = new ArrayList<>();
-        String sql = "SELECT * FROM HistorialVenta LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM HistorialVenta WHERE id = ? LIMIT ? OFFSET ?";
 
         try (Connection conn = conexion.crearConexion(); 
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             // Configurar los parámetros para la paginación
-            stmt.setInt(1, limit);
-            stmt.setInt(2, offset);
+            stmt.setInt(1, id);
+            stmt.setInt(2, limit);
+            stmt.setInt(3, offset);
 
             // Ejecutar la consulta
             try (ResultSet rs = stmt.executeQuery()) {

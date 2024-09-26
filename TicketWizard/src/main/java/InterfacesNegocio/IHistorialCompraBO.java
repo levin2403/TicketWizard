@@ -4,10 +4,17 @@
  */
 package InterfacesNegocio;
 
+import DTOs.HistorialCompraDTO;
+import Excepciones.BOException;
+import java.util.List;
+
 /**
  *
  * @author skevi
  */
 public interface IHistorialCompraBO {
+ 
+    public List<HistorialCompraDTO> obtenerHistorialComprasPaginado(
+            int id,int paginaActual, int registrosPorPagina) throws BOException; 
     
 }
