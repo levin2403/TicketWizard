@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package InterfacesNegocio;
+package InterfacesDAO;
 
 /**
  *
  * @author skevi
  */
-public interface IPersona_BoletoBO {
+public interface IHistorialCompraDAO {
     
 }

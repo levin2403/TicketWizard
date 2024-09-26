@@ -14,8 +14,8 @@ import java.util.Date;
 public class Venta {
     
     private int id;
-    private Persona persona;
-    private Boleto boleto;
+    private Persona persona; //persona que compra el boleto
+    private Boleto boleto; //boleto que esta en venta
     private BigDecimal precio_reventa;
     private Date fecha_limite;
 
