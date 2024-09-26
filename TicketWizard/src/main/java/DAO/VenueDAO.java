@@ -27,6 +27,12 @@ public class VenueDAO implements IVenueDAO{
         this.conexion = new Conexion();
     }
 
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws DAOException 
+     */
     @Override
     public Venue obtenerVenuePorId(int id) throws DAOException{
         Venue venue = null;
