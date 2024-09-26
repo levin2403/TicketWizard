@@ -6,6 +6,7 @@ Presentacion\Panels\PnlBuyDetails.class
 DTOs\VentaDTO.class
 Presentacion\FrmModelMenu$4.class
 DAO\HistorialCompraDAO.class
+Presentacion\FrmUpdatePerson$2.class
 Presentacion\FrmRechargeWP$4.class
 Presentacion\Panels\PnlSelling.class
 Excepciones\DAOException.class
@@ -77,6 +78,7 @@ Presentacion\NewMain.class
 DTOs\BoletoDTO.class
 InterfacesNegocio\IPersonaBO.class
 DAO\VentaDAO.class
+Presentacion\FrmUpdatePerson$3.class
 Presentacion\FrmLogin.class
 InterfacesNegocio\IEventoBO.class
 Presentacion\FrmModelMenu$2.class
@@ -88,6 +90,7 @@ Negocio\PersonaBO.class
 DTOs\PersonaDTO.class
 DAO\HistorialVentaDAO.class
 Singletone\Singletone.class
+Presentacion\FrmUpdatePerson$4.class
 InterfacesNegocio\IHistorialVentaBO.class
 DAO\PersonaDAO.class
 Presentacion\FrmRechargeWP$2.class
