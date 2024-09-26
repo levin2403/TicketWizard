@@ -111,4 +111,9 @@ public class PersonaBO implements IPersonaBO {
         throw new UnsupportedOperationException("Not supported yet."); 
     }
 
+    @Override
+    public BigDecimal consultarSaldo(int id) throws DAOException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

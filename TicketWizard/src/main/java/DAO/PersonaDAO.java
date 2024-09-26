@@ -228,7 +228,36 @@ public class PersonaDAO implements  IPersonaDAO{
             }
         }
     }
+    
+    
+    /**
+     * 
+     * @param id
+     * @return 
+     * @throws Excepciones.DAOException 
+     */
+    @Override
+    public BigDecimal consultarSaldo(int id) throws DAOException {
+        BigDecimal saldo = null;
+        String sql = "SELECT saldo FROM Persona WHERE id = ?";
 
+        try (Connection conn = conexionBD.crearConexion(); 
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    saldo = rs.getBigDecimal("saldo");
+                }
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e.getMessage());
+        }
+        
+        return saldo;
+    }
+
+    
     /**
      * 
      * @param correo

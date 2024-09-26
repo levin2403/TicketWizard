@@ -285,6 +285,11 @@ public class FrmUpdatePerson extends javax.swing.JFrame {
 
         cbContrasena.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbContrasena.setText("Ver");
+        cbContrasena.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbContrasenaActionPerformed(evt);
+            }
+        });
 
         lblDireccion.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblDireccion.setText("Direccion:");
@@ -317,9 +322,19 @@ public class FrmUpdatePerson extends javax.swing.JFrame {
 
         btnActualizar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -447,6 +462,26 @@ public class FrmUpdatePerson extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cbContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbContrasenaActionPerformed
+        if (cbContrasena.isSelected()) {
+            // Mostrar la contraseña en texto plano
+            psfContrasena.setEchoChar((char) 0);
+        } else {
+            // Ocultar la contraseña con un carácter de máscara
+            psfContrasena.setEchoChar('*');
+        }
+    }//GEN-LAST:event_cbContrasenaActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        FrmModelMenu menu = new FrmModelMenu();
+        menu.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+       actualizar();
+    }//GEN-LAST:event_btnActualizarActionPerformed
 
     
     public static void main(String args[]) {
