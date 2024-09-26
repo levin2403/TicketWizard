@@ -49,7 +49,8 @@ public class HistorialCompraDAO implements IHistorialCompraDAO{
         List<HistorialCompra> historial = new ArrayList<>();
         int offset = (paginaActual - 1) * registrosPorPagina;
 
-        String sql = "SELECT * FROM HistorialCompras WHERE id = ? LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM HistorialCompras WHERE id = ? LIMIT ? "
+                + "OFFSET ?";
         
         try (Connection conn = conexion.crearConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -62,8 +63,10 @@ public class HistorialCompraDAO implements IHistorialCompraDAO{
                 while (rs.next()) {
                     HistorialCompra compra = new HistorialCompra();
                     compra.setId(rs.getInt("id"));
-                    compra.setPersona(personaDAO.obtenerPersonaPorId(rs.getInt("id_persona")));
-                    compra.setBoleto(boletoDAO.obtenerBoletoPorId(rs.getInt("id_boleto")));
+                    compra.setPersona(personaDAO.
+                            obtenerPersonaPorId(rs.getInt("id_persona")));
+                    compra.setBoleto(boletoDAO.
+                            obtenerBoletoPorId(rs.getInt("id_boleto")));
                     compra.setFecha_compra(rs.getDate("fecha_venta"));
                     compra.setHora_compra(rs.getTime("hora_venta"));
 
@@ -71,7 +74,8 @@ public class HistorialCompraDAO implements IHistorialCompraDAO{
                 }
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Error al consultar el historial de ventas", ex);
+            logger.log(Level.SEVERE, "Error al consultar el historial de "
+                    + "ventas", ex);
             throw new DAOException();
         } 
         logger.log(Level.INFO, "Exito al consultar el historial de ventas");
