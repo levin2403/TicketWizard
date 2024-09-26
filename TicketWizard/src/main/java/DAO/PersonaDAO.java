@@ -57,7 +57,8 @@ public class PersonaDAO implements  IPersonaDAO{
 
             preparedStatement.setString(1, persona.getNombre());
             preparedStatement.setString(2, persona.getContraseña());
-            preparedStatement.setDate(3, new java.sql.Date(persona.getFechaNacimiento().getTime()));
+            preparedStatement.setDate(3, new java.sql.Date
+        (persona.getFechaNacimiento().getTime()));
             preparedStatement.setString(4, persona.getCorreo());
             preparedStatement.setBigDecimal(5, persona.getSaldo()); // Cambiado de 6 a 5
             preparedStatement.setInt(6, persona.getDomicilio().getId());
@@ -72,7 +73,8 @@ public class PersonaDAO implements  IPersonaDAO{
             }
 
         } catch (SQLException ex) {
-            throw new DAOException("Error al agregar la persona: " + ex.getMessage());
+            throw new DAOException("Error al agregar la persona: " + 
+                    ex.getMessage());
         } finally {
             try {
                 if (resultado != null) {
@@ -85,7 +87,8 @@ public class PersonaDAO implements  IPersonaDAO{
                     conexion.close();
                 }
             } catch (SQLException e) {
-                throw new DAOException("Error al cerrar los recursos: " + e.getMessage());
+                throw new DAOException("Error al cerrar los recursos: " + 
+                        e.getMessage());
             }
         }
     }
@@ -115,7 +118,8 @@ public class PersonaDAO implements  IPersonaDAO{
 
             preparedStatement.setString(1, persona.getNombre());
             preparedStatement.setString(2, persona.getContraseña());
-            preparedStatement.setDate(3, new java.sql.Date(persona.getFechaNacimiento().getTime()));
+            preparedStatement.setDate(3, new java.sql.Date(persona.
+                    getFechaNacimiento().getTime()));
             preparedStatement.setString(4, persona.getCorreo());
             preparedStatement.setBigDecimal(5, persona.getSaldo()); // Cambiado de 6 a 5
             preparedStatement.setInt(6, persona.getDomicilio().getId());
@@ -125,7 +129,8 @@ public class PersonaDAO implements  IPersonaDAO{
             preparedStatement.executeUpdate();
 
         } catch (SQLException ex) {
-            throw new DAOException("Error al actualizar la persona: " + ex.getMessage());
+            throw new DAOException("Error al actualizar la persona: " + 
+                    ex.getMessage());
         } finally {
             try {
                 if (preparedStatement != null) {
@@ -135,7 +140,8 @@ public class PersonaDAO implements  IPersonaDAO{
                     conexion.close();
                 }
             } catch (SQLException e) {
-                throw new DAOException("Error al cerrar los recursos: " + e.getMessage());
+                throw new DAOException("Error al cerrar los recursos: " + 
+                        e.getMessage());
             }
         }
     }
@@ -151,7 +157,8 @@ public class PersonaDAO implements  IPersonaDAO{
         String sentenciaSQL = "SELECT * FROM Persona WHERE correo = ?";
 
         try (Connection conexion = conexionBD.crearConexion();
-             PreparedStatement preparedStatement = conexion.prepareStatement(sentenciaSQL)) {
+             PreparedStatement preparedStatement = 
+                     conexion.prepareStatement(sentenciaSQL)) {
 
             preparedStatement.setString(1, correo);
 
@@ -162,15 +169,18 @@ public class PersonaDAO implements  IPersonaDAO{
                     persona.setId(resultado.getInt("id"));
                     persona.setNombre(resultado.getString("nombre"));
                     persona.setContraseña(resultado.getString("contraseña"));
-                    persona.setFechaNacimiento(resultado.getDate("fecha_nacimiento"));
+                    persona.setFechaNacimiento(resultado.
+                            getDate("fecha_nacimiento"));
                     persona.setCorreo(resultado.getString("correo"));
                     persona.setSaldo(resultado.getBigDecimal("saldo"));
-                    persona.setGeneratedKey(resultado.getString("generated_key"));
+                    persona.setGeneratedKey(resultado.
+                            getString("generated_key"));
 
                     // Ahora obtenemos el domicilio asociado a la persona, si existe
                     int idDomicilio = resultado.getInt("id_domicilio");
                     if (idDomicilio > 0) {
-                        Domicilio domicilio = domicilioDAO.consultar(idDomicilio);
+                        Domicilio domicilio = domicilioDAO.
+                                consultar(idDomicilio);
                         persona.setDomicilio(domicilio);
                     }
                     System.out.println(persona.toString());
@@ -291,7 +301,8 @@ public class PersonaDAO implements  IPersonaDAO{
                 persona.setId(resultado.getInt("id"));
                 persona.setNombre(resultado.getString("nombre"));
                 persona.setContraseña(resultado.getString("contraseña"));
-                persona.setFechaNacimiento(resultado.getDate("fecha_nacimiento"));
+                persona.setFechaNacimiento(resultado.
+                        getDate("fecha_nacimiento"));
                 persona.setCorreo(resultado.getString("correo"));
                 persona.setSaldo(resultado.getBigDecimal("saldo"));
                 persona.setGeneratedKey(resultado.getString("generated_key"));
