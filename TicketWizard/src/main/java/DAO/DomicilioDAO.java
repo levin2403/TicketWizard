@@ -26,6 +26,11 @@ public class DomicilioDAO implements IDomicilioDAO {
         this.conexionBD = new Conexion();
     }
 
+    /**
+     * 
+     * @param domicilio
+     * @throws DAOException 
+     */
     @Override
     public void agregar(Domicilio domicilio) throws DAOException {
         Connection conexion = null;
@@ -76,6 +81,11 @@ public class DomicilioDAO implements IDomicilioDAO {
         }
     }
 
+    /**
+     * 
+     * @param domicilio
+     * @throws DAOException 
+     */
     @Override
     public void actualizar(Domicilio domicilio) throws DAOException {
         Connection conexion = null;
@@ -122,6 +132,12 @@ public class DomicilioDAO implements IDomicilioDAO {
     }
     
 
+    /**
+     * 
+     * @param id
+     * @return
+     * @throws DAOException 
+     */
    @Override
     public Domicilio consultar(int id) throws DAOException {
         Connection conexion = null;
@@ -143,18 +159,23 @@ public class DomicilioDAO implements IDomicilioDAO {
                 domicilioResult.setCiudad(resultado.getString("ciudad"));
                 domicilioResult.setColonia(resultado.getString("colonia"));
                 domicilioResult.setCalle(resultado.getString("calle"));
-                domicilioResult.setNum_exterior(resultado.getInt("num_exterior"));
+                domicilioResult.setNum_exterior(resultado.
+                        getInt("num_exterior"));
 
-                // Manejar el valor de num_interior como int, asignando 0 si es NULL
+                // Manejar el valor de num_interior como int, asignando 0 si es 
+                // NULL
                 Object numInteriorObj = resultado.getObject("num_interior");
-                int numInterior = (numInteriorObj != null) ? (Integer) numInteriorObj : 0;
+                int numInterior = (numInteriorObj != null) ? (Integer) 
+                        numInteriorObj : 0;
                 domicilioResult.setNum_interior(numInterior);
 
-                domicilioResult.setCodigo_postal(resultado.getInt("codigo_postal"));
+                domicilioResult.setCodigo_postal(resultado.
+                        getInt("codigo_postal"));
 
                 return domicilioResult;
             } else {
-                throw new DAOException("No se encontró el domicilio con ID: " + id);
+                throw new DAOException("No se encontró el domicilio con ID: " + 
+                        id);
             }
 
         } catch (SQLException ex) {

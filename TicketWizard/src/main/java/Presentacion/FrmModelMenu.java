@@ -406,11 +406,13 @@ public class FrmModelMenu extends javax.swing.JFrame {
     private void lblMoneyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMoneyMouseClicked
         FrmRechargeWP cargar = new FrmRechargeWP();
         cargar.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_lblMoneyMouseClicked
 
     private void lblUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblUserMouseClicked
         FrmUpdatePerson actualizar = new FrmUpdatePerson();
         actualizar.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_lblUserMouseClicked
 
     public static void main(String args[]) {

@@ -41,9 +41,10 @@ public class EventoDAO implements IEventoDAO{
      * @throws DAOException 
      */
     @Override
-    public List<Evento> obtenerEventos(int limit, int offset) throws DAOException {
+    public List<Evento> obtenerEventos(int limit, int offset) 
+            throws DAOException {
         List<Evento> eventos = new ArrayList<>();
-        String sql = "SELECT * FROM Evento LIMIT ? OFFSET ?"; // Consulta paginada
+        String sql = "SELECT * FROM Evento LIMIT ? OFFSET ?"; //Consulta paginada
 
         try (Connection conn = conexion.crearConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -60,7 +61,8 @@ public class EventoDAO implements IEventoDAO{
                 evento.setFecha(rs.getDate("fecha"));
                 evento.setDescripcion(rs.getString("descripcion"));
                 evento.setImageURL(rs.getString("image_url"));
-                evento.setVenue(venueDAO.obtenerVenuePorId(rs.getInt("id_venue")));
+                evento.setVenue(venueDAO.obtenerVenuePorId(rs.
+                        getInt("id_venue")));
                 eventos.add(evento);
             }
 
@@ -73,8 +75,10 @@ public class EventoDAO implements IEventoDAO{
             }
 
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "No se pudo obtener la lista de eventos paginada", ex);
-            throw new DAOException("Problemas al obtener la lista paginada", ex);
+            logger.log(Level.SEVERE, "No se pudo obtener la lista de eventos"
+                    + " paginada", ex);
+            throw new DAOException("Problemas al obtener la lista paginada",
+                    ex);
         }
         
         return eventos;
@@ -89,7 +93,8 @@ public class EventoDAO implements IEventoDAO{
      * @throws Excepciones.DAOException 
      */
     @Override
-    public List<Evento> buscarEventos(String texto, int limit, int offset) throws DAOException{
+    public List<Evento> buscarEventos(String texto, int limit, int offset) 
+            throws DAOException{
         List<Evento> eventos = new ArrayList<>();
 
         String sql = "SELECT * FROM evento WHERE nombre LIKE ? LIMIT ? OFFSET ?";
@@ -107,12 +112,14 @@ public class EventoDAO implements IEventoDAO{
                     evento.setFecha(rs.getDate("fecha"));
                     evento.setDescripcion(rs.getString("descripcion"));
                     evento.setImageURL(rs.getString("image_url"));
-                    evento.setVenue(venueDAO.obtenerVenuePorId(rs.getInt("id_venue")));
+                    evento.setVenue(venueDAO.obtenerVenuePorId(rs.
+                            getInt("id_venue")));
                     eventos.add(evento);
                 }
             }
         } catch (SQLException e) {
-            logger.severe("no se pudo obtener la lista de eventos paginada de busqueda por texto");
+            logger.severe("no se pudo obtener la lista de eventos paginada "
+                    + "de busqueda por texto");
             throw new DAOException("problemas al obtener la lista paginada");
         }
 
@@ -133,7 +140,8 @@ public class EventoDAO implements IEventoDAO{
     public List<Evento> buscarEventosEntreFechas(Date fechaInicio, Date fechaFin, 
             int limit, int offset) throws DAOException {
         List<Evento> eventos = new ArrayList<>();
-        String sql = "SELECT * FROM Evento WHERE fecha BETWEEN ? AND ? LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM Evento WHERE fecha BETWEEN ? AND ? LIMIT ? "
+                + "OFFSET ?";
 
         try (Connection conn = conexion.crearConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -152,12 +160,15 @@ public class EventoDAO implements IEventoDAO{
                 evento.setFecha(rs.getDate("fecha"));
                 evento.setDescripcion(rs.getString("descripcion"));
                 evento.setImageURL(rs.getString("image_url"));
-                evento.setVenue(venueDAO.obtenerVenuePorId(rs.getInt("id_venue")));
+                evento.setVenue(venueDAO.
+                        obtenerVenuePorId(rs.getInt("id_venue")));
                 eventos.add(evento);
             }
         } catch (SQLException ex) {
-            logger.severe("no se pudo obtener la lista de eventos paginada de busqueda por fecha");
-            throw new DAOException("problemas al obtener la lista paginada de busqueda por fecha");
+            logger.severe("no se pudo obtener la lista de eventos paginada "
+                    + "de busqueda por fecha");
+            throw new DAOException("problemas al obtener la lista paginada "
+                    + "de busqueda por fecha");
         }
 
         return eventos;
@@ -178,7 +189,8 @@ public class EventoDAO implements IEventoDAO{
     public List<Evento> buscarEventos(String texto, Date fechaInicio, 
         Date fechaFin, int limit, int offset) throws DAOException {
         List<Evento> eventos = new ArrayList<>();
-        String sql = "SELECT * FROM Evento WHERE nombre LIKE ? AND fecha BETWEEN ? AND ? LIMIT ? OFFSET ?";
+        String sql = "SELECT * FROM Evento WHERE nombre LIKE ? AND fecha "
+                + "BETWEEN ? AND ? LIMIT ? OFFSET ?";
 
         try (Connection conn = conexion.crearConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -198,12 +210,15 @@ public class EventoDAO implements IEventoDAO{
                 evento.setFecha(rs.getDate("fecha"));
                 evento.setDescripcion(rs.getString("descripcion"));
                 evento.setImageURL(rs.getString("image_url"));
-                evento.setVenue(venueDAO.obtenerVenuePorId(rs.getInt("id_venue")));
+                evento.setVenue(venueDAO.
+                        obtenerVenuePorId(rs.getInt("id_venue")));
                 eventos.add(evento);
             }
         } catch (SQLException ex) {
-            logger.severe("no se pudo obtener la lista de eventos paginada de busqueda por texto y fechas");
-            throw new DAOException("problemas al obtener la lista paginada de busqueda por texto y fechas");
+            logger.severe("no se pudo obtener la lista de eventos paginada de "
+                    + "busqueda por texto y fechas");
+            throw new DAOException("problemas al obtener la lista paginada de "
+                    + "busqueda por texto y fechas");
         }
 
         return eventos;
@@ -233,7 +248,8 @@ public class EventoDAO implements IEventoDAO{
                 evento.setFecha(rs.getDate("fecha"));
                 evento.setDescripcion(rs.getString("descripcion"));
                 evento.setImageURL(rs.getString("image_url"));
-                evento.setVenue(venueDAO.obtenerVenuePorId(rs.getInt("id_venue")));
+                evento.setVenue(venueDAO.
+                        obtenerVenuePorId(rs.getInt("id_venue")));
             }
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error al obtener el evento por ID: {0}", 
