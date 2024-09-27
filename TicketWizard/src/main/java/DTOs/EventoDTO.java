@@ -7,8 +7,6 @@ package DTOs;
 import java.sql.Date;
 
 
-
-
 /**
  *
  * @author skevi

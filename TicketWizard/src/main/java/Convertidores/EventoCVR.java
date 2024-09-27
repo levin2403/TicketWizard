@@ -62,4 +62,21 @@ public class EventoCVR {
         }
     }
     
+    public Evento toEntitySave(EventoDTO evento) throws BOException{
+        try{
+            if (evento == null) {
+                return null;
+            }  
+        return new Evento(
+           evento.getNombre(),
+           evento.getFecha(),
+           evento.getDescripcion(),
+           evento.getImageURL(),
+           venueCVR.toEntity(evento.getVenue())
+        );
+        }catch(BOException ex){
+            throw new BOException(ex.getMessage());
+        }
+    }
+    
 }

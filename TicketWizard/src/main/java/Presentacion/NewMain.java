@@ -4,9 +4,11 @@
  */
 package Presentacion;
 
+import DTOs.EventoDTO;
+import DTOs.VenueDTO;
 import Excepciones.BOException;
-import Negocio.PersonaBO;
-import java.math.BigDecimal;
+import Negocio.EventoBO;
+import java.sql.Date;
 import java.text.ParseException;
 
 /**
@@ -20,12 +22,14 @@ public class NewMain {
      */
     public static void main(String[] args) throws ParseException {
         
-        PersonaBO personaBO = new PersonaBO();
+        EventoBO eventoBO = new EventoBO();
+        VenueDTO venue = new VenueDTO("1", "nombre", "ciudad", "estado");
+        EventoDTO evento = new EventoDTO("nombre", new Date(2025, 03, 03), "descripcion", "imageURL", venue);
 
         try {
             
-            BigDecimal saldo = personaBO.consultarSaldo(1);
-            System.out.println(saldo);
+            eventoBO.registrarEvento(evento);   
+            System.out.println("evento registrado con exito");
             
         } catch (BOException ex) {
             System.out.println("Error: " + ex.getMessage());

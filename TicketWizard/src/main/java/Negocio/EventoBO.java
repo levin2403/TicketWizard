@@ -94,7 +94,7 @@ public class EventoBO implements IEventoBO{
     @Override
     public void registrarEvento(EventoDTO evento) throws BOException {
         try{
-            eventoDAO.registrarEvento(eventoCVR.toEntity(evento));
+            eventoDAO.registrarEvento(eventoCVR.toEntitySave(evento));
         } catch(DAOException ex){
             throw new BOException(ex.getMessage());     
         } 

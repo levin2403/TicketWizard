@@ -260,9 +260,11 @@ public class EventoDAO implements IEventoDAO{
         }
 
     @Override
-    public void registrarEvento(Evento evento) throws DAOException{
+    public void registrarEvento(Evento evento) throws DAOException {
         Connection conn = null;
         PreparedStatement pstmtEvento = null;
+
+        System.out.println(evento.toString());
 
         try {
             // Obtener conexión utilizando la clase Conexion
@@ -271,20 +273,23 @@ public class EventoDAO implements IEventoDAO{
 
             // Verificar si la conexión es válida
             if (conn == null) {
-                logger.log(Level.SEVERE, "No se pudo establecer la conexión a la base de datos.");
+                logger.log(Level.SEVERE, "No se pudo establecer la conexión "
+                        + "a la base de datos.");
+                return;  // Termina el método si no hay conexión
             }
 
             // Deshabilitar el auto-commit para comenzar la transacción
             conn.setAutoCommit(false);
 
             // Insertar el Evento
-            String sqlInsertEvento = "INSERT INTO Evento(nombre, descripcion,"
-                    + " fecha_hora, id_venue) VALUES(?, ?, ?, ?)";
+            String sqlInsertEvento = "INSERT INTO Evento(nombre, fecha, "
+                    + "descripcion, image_url, id_venue) VALUES(?, ?, ?, ?, ?)";
             pstmtEvento = conn.prepareStatement(sqlInsertEvento);
             pstmtEvento.setString(1, evento.getNombre());
-            pstmtEvento.setString(2, evento.getDescripcion());
-            pstmtEvento.setString(3, evento.getImageURL()); 
-            pstmtEvento.setInt(4, evento.getVenue().getId()); 
+            pstmtEvento.setDate(2, evento.getFecha());
+            pstmtEvento.setString(3, evento.getDescripcion());
+            pstmtEvento.setString(4, evento.getImageURL()); 
+            pstmtEvento.setInt(5, evento.getVenue().getId()); 
             pstmtEvento.executeUpdate();
 
             // Confirmar la transacción si todo salió bien
@@ -307,14 +312,17 @@ public class EventoDAO implements IEventoDAO{
             // Cerrar los recursos en el orden correcto
             try {
                 if (pstmtEvento != null) pstmtEvento.close();
-                if (conn != null) conn.setAutoCommit(true); // Restaurar el auto-commit
-                if (conn != null) conn.close();
+                if (conn != null) {
+                    conn.setAutoCommit(true); // Restaurar el auto-commit
+                    conn.close();
+                }
             } catch (SQLException e) {
                 logger.log(Level.SEVERE, "Error al cerrar los recursos: {0}", 
                         e.getMessage());
             }
         }
     }
+
 
     
 }

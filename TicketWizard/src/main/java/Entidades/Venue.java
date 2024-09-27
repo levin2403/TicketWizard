@@ -62,5 +62,12 @@ public class Venue {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
+    @Override
+    public String toString() {
+        return "Venue{" + "id=" + id + ", nombre=" + nombre + ", ciudad=" + 
+                ciudad + ", estado=" + estado + '}';
+    }
+    
     
 }
