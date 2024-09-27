@@ -1,12 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+/**
+ * HistorialVentaCVR.java.
  */
 package Convertidores;
 
 /**
- *
- * @author skevi
+ * 
+ * @author/(s) Kevin Jared Sánchez Figueroa - 240798.
+ *             Daniel Alejandro Castro Félix - 235294.
  */
 public class HistorialVentaCVR {
     

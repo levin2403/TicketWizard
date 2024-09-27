@@ -1,5 +1,7 @@
 /**
+ * DomicilioDAO.java.
  *
+ * Clase que implementa los métodos de acceso a datos de la entidad Domicilio.
  */
 package DAO;
 
@@ -22,14 +24,19 @@ public class DomicilioDAO implements IDomicilioDAO {
 
     private final IConexion conexionBD;
 
+    /**
+     * Constructor de DomicilioDAO. Inicializa la conexión a la base de datos
+     * mediante un objeto de tipo IConexion.
+     */
     public DomicilioDAO() {
         this.conexionBD = new Conexion();
     }
 
     /**
-     * 
-     * @param domicilio
-     * @throws DAOException 
+     * Método para agregar un domicilio a la base de datos.
+     *
+     * @param domicilio El objeto Domicilio que se desea agregar.
+     * @throws DAOException Si ocurre un error al agregar el domicilio.
      */
     @Override
     public void agregar(Domicilio domicilio) throws DAOException {
@@ -42,14 +49,14 @@ public class DomicilioDAO implements IDomicilioDAO {
             String sentenciaSQL = "INSERT INTO Direccion (ciudad, colonia, "
                     + "calle, num_exterior, num_interior, codigo_postal) "
                     + "VALUES (?, ?, ?, ?, ?, ?)";
-            preparedStatement = conexion.prepareStatement(sentenciaSQL, 
+            preparedStatement = conexion.prepareStatement(sentenciaSQL,
                     PreparedStatement.RETURN_GENERATED_KEYS);
 
             preparedStatement.setString(1, domicilio.getCiudad());
             preparedStatement.setString(2, domicilio.getColonia());
             preparedStatement.setString(3, domicilio.getCalle());
             preparedStatement.setInt(4, domicilio.getNum_exterior());
-            preparedStatement.setObject(5, domicilio.getNum_interior(), 
+            preparedStatement.setObject(5, domicilio.getNum_interior(),
                     java.sql.Types.INTEGER);
             preparedStatement.setInt(6, domicilio.getCodigo_postal());
 
@@ -61,8 +68,8 @@ public class DomicilioDAO implements IDomicilioDAO {
             }
 
         } catch (SQLException ex) {
-            throw new DAOException("Error al agregar el domicilio: " + 
-                    ex.getMessage());
+            throw new DAOException("Error al agregar el domicilio: "
+                    + ex.getMessage());
         } finally {
             try {
                 if (resultado != null) {
@@ -75,16 +82,17 @@ public class DomicilioDAO implements IDomicilioDAO {
                     conexion.close();
                 }
             } catch (SQLException e) {
-                throw new DAOException("Error al cerrar los recursos: " + 
-                        e.getMessage());
+                throw new DAOException("Error al cerrar los recursos: "
+                        + e.getMessage());
             }
         }
     }
 
     /**
-     * 
-     * @param domicilio
-     * @throws DAOException 
+     * Método para actualizar un domicilio existente en la base de datos.
+     *
+     * @param domicilio El objeto Domicilio que contiene los datos actualizados.
+     * @throws DAOException Si ocurre un error al actualizar el domicilio.
      */
     @Override
     public void actualizar(Domicilio domicilio) throws DAOException {
@@ -103,7 +111,7 @@ public class DomicilioDAO implements IDomicilioDAO {
             preparedStatement.setString(2, domicilio.getColonia());
             preparedStatement.setString(3, domicilio.getCalle());
             preparedStatement.setInt(4, domicilio.getNum_exterior());
-            preparedStatement.setObject(5, domicilio.getNum_interior(), 
+            preparedStatement.setObject(5, domicilio.getNum_interior(),
                     java.sql.Types.INTEGER); // Puede ser null
             preparedStatement.setInt(6, domicilio.getCodigo_postal());
             preparedStatement.setInt(7, domicilio.getId());
@@ -111,8 +119,8 @@ public class DomicilioDAO implements IDomicilioDAO {
             preparedStatement.executeUpdate();
 
         } catch (SQLException ex) {
-            throw new DAOException("Error al actualizar el domicilio: " + 
-                    ex.getMessage());
+            throw new DAOException("Error al actualizar el domicilio: "
+                    + ex.getMessage());
         } finally {
             try {
                 if (resultado != null) {
@@ -125,20 +133,21 @@ public class DomicilioDAO implements IDomicilioDAO {
                     conexion.close();
                 }
             } catch (SQLException e) {
-                throw new DAOException("Error al cerrar los recursos: " + 
-                        e.getMessage());
+                throw new DAOException("Error al cerrar los recursos: "
+                        + e.getMessage());
             }
         }
     }
-    
 
     /**
-     * 
-     * @param id
-     * @return
-     * @throws DAOException 
+     * Método para consultar un domicilio por su ID.
+     *
+     * @param id El ID del domicilio que se desea consultar.
+     * @return El objeto Domicilio correspondiente al ID.
+     * @throws DAOException Si ocurre un error al consultar el domicilio o si no
+     * se encuentra.
      */
-   @Override
+    @Override
     public Domicilio consultar(int id) throws DAOException {
         Connection conexion = null;
         PreparedStatement preparedStatement = null;
@@ -159,28 +168,25 @@ public class DomicilioDAO implements IDomicilioDAO {
                 domicilioResult.setCiudad(resultado.getString("ciudad"));
                 domicilioResult.setColonia(resultado.getString("colonia"));
                 domicilioResult.setCalle(resultado.getString("calle"));
-                domicilioResult.setNum_exterior(resultado.
-                        getInt("num_exterior"));
+                domicilioResult.setNum_exterior(resultado.getInt("num_exterior"));
 
                 // Manejar el valor de num_interior como int, asignando 0 si es 
                 // NULL
                 Object numInteriorObj = resultado.getObject("num_interior");
-                int numInterior = (numInteriorObj != null) ? (Integer) 
-                        numInteriorObj : 0;
+                int numInterior = (numInteriorObj != null) ? (Integer) numInteriorObj : 0;
                 domicilioResult.setNum_interior(numInterior);
 
-                domicilioResult.setCodigo_postal(resultado.
-                        getInt("codigo_postal"));
+                domicilioResult.setCodigo_postal(resultado.getInt("codigo_postal"));
 
                 return domicilioResult;
             } else {
-                throw new DAOException("No se encontró el domicilio con ID: " + 
-                        id);
+                throw new DAOException("No se encontró el domicilio con ID: "
+                        + id);
             }
 
         } catch (SQLException ex) {
-            throw new DAOException("Error al consultar el domicilio: " + 
-                    ex.getMessage(), ex);
+            throw new DAOException("Error al consultar el domicilio: "
+                    + ex.getMessage(), ex);
         } finally {
             try {
                 if (resultado != null) {
@@ -193,10 +199,9 @@ public class DomicilioDAO implements IDomicilioDAO {
                     conexion.close();
                 }
             } catch (SQLException e) {
-                throw new DAOException("Error al cerrar los recursos: " + 
-                        e.getMessage(), e);
+                throw new DAOException("Error al cerrar los recursos: "
+                        + e.getMessage());
             }
         }
-}
-
+    }
 }
