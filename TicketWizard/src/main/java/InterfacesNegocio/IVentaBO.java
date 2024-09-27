@@ -4,6 +4,8 @@
  */
 package InterfacesNegocio;
 
+import DTOs.BoletoDTO;
+import DTOs.PersonaDTO;
 import DTOs.VentaDTO;
 import Excepciones.BOException;
 import java.math.BigDecimal;
@@ -23,4 +25,15 @@ public interface IVentaBO {
                 BigDecimal precioMin, BigDecimal precioMax, int limit, 
                 int offset) throws BOException;
     
+    public VentaDTO obtenerVentaApartada(int id_comprador) throws BOException;
+   
+   public void RegistrarVenta(VentaDTO venta) throws BOException;
+   
+   public void RealizarVentaApartada(PersonaDTO vendedor, PersonaDTO comprador, 
+          BoletoDTO boleto, BigDecimal precio, String numero_serie) 
+           throws BOException;
+   
+   public void RealizarVenta(PersonaDTO vendedor, PersonaDTO comprador, 
+           BoletoDTO boleto, BigDecimal precio, String numero_serie) 
+           throws BOException;
 }
