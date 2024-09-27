@@ -29,7 +29,8 @@ public class VentaCVR {
                 personaCVR.convertirADTO(venta.getPersona()),
                 boletoCVR.toDTO(venta.getBoleto()),
                 venta.getPrecio_reventa(),    
-                venta.getFecha_limite()
+                venta.getFecha_limite(),
+                venta.getEstado()
             );
         }
         catch(BOException ex){
@@ -44,7 +45,8 @@ public class VentaCVR {
                 personaCVR.convertirAEntidad(ventaDTO.getPersona()),
                 boletoCVR.toEntity(ventaDTO.getBoleto()),
                 ventaDTO.getPrecio_reventa(),    
-                ventaDTO.getFecha_limite()
+                ventaDTO.getFecha_limite(),
+                ventaDTO.getEstado()
             );
         }
         catch(BOException ex){
@@ -58,7 +60,8 @@ public class VentaCVR {
                 personaCVR.convertirAEntidad(ventaDTO.getPersona()),
                 boletoCVR.toEntity(ventaDTO.getBoleto()),
                 ventaDTO.getPrecio_reventa(),    
-                ventaDTO.getFecha_limite()
+                ventaDTO.getFecha_limite(),
+                ventaDTO.getEstado()
             );
         }
         catch(BOException ex){

@@ -18,25 +18,28 @@ public class Venta {
     private Boleto boleto; //boleto que esta en venta
     private BigDecimal precio_reventa;
     private Date fecha_limite;
+    private String estado;
 
     public Venta() {
     }
 
-    public Venta(Persona cliente, Boleto boleto, BigDecimal precio_reventa, 
-            Date fecha_limite) {
-        this.persona = cliente;
+    public Venta(Persona persona, Boleto boleto, BigDecimal precio_reventa, 
+            Date fecha_limite, String estado) {
+        this.persona = persona;
         this.boleto = boleto;
         this.precio_reventa = precio_reventa;
         this.fecha_limite = fecha_limite;
+        this.estado = estado;
     }
 
     public Venta(int id, Persona persona, Boleto boleto, 
-            BigDecimal precio_reventa, Date fecha_limite) {
+            BigDecimal precio_reventa, Date fecha_limite, String estado) {
         this.id = id;
         this.persona = persona;
         this.boleto = boleto;
         this.precio_reventa = precio_reventa;
         this.fecha_limite = fecha_limite;
+        this.estado = estado;
     }
 
     public int getId() {
@@ -51,8 +54,8 @@ public class Venta {
         return persona;
     }
 
-    public void setPersona(Persona cliente) {
-        this.persona = cliente;
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
     public Boleto getBoleto() {
@@ -77,6 +80,21 @@ public class Venta {
 
     public void setFecha_limite(Date fecha_limite) {
         this.fecha_limite = fecha_limite;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    @Override
+    public String toString() {
+        return "Venta{" + "id=" + id + ", persona=" + persona + ", boleto=" + 
+                boleto + ", precio_reventa=" + precio_reventa + 
+                ", fecha_limite=" + fecha_limite + ", estado=" + estado + '}';
     }
     
 }

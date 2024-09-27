@@ -4,12 +4,11 @@
  */
 package Presentacion;
 
-import DTOs.EventoDTO;
-import DTOs.VenueDTO;
+import DTOs.VentaDTO;
 import Excepciones.BOException;
-import Negocio.EventoBO;
-import java.sql.Date;
+import Negocio.VentaBO;
 import java.text.ParseException;
+import java.util.List;
 
 /**
  *
@@ -22,14 +21,21 @@ public class NewMain {
      */
     public static void main(String[] args) throws ParseException {
         
-        EventoBO eventoBO = new EventoBO();
-        VenueDTO venue = new VenueDTO("1", "nombre", "ciudad", "estado");
-        EventoDTO evento = new EventoDTO("nombre", new Date(2025, 03, 03), "descripcion", "imageURL", venue);
+        VentaBO venta = new VentaBO();
 
         try {
+            List<VentaDTO> lista = venta.obtenerVentasPaginadas(1, 4, 0, 1);
             
-            eventoBO.registrarEvento(evento);   
-            System.out.println("evento registrado con exito");
+            if (lista != null) {
+            
+            for (int i = 0; i < lista.size(); i++) {
+                System.out.println(lista.get(i).toString());
+            }
+            
+            }else{
+                System.out.println("La lista esta vacia, no jalo");
+            }
+            
             
         } catch (BOException ex) {
             System.out.println("Error: " + ex.getMessage());
