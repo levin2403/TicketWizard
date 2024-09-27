@@ -37,10 +37,24 @@ public class VentaCVR {
         }
     }
     
-    public Venta toDTO(VentaDTO ventaDTO) throws BOException{
+    public Venta toEntity(VentaDTO ventaDTO) throws BOException{
         try{
             return new Venta(
                 Integer.parseInt(ventaDTO.getId()),
+                personaCVR.convertirAEntidad(ventaDTO.getPersona()),
+                boletoCVR.toEntity(ventaDTO.getBoleto()),
+                ventaDTO.getPrecio_reventa(),    
+                ventaDTO.getFecha_limite()
+            );
+        }
+        catch(BOException ex){
+            throw new BOException(ex.getMessage());
+        }
+    }
+    
+    public Venta toEntityRegister(VentaDTO ventaDTO) throws BOException{
+        try{
+            return new Venta(
                 personaCVR.convertirAEntidad(ventaDTO.getPersona()),
                 boletoCVR.toEntity(ventaDTO.getBoleto()),
                 ventaDTO.getPrecio_reventa(),    

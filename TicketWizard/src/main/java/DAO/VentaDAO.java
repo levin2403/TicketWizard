@@ -209,15 +209,18 @@ public class VentaDAO implements IVentaDAO{
 
             // Verificar si la conexión es válida
             if (conn == null) {
-                logger.log(Level.SEVERE, "No se pudo establecer la conexión a la base de datos.");
-                throw new DAOException("Error al establecer la conexión a la base de datos.");
+                logger.log(Level.SEVERE, "No se pudo establecer la conexión a "
+                        + "la base de datos.");
+                throw new DAOException("Error al establecer la conexión a la "
+                        + "base de datos.");
             }
 
             // Deshabilitar auto-commit para gestionar la transacción manualmente
             conn.setAutoCommit(false);
 
             // Insertar la nueva venta
-            String sqlInsertVenta = "INSERT INTO Venta (id_persona, id_boleto, precio_reventa, fecha_limite_venta) "
+            String sqlInsertVenta = "INSERT INTO Venta (id_persona, id_boleto, "
+                    + "precio_reventa, fecha_limite_venta) "
                                   + "VALUES (?, ?, ?, ?)";
             pstmtVenta = conn.prepareStatement(sqlInsertVenta);
 
@@ -225,7 +228,8 @@ public class VentaDAO implements IVentaDAO{
             pstmtVenta.setInt(1, venta.getPersona().getId());          // id_persona
             pstmtVenta.setInt(2, venta.getBoleto().getId());           // id_boleto
             pstmtVenta.setBigDecimal(3, venta.getPrecio_reventa());    // precio_reventa
-            pstmtVenta.setDate(4, new java.sql.Date(venta.getFecha_limite().getTime()));  // fecha_limite_venta
+            pstmtVenta.setDate(4, 
+                    new java.sql.Date(venta.getFecha_limite().getTime()));  // fecha_limite_venta
 
             // Ejecutar la inserción
             pstmtVenta.executeUpdate();
@@ -235,14 +239,17 @@ public class VentaDAO implements IVentaDAO{
             logger.info("Venta registrada con éxito.");
 
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error al registrar la venta: {0}", e.getMessage());
+            logger.log(Level.SEVERE, "Error al registrar la venta: {0}", 
+                    e.getMessage());
             if (conn != null) {
                 try {
                     // Si ocurre un error, se realiza el rollback
                     conn.rollback();
-                    logger.log(Level.INFO, "Se ha realizado un rollback de la transacción.");
+                    logger.log(Level.INFO, "Se ha realizado un rollback de la "
+                            + "transacción.");
                 } catch (SQLException ex) {
-                    logger.log(Level.SEVERE, "Error al realizar el rollback: {0}", ex.getMessage());
+                    logger.log(Level.SEVERE, "Error al realizar el rollback: "
+                            + "{0}", ex.getMessage());
                 }
             }
             throw new DAOException("Error al registrar la venta.");
@@ -253,7 +260,8 @@ public class VentaDAO implements IVentaDAO{
                 if (conn != null) conn.setAutoCommit(true); // Restaurar el auto-commit
                 if (conn != null) conn.close();
             } catch (SQLException e) {
-                logger.log(Level.SEVERE, "Error al cerrar los recursos: {0}", e.getMessage());
+                logger.log(Level.SEVERE, "Error al cerrar los recursos: "
+                        + "{0}", e.getMessage());
             }
         }
     }
@@ -342,8 +350,10 @@ public class VentaDAO implements IVentaDAO{
 
             // Verificar si la conexión es válida
             if (conn == null) {
-                logger.log(Level.SEVERE, "No se pudo establecer la conexión a la base de datos.");
-                throw new DAOException("No se pudo establecer la conexión a la base de datos.");
+                logger.log(Level.SEVERE, "No se pudo establecer la conexión a "
+                        + "la base de datos.");
+                throw new DAOException("No se pudo establecer la conexión a la "
+                        + "base de datos.");
             }
 
             // Preparar el llamado al stored procedure
@@ -378,7 +388,8 @@ public class VentaDAO implements IVentaDAO{
 
 
     @Override
-    public void ApartarVenta(Persona comprador, Venta venta) throws DAOException {
+    public void ApartarVenta(Persona comprador, Venta venta) 
+            throws DAOException {
         Connection conn = null;
         CallableStatement cstmt = null;
 
