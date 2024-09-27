@@ -28,16 +28,11 @@ public class NewMain {
         
         VentaBO venta = new VentaBO();
 
+        
 
         try {
-            
-            BigDecimal minimo = new BigDecimal(300.00);
-            BigDecimal maximo = new BigDecimal(600.00);
-            
-            List<VentaDTO> lista;
-            lista = venta.obtenerVentasPaginadasPorPrecio(1, 2, minimo, maximo, 4, 0);
-            
-            
+                       
+            venta.ApartarVenta(compradorDTO, ventaDTO);
             
         } catch (BOException ex) {
             System.out.println("Error: " + ex.getMessage());
