@@ -23,6 +23,11 @@ public class VentaCVR {
     }
     
     public VentaDTO toDTO(Venta venta) throws BOException{
+        
+        if (venta == null) {
+            return null;
+        }
+        
         try{
             return new VentaDTO(
                 String.valueOf(venta.getId()),
@@ -39,6 +44,11 @@ public class VentaCVR {
     }
     
     public Venta toEntity(VentaDTO ventaDTO) throws BOException{
+        
+        if (ventaDTO == null) {
+            return null;
+        }
+        
         try{
             return new Venta(
                 Integer.parseInt(ventaDTO.getId()),
@@ -55,6 +65,11 @@ public class VentaCVR {
     }
     
     public Venta toEntityRegister(VentaDTO ventaDTO) throws BOException{
+        
+        if (ventaDTO == null) {
+            return null;
+        }
+        
         try{
             return new Venta(
                 personaCVR.convertirAEntidad(ventaDTO.getPersona()),

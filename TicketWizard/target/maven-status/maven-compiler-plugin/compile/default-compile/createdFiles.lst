@@ -101,7 +101,6 @@ Presentacion\FrmModelMenu$3.class
 Presentacion\Panels\PnlShoppingHistory.class
 Entidades\Venta.class
 InterfacesNegocio\IVentaBO.class
-mainpruebas\Pruebas.class
 Presentacion\FrmLogin$4.class
 Presentacion\FrmRechargeWP$3.class
 Presentacion\Panels\PnlBuyDetails$1.class

@@ -155,32 +155,34 @@ public class VentaDAO implements IVentaDAO{
     public Venta obtenerVentaApartada(int id_comprador) throws DAOException {
         Venta venta = null;
         String sql = "SELECT va.id, va.id_venta, v.id_persona, v.id_boleto, "
-                + "v.precio_reventa, v.fecha_limite_venta "
+                + "v.precio_venta, v.fecha_limite_venta, v.estado "
                    + "FROM VentaApartada va "
                    + "INNER JOIN Venta v ON va.id_venta = v.id "
-                   + "WHERE v.id_persona = ?";
+                   + "WHERE va.id_comprador = ?";
 
         try (Connection conn = conexion.crearConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, id_comprador);
 
-            ResultSet rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();    
 
             if (rs.next()) {
                 venta = new Venta();
                 venta.setId(rs.getInt("id_venta")); // ID de la venta original
-                venta.setPersona(personaDAO.
-                        obtenerPersonaPorId(rs.getInt("id_persona")));
-                venta.setBoleto(boletoDAO.
-                        obtenerBoletoPorId(rs.getInt("id_boleto")));
-                venta.setPrecio_reventa(rs.getBigDecimal("precio_reventa"));
+                venta.setPersona(personaDAO.obtenerPersonaPorId(rs.getInt("id_persona")));
+                venta.setBoleto(boletoDAO.obtenerBoletoPorId(rs.getInt("id_boleto")));
+                venta.setPrecio_reventa(rs.getBigDecimal("precio_venta"));
                 venta.setFecha_limite(rs.getDate("fecha_limite_venta"));
+                venta.setEstado(rs.getString("estado"));
             }
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error al obtener la venta apartada para "
                     + "el comprador con ID: " + id_comprador, ex);
             throw new DAOException("Error al obtener la venta apartada");
+        }
+        catch(NullPointerException ex){
+            return null;
         }
 
         if (venta != null) {
@@ -222,8 +224,8 @@ public class VentaDAO implements IVentaDAO{
 
             // Insertar la nueva venta
             String sqlInsertVenta = "INSERT INTO Venta (id_persona, id_boleto, "
-                    + "precio_reventa, fecha_limite_venta) "
-                                  + "VALUES (?, ?, ?, ?)";
+                    + "precio_venta, fecha_limite_venta, estado) "
+                                  + "VALUES (?, ?, ?, ?, ?)";
             pstmtVenta = conn.prepareStatement(sqlInsertVenta);
 
             // Configurar los parámetros de la venta
@@ -232,6 +234,7 @@ public class VentaDAO implements IVentaDAO{
             pstmtVenta.setBigDecimal(3, venta.getPrecio_reventa());    // precio_reventa
             pstmtVenta.setDate(4, 
                     new java.sql.Date(venta.getFecha_limite().getTime()));  // fecha_limite_venta
+            pstmtVenta.setString(5, venta.getEstado());
 
             // Ejecutar la inserción
             pstmtVenta.executeUpdate();
