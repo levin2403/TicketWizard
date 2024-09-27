@@ -91,4 +91,17 @@ public class EventoBO implements IEventoBO{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
+    @Override
+    public void agregar(EventoDTO eventoDTO) throws BOException {
+    try {
+        // Convertir el DTO a entidad
+        Evento evento = eventoCVR.toEntity(eventoDTO);
+
+        // Agregar la entidad Evento usando el DAO
+        eventoDAO.agregar(evento);
+    } catch (DAOException ex) {
+        throw new BOException("Error al agregar el evento: " + ex.getMessage());
+    }
+}
+    
 }

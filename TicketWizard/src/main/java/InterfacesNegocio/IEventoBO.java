@@ -28,4 +28,6 @@ public interface IEventoBO {
         Date fechaFin, int pagina, int tamanoPagina) throws BOException;
      
      public EventoDTO obtenerEventoPorId(int id) throws BOException;
+     
+     public void agregar(EventoDTO eventoDTO) throws BOException;
 }

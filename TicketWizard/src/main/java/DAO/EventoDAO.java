@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -259,4 +260,39 @@ public class EventoDAO implements IEventoDAO{
         return evento;
         }
     
+    
+    public void agregar(Evento evento) throws DAOException {
+    String sql = "INSERT INTO Evento (nombre, fecha, descripcion, image_url, id_venue) VALUES (?, ?, ?, ?, ?)";
+    
+    try (Connection conn = conexion.crearConexion();
+         PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+        // Asignar los parámetros de la consulta
+        pstmt.setString(1, evento.getNombre());
+        pstmt.setDate(2, new java.sql.Date(evento.getFecha().getTime())); // Asegúrate de que el campo fecha sea un java.util.Date o convierte si es necesario
+        pstmt.setString(3, evento.getDescripcion());
+        pstmt.setString(4, evento.getImageURL());
+        pstmt.setInt(5, evento.getVenue().getId()); // Asegúrate de que venue no sea nulo
+
+        // Ejecutar la inserción
+        int affectedRows = pstmt.executeUpdate();
+
+        if (affectedRows == 0) {
+            throw new DAOException("No se pudo insertar el evento, no se afectaron filas.");
+        }
+
+        // Obtener la clave generada automáticamente (ID)
+        try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                evento.setId(generatedKeys.getInt(1));
+            } else {
+                throw new DAOException("No se pudo obtener el ID generado para el evento.");
+            }
+        }
+
+    } catch (SQLException ex) {
+        logger.log(Level.SEVERE, "Error al agregar el evento: {0}", ex.getMessage());
+        throw new DAOException("Error al agregar el evento: " + ex.getMessage());
+    }
+}
 }

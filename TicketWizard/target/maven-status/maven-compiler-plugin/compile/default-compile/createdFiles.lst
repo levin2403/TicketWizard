@@ -10,6 +10,7 @@ Presentacion\FrmUpdatePerson$2.class
 Presentacion\FrmRechargeWP$4.class
 Presentacion\Panels\PnlSelling.class
 Excepciones\DAOException.class
+Presentacion\FrmInsertarEvento$2.class
 Convertidores\HistorialVentaCVR.class
 InterfacesNegocio\IBoletoBO.class
 DTOs\DomicilioDTO.class
@@ -29,6 +30,7 @@ DTOs\HistorialCompraDTO.class
 Presentacion\Panels\PnlBuy$3.class
 InterfacesDAO\IDomicilioDAO.class
 InterfacesDAO\IVentaDAO.class
+Presentacion\FrmInsertarEvento$3.class
 Presentacion\FrmModelMenu.class
 Negocio\BoletoBO.class
 Conexion\IConexion.class
@@ -42,6 +44,7 @@ Presentacion\FrmSignIn$1.class
 Presentacion\FrmRechargeWP.class
 Presentacion\Component\BoletoGenerator.class
 Presentacion\FrmSignIn.class
+Presentacion\FrmInsertarEvento.class
 Presentacion\Panels\PnlRecords$1.class
 Negocio\HistorialCompraBO.class
 DAO\VenueDAO.class
@@ -70,10 +73,12 @@ InterfacesNegocio\IDomicilioBO.class
 Presentacion\FrmLogin$1.class
 Presentacion\Panels\PnlBuy$5.class
 Presentacion\Panels\PnlBuy.class
+Presentacion\FrmInsertarEvento$4.class
 Negocio\VentaBO.class
 Presentacion\Panels\PnlSalesHistory.class
 DAO\DomicilioDAO.class
 Entidades\Tipo_boleto.class
+Presentacion\FrmInsertarEvento$1.class
 Presentacion\NewMain.class
 DTOs\BoletoDTO.class
 InterfacesNegocio\IPersonaBO.class
