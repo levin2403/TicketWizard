@@ -40,41 +40,48 @@ public class VentaDAO implements IVentaDAO{
      * @param idPersona
      * @param limit
      * @param offset
+     * @param id_evento
      * @return 
+     * @throws Excepciones.DAOException 
      */
+    @Override
     public List<Venta> obtenerVentasPaginadas(int idPersona, int limit, 
-            int offset) throws DAOException {
-            List<Venta> ventas = new ArrayList<>();
-            String sql = "SELECT * FROM Venta WHERE id_persona != ? "
-                    + "LIMIT ? OFFSET ?";
+            int offset, int id_evento) throws DAOException {
+        List<Venta> ventas = new ArrayList<>();
+        String sql = "SELECT v.* FROM Venta v "
+                   + "INNER JOIN Boleto b ON v.id_boleto = b.id "
+                   + "WHERE v.id_persona != ? AND b.id_evento = ? "
+                   + "LIMIT ? OFFSET ?";
 
-            try (Connection conn = conexion.crearConexion();
-                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = conexion.crearConexion();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-                pstmt.setInt(1, idPersona); // Excluir el ID de la persona en sesión
-                pstmt.setInt(2, limit); // Límite de resultados por página
-                pstmt.setInt(3, offset); // Offset (para paginación)
+            pstmt.setInt(1, idPersona); // Excluir el ID de la persona en sesión
+            pstmt.setInt(2, id_evento); // Filtrar por ID del evento
+            pstmt.setInt(3, limit);     // Límite de resultados por página
+            pstmt.setInt(4, offset);    // Offset (para paginación)
 
-                ResultSet rs = pstmt.executeQuery();
+            ResultSet rs = pstmt.executeQuery();
 
-                while (rs.next()) {
-                    Venta venta = new Venta();
-                    venta.setId(rs.getInt("id"));
-                    venta.setPersona(personaDAO.
-                            obtenerPersonaPorId(rs.getInt("id_persona")));
-                    venta.setBoleto(boletoDAO.
-                            obtenerBoletoPorId(rs.getInt("id_boleto")));
-                    venta.setPrecio_reventa(rs.getBigDecimal("precio_reventa"));
-                    venta.setFecha_limite(rs.getDate("fecha_limite_venta"));
-                    ventas.add(venta);
-                }
-            } catch (SQLException ex) {
-                logger.log(Level.SEVERE, "no se pudo obtener las ventas "
-                        + "paginadas", ex);
+            while (rs.next()) {
+                Venta venta = new Venta();
+                venta.setId(rs.getInt("id"));
+                venta.setPersona(personaDAO.
+                        obtenerPersonaPorId(rs.getInt("id_persona")));
+                venta.setBoleto(boletoDAO.
+                        obtenerBoletoPorId(rs.getInt("id_boleto")));
+                venta.setPrecio_reventa(rs.getBigDecimal("precio_reventa"));
+                venta.setFecha_limite(rs.getDate("fecha_limite_venta"));
+                ventas.add(venta);
             }
-            logger.info("Boletos para venta obtenidos con exito");
-            return ventas;
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "No se pudo obtener las ventas paginadas", 
+                    ex);
+            throw new DAOException("Error al obtener las ventas paginadas", ex);
         }
+        logger.info("Boletos para venta obtenidos con éxito");
+        return ventas;
+    }
     
     
     /**
@@ -84,48 +91,51 @@ public class VentaDAO implements IVentaDAO{
      * @param precioMax
      * @param limit
      * @param offset
+     * @param id_evento
      * @return 
      * @throws Excepciones.DAOException 
      */
     @Override
     public List<Venta> obtenerVentasPaginadasPorPrecio(int idPersona, 
-                BigDecimal precioMin, BigDecimal precioMax, int limit, 
-                int offset) throws DAOException{
+            BigDecimal precioMin, BigDecimal precioMax, int limit, 
+            int offset, int id_evento) throws DAOException {
         List<Venta> ventas = new ArrayList<>();
-        String sql = "SELECT * FROM Venta WHERE id_cliente != ? "
-                + "AND precio_reventa BETWEEN ? AND ? LIMIT ? OFFSET ?";
+        String sql = "SELECT v.* FROM Venta v "
+                   + "INNER JOIN Boleto b ON v.id_boleto = b.id "
+                   + "WHERE v.id_persona != ? AND b.id_evento = ? "
+                   + "AND v.precio_reventa BETWEEN ? AND ? "
+                   + "LIMIT ? OFFSET ?";
 
         try (Connection conn = conexion.crearConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setInt(1, idPersona); // Excluir el ID de la persona en sesión
-            pstmt.setBigDecimal(2, precioMin); // Precio mínimo
-            pstmt.setBigDecimal(3, precioMax); // Precio máximo
-            pstmt.setInt(4, limit); // Límite de resultados por página
-            pstmt.setInt(5, offset); // Offset (para paginación)
+            pstmt.setInt(1, idPersona);       // Excluir el ID de la persona en sesión
+            pstmt.setInt(2, id_evento);       // Filtrar por ID del evento
+            pstmt.setBigDecimal(3, precioMin); // Precio mínimo
+            pstmt.setBigDecimal(4, precioMax); // Precio máximo
+            pstmt.setInt(5, limit);           // Límite de resultados por página
+            pstmt.setInt(6, offset);          // Offset (para paginación)
 
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 Venta venta = new Venta();
-                    venta.setId(rs.getInt("id"));
-                    venta.setPersona(personaDAO.
-                            obtenerPersonaPorId(rs.getInt("id_persona")));
-                    venta.setBoleto(boletoDAO.
-                            obtenerBoletoPorId(rs.getInt("id_boleto")));
-                    venta.setPrecio_reventa(rs.getBigDecimal("precio_reventa"));
-                    venta.setFecha_limite(rs.getDate("fecha_limite_venta"));
-                    ventas.add(venta);
+                venta.setId(rs.getInt("id"));
+                venta.setPersona(personaDAO.
+                        obtenerPersonaPorId(rs.getInt("id_persona")));
+                venta.setBoleto(boletoDAO.
+                        obtenerBoletoPorId(rs.getInt("id_boleto")));
+                venta.setPrecio_reventa(rs.getBigDecimal("precio_reventa"));
+                venta.setFecha_limite(rs.getDate("fecha_limite_venta"));
+                ventas.add(venta);
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "error al obtener las ventas por "
-                    + "rango en DAO", ex);
-            throw new DAOException("error al obtener las ventas");
+            logger.log(Level.SEVERE, "Error al obtener las ventas por rango en DAO", ex);
+            throw new DAOException("Error al obtener las ventas");
         }
-        
-        logger.info("Boletos para venta obtenidos con exito");
+
+        logger.info("Boletos para venta obtenidos con éxito");
         return ventas;
-        
     }
     
     
