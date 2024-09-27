@@ -5,6 +5,7 @@ package Negocio;
 
 import Convertidores.PersonaCVR;
 import DAO.PersonaDAO;
+import DTOs.EventoDTO;
 import DTOs.PersonaDTO;
 import Entidades.Persona;
 import Excepciones.BOException;
@@ -37,7 +38,8 @@ public class PersonaBO implements IPersonaBO {
             // Convertir la entidad a DTO y devolverlo
             return personaCVR.convertirADTO(persona);
         } catch (DAOException ex) {
-            throw new BOException("Error al consultar la persona: " + ex.getMessage());
+            throw new BOException("Error al consultar la persona: " + 
+                    ex.getMessage());
         }
     }
 
@@ -50,7 +52,8 @@ public class PersonaBO implements IPersonaBO {
             // Agregar la entidad Persona usando el DAO
             personaDAO.agregar(persona);
         } catch (DAOException ex) {
-            throw new BOException("Error al agregar la persona: " + ex.getMessage());
+            throw new BOException("Error al agregar la persona: " + 
+                    ex.getMessage());
         }
     }
 
@@ -63,12 +66,14 @@ public class PersonaBO implements IPersonaBO {
             // Actualizar la entidad Persona usando el DAO
             personaDAO.actualizar(persona);
         } catch (DAOException ex) {
-            throw new BOException("Error al actualizar la persona: " + ex.getMessage());
+            throw new BOException("Error al actualizar la persona: " + 
+                    ex.getMessage());
         }
     }
 
     @Override
-    public boolean consultarContrasena(String correo, String contrasena) throws BOException {
+    public boolean consultarContrasena(String correo, String contrasena) 
+            throws BOException {
 //        try {
 //            // Consultar la persona usando el DAO
 //            Persona persona = personaDAO.consultar(correo);
@@ -83,37 +88,52 @@ public class PersonaBO implements IPersonaBO {
     }
 
     @Override
-    public void actualizarSaldo(String idPersona, BigDecimal nuevoSaldo) throws BOException {
+    public void actualizarSaldo(String idPersona, BigDecimal nuevoSaldo) 
+            throws BOException {
         try {
             int id = Integer.parseInt(idPersona);
             personaDAO.actualizarSaldo(id, nuevoSaldo);
         } catch (DAOException ex) {
-            throw new BOException("Error al actualizar el saldo: " + ex.getMessage(), ex);
+            throw new BOException("Error al actualizar el saldo: " + 
+                    ex.getMessage(), ex);
         }
     }
 
     @Override
-    public boolean consultarPorCorreoYContrasena(String correo, String contrasena) throws BOException {
+    public boolean consultarPorCorreoYContrasena(String correo, 
+            String contrasena) throws BOException {
         try {
             // Consultar la persona con el correo y la contraseña
-            Persona persona = personaDAO.consultarPorCorreoYContrasena(correo, contrasena);
+            Persona persona = personaDAO.consultarPorCorreoYContrasena(correo, 
+                    contrasena);
 
-            // Si se encuentra la persona, significa que la combinación de correo y contraseña es válida
+            // Si se encuentra la persona, significa que la combinación de 
+            //correo y contraseña es válida
             return persona != null;
 
         } catch (DAOException ex) {
-            throw new BOException("Error al consultar la contraseña: " + ex.getMessage());
+            throw new BOException("Error al consultar la contraseña: " + 
+                    ex.getMessage());
         }
     }
 
     @Override
-    public PersonaDTO obtenerPersonaPorId(int idPersona) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public PersonaDTO obtenerPersonaPorId(int id) throws BOException {
+        try{
+            return personaCVR.convertirADTO(personaDAO.obtenerPersonaPorId(id));
+        }catch(DAOException ex){
+            throw new BOException(ex.getMessage());
+        }
     }
 
     @Override
-    public BigDecimal consultarSaldo(int id) throws DAOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public BigDecimal consultarSaldo(int id) throws BOException {
+        try{
+            return personaDAO.consultarSaldo(id);
+        }catch(DAOException ex){
+            throw new BOException(ex.getMessage());
+        }
     }
+
 
 }

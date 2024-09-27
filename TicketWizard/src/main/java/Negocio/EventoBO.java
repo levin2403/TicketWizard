@@ -54,7 +54,7 @@ public class EventoBO implements IEventoBO{
             }
             return listaDTO;
         } catch(DAOException ex){
-            throw new BOException();    
+            throw new BOException(ex.getMessage());    
         }    
     }
 
@@ -68,7 +68,7 @@ public class EventoBO implements IEventoBO{
             }
             return listaDTO;
         } catch(DAOException ex){
-            throw new BOException(); 
+            throw new BOException(ex.getMessage()); 
         }    
     }
 
@@ -82,13 +82,22 @@ public class EventoBO implements IEventoBO{
             }
             return listaDTO;
         } catch(DAOException ex){
-            throw new BOException();     
+            throw new BOException(ex.getMessage());     
         }    
     }
 
     @Override
     public EventoDTO obtenerEventoPorId(int id) throws BOException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return null;
+    }
+
+    @Override
+    public void registrarEvento(EventoDTO evento) throws BOException {
+        try{
+            eventoDAO.registrarEvento(eventoCVR.toEntity(evento));
+        } catch(DAOException ex){
+            throw new BOException(ex.getMessage());     
+        } 
     }
     
 }

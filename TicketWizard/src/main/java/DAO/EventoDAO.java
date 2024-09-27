@@ -258,5 +258,63 @@ public class EventoDAO implements IEventoDAO{
         }
         return evento;
         }
+
+    @Override
+    public void registrarEvento(Evento evento) throws DAOException{
+        Connection conn = null;
+        PreparedStatement pstmtEvento = null;
+
+        try {
+            // Obtener conexión utilizando la clase Conexion
+            Conexion conexion = new Conexion();
+            conn = conexion.crearConexion();
+
+            // Verificar si la conexión es válida
+            if (conn == null) {
+                logger.log(Level.SEVERE, "No se pudo establecer la conexión a la base de datos.");
+            }
+
+            // Deshabilitar el auto-commit para comenzar la transacción
+            conn.setAutoCommit(false);
+
+            // Insertar el Evento
+            String sqlInsertEvento = "INSERT INTO Evento(nombre, descripcion,"
+                    + " fecha_hora, id_venue) VALUES(?, ?, ?, ?)";
+            pstmtEvento = conn.prepareStatement(sqlInsertEvento);
+            pstmtEvento.setString(1, evento.getNombre());
+            pstmtEvento.setString(2, evento.getDescripcion());
+            pstmtEvento.setString(3, evento.getImageURL()); 
+            pstmtEvento.setInt(4, evento.getVenue().getId()); 
+            pstmtEvento.executeUpdate();
+
+            // Confirmar la transacción si todo salió bien
+            conn.commit();
+
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Error al registrar el evento: {0}", 
+                    e.getMessage());
+            if (conn != null) {
+                try {
+                    // Si hay algún error, deshacer los cambios
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    logger.log(Level.SEVERE, "Error al realizar el rollback: "
+                            + "{0}", ex.getMessage());
+                }
+            }
+            throw new DAOException("Error al registrar el evento");
+        } finally {
+            // Cerrar los recursos en el orden correcto
+            try {
+                if (pstmtEvento != null) pstmtEvento.close();
+                if (conn != null) conn.setAutoCommit(true); // Restaurar el auto-commit
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                logger.log(Level.SEVERE, "Error al cerrar los recursos: {0}", 
+                        e.getMessage());
+            }
+        }
+    }
+
     
 }

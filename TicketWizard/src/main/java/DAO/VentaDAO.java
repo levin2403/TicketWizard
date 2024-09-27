@@ -60,14 +60,17 @@ public class VentaDAO implements IVentaDAO{
                 while (rs.next()) {
                     Venta venta = new Venta();
                     venta.setId(rs.getInt("id"));
-                    venta.setPersona(personaDAO.obtenerPersonaPorId(rs.getInt("id_persona")));
-                    venta.setBoleto(boletoDAO.obtenerBoletoPorId(rs.getInt("id_boleto")));
+                    venta.setPersona(personaDAO.
+                            obtenerPersonaPorId(rs.getInt("id_persona")));
+                    venta.setBoleto(boletoDAO.
+                            obtenerBoletoPorId(rs.getInt("id_boleto")));
                     venta.setPrecio_reventa(rs.getBigDecimal("precio_reventa"));
                     venta.setFecha_limite(rs.getDate("fecha_limite_venta"));
                     ventas.add(venta);
                 }
             } catch (SQLException ex) {
-                logger.log(Level.SEVERE, "no se pudo obtener las ventas paginadas", ex);
+                logger.log(Level.SEVERE, "no se pudo obtener las ventas "
+                        + "paginadas", ex);
             }
             logger.info("Boletos para venta obtenidos con exito");
             return ventas;
@@ -106,14 +109,17 @@ public class VentaDAO implements IVentaDAO{
             while (rs.next()) {
                 Venta venta = new Venta();
                     venta.setId(rs.getInt("id"));
-                    venta.setPersona(personaDAO.obtenerPersonaPorId(rs.getInt("id_persona")));
-                    venta.setBoleto(boletoDAO.obtenerBoletoPorId(rs.getInt("id_boleto")));
+                    venta.setPersona(personaDAO.
+                            obtenerPersonaPorId(rs.getInt("id_persona")));
+                    venta.setBoleto(boletoDAO.
+                            obtenerBoletoPorId(rs.getInt("id_boleto")));
                     venta.setPrecio_reventa(rs.getBigDecimal("precio_reventa"));
                     venta.setFecha_limite(rs.getDate("fecha_limite_venta"));
                     ventas.add(venta);
             }
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "error al obtener las ventas por rango en DAO", ex);
+            logger.log(Level.SEVERE, "error al obtener las ventas por "
+                    + "rango en DAO", ex);
             throw new DAOException("error al obtener las ventas");
         }
         

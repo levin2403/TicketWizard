@@ -29,4 +29,6 @@ public interface IEventoDAO {
      
      public Evento obtenerEventoPorId(int id) throws DAOException;
     
+     public void registrarEvento(Evento evento) throws DAOException;
+     
 }
