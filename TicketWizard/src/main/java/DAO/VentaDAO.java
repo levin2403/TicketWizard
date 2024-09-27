@@ -108,7 +108,7 @@ public class VentaDAO implements IVentaDAO{
         String sql = "SELECT v.* FROM Venta v "
                    + "INNER JOIN Boleto b ON v.id_boleto = b.id "
                    + "WHERE v.id_persona != ? AND b.id_evento = ? "
-                   + "AND v.precio_reventa BETWEEN ? AND ? "
+                   + "AND v.precio_venta BETWEEN ? AND ? "
                    + "LIMIT ? OFFSET ?";
 
         try (Connection conn = conexion.crearConexion();
