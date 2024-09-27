@@ -48,8 +48,8 @@ public class VentaDAO implements IVentaDAO{
      * @throws Excepciones.DAOException 
      */
     @Override
-    public List<Venta> obtenerVentasPaginadas(int idPersona, int limit, 
-            int offset, int id_evento) throws DAOException {
+    public List<Venta> obtenerVentasPaginadas(int idPersona, int id_evento, int limit, 
+            int offset) throws DAOException {
         List<Venta> ventas = new ArrayList<>();
         String sql = "SELECT v.* FROM Venta v "
                    + "INNER JOIN Boleto b ON v.id_boleto = b.id "
@@ -73,8 +73,9 @@ public class VentaDAO implements IVentaDAO{
                         obtenerPersonaPorId(rs.getInt("id_persona")));
                 venta.setBoleto(boletoDAO.
                         obtenerBoletoPorId(rs.getInt("id_boleto")));
-                venta.setPrecio_reventa(rs.getBigDecimal("precio_reventa"));
+                venta.setPrecio_reventa(rs.getBigDecimal("precio_venta"));
                 venta.setFecha_limite(rs.getDate("fecha_limite_venta"));
+                venta.setEstado(rs.getString("estado"));
                 ventas.add(venta);
             }
         } catch (SQLException ex) {
@@ -100,9 +101,9 @@ public class VentaDAO implements IVentaDAO{
      * @throws Excepciones.DAOException 
      */
     @Override
-    public List<Venta> obtenerVentasPaginadasPorPrecio(int idPersona, 
+    public List<Venta> obtenerVentasPaginadasPorPrecio(int idPersona, int id_evento, 
             BigDecimal precioMin, BigDecimal precioMax, int limit, 
-            int offset, int id_evento) throws DAOException {
+            int offset) throws DAOException {
         List<Venta> ventas = new ArrayList<>();
         String sql = "SELECT v.* FROM Venta v "
                    + "INNER JOIN Boleto b ON v.id_boleto = b.id "
@@ -129,8 +130,9 @@ public class VentaDAO implements IVentaDAO{
                         obtenerPersonaPorId(rs.getInt("id_persona")));
                 venta.setBoleto(boletoDAO.
                         obtenerBoletoPorId(rs.getInt("id_boleto")));
-                venta.setPrecio_reventa(rs.getBigDecimal("precio_reventa"));
+                venta.setPrecio_reventa(rs.getBigDecimal("precio_venta"));
                 venta.setFecha_limite(rs.getDate("fecha_limite_venta"));
+                venta.setEstado(rs.getString("estado"));
                 ventas.add(venta);
             }
         } catch (SQLException ex) {

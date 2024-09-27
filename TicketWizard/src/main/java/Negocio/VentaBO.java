@@ -43,11 +43,11 @@ public class VentaBO implements IVentaBO{
     
 
     @Override
-    public List<VentaDTO> obtenerVentasPaginadas(int idPersona, int limit, 
-            int offset, int id_evento) throws BOException {
+    public List<VentaDTO> obtenerVentasPaginadas(int idPersona, int id_evento, int limit, 
+            int offset) throws BOException {
         try{
-        List<Venta> lista = ventaDAO.obtenerVentasPaginadas(idPersona, 
-                limit, offset, id_evento);
+        List<Venta> lista = ventaDAO.obtenerVentasPaginadas(idPersona, id_evento, 
+                limit, offset);
         List<VentaDTO> listaDTO = new ArrayList<>();
         
             for (int i = 0; i < lista.size(); i++) {
@@ -61,13 +61,13 @@ public class VentaBO implements IVentaBO{
     }
 
     @Override
-    public List<VentaDTO> obtenerVentasPaginadasPorPrecio(int idPersona, 
+    public List<VentaDTO> obtenerVentasPaginadasPorPrecio(int idPersona, int id_evento, 
             BigDecimal precioMin, BigDecimal precioMax, int limit, 
-            int offset, int id_evento) throws BOException {
+            int offset) throws BOException {
         
         try{
         List<Venta> lista = ventaDAO.obtenerVentasPaginadasPorPrecio
-                   (idPersona, precioMin, precioMax, limit, offset, id_evento);
+                   (idPersona, id_evento, precioMin, precioMax, limit, offset);
         List<VentaDTO> listaDTO = new ArrayList<>();
         
             for (int i = 0; i < lista.size(); i++) {

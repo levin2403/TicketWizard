@@ -6,6 +6,7 @@ package DAO;
 
 import Conexion.Conexion;
 import Entidades.Boleto;
+import Entidades.Tipo_boleto;
 import Excepciones.DAOException;
 import InterfacesDAO.IBoletoDAO;
 import java.sql.Connection;
@@ -38,7 +39,7 @@ public class BoletoDAO implements IBoletoDAO{
      */
     @Override
     public Boleto obtenerBoletoPorId(int id) throws DAOException{
-        String sql = "SELECT * WHERE id = ?";
+        String sql = "SELECT * FROM Boleto WHERE id = ?";
         Boleto boleto = null;
 
         try (Connection conn = new Conexion().crearConexion();
@@ -50,10 +51,12 @@ public class BoletoDAO implements IBoletoDAO{
             if (rs.next()) {
                 boleto = new Boleto();
                 boleto.setId(rs.getInt("id"));
+                boleto.setPrecio(rs.getBigDecimal("precio"));
                 boleto.setNumero_serie(rs.getString("numero_serie"));
                 boleto.setNumero_control(rs.getString("numero_control"));
                 boleto.setFila(rs.getString("fila"));
                 boleto.setAsiento(rs.getString("asiento"));
+                boleto.setTipo_boleto(Tipo_boleto.valueOf(rs.getString("tipo_boleto")));
                 boleto.setPrecio_original(rs.getBigDecimal("precio_original"));
                 boleto.setEvento(eventoDAO.obtenerEventoPorId(rs.getInt("id_evento")));
             }

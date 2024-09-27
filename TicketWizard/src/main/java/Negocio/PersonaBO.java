@@ -5,7 +5,6 @@ package Negocio;
 
 import Convertidores.PersonaCVR;
 import DAO.PersonaDAO;
-import DTOs.EventoDTO;
 import DTOs.PersonaDTO;
 import Entidades.Persona;
 import Excepciones.BOException;

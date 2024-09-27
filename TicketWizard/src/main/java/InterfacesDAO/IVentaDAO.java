@@ -17,12 +17,12 @@ import java.util.List;
  */
 public interface IVentaDAO {
     
-    public List<Venta> obtenerVentasPaginadas(int idPersona, int limit, 
-            int offset, int id_evento) throws DAOException;
+    public List<Venta> obtenerVentasPaginadas(int idPersona, int id_evento, 
+            int limit, int offset) throws DAOException;
     
     public List<Venta> obtenerVentasPaginadasPorPrecio(int idPersona, 
-                BigDecimal precioMin, BigDecimal precioMax, int limit, 
-                int offset, int id_evento) throws DAOException;
+            int id_evento, BigDecimal precioMin, BigDecimal precioMax, 
+            int limit, int offset) throws DAOException;
     
    public Venta obtenerVentaApartada(int id_comprador) throws DAOException;
    

@@ -4,9 +4,11 @@
  */
 package Presentacion;
 
-import DTOs.VentaDTO;
-import Excepciones.BOException;
-import Negocio.VentaBO;
+
+import DAO.VentaDAO;
+import Entidades.Venta;
+import Excepciones.DAOException;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.List;
 
@@ -21,10 +23,12 @@ public class NewMain {
      */
     public static void main(String[] args) throws ParseException {
         
-        VentaBO venta = new VentaBO();
+        VentaDAO venta = new VentaDAO();
+
 
         try {
-            List<VentaDTO> lista = venta.obtenerVentasPaginadas(1, 4, 0, 1);
+            List<Venta> lista;
+            lista = venta.obtenerVentasPaginadasPorPrecio(1, 2, BigDecimal(200.00), BigDecimal(600.00), 4, 0);
             
             if (lista != null) {
             
@@ -37,7 +41,7 @@ public class NewMain {
             }
             
             
-        } catch (BOException ex) {
+        } catch (DAOException ex) {
             System.out.println("Error: " + ex.getMessage());
         }
     }

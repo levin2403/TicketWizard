@@ -357,20 +357,22 @@ public class PersonaDAO implements  IPersonaDAO{
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
+                    persona = new Persona(); // Crear una nueva instancia de Persona
                     persona.setId(rs.getInt("id"));
                     persona.setNombre(rs.getString("nombre"));
                     persona.setContraseña(rs.getString("contraseña"));
                     persona.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
                     persona.setCorreo(rs.getString("correo"));
+                    persona.setDomicilio(domicilioDAO.consultar(rs.getInt("id_domicilio")));
                     persona.setSaldo(rs.getBigDecimal("saldo"));
                     persona.setGeneratedKey(rs.getString("generated_key"));
                 }
             }
         } catch (SQLException e) {
-            throw new DAOException("error al obtener la persona por id", e);
+            throw new DAOException("Error al obtener la persona por id", e);
         }
 
-        return persona; 
+        return persona; // Devolver la persona (o null si no se encontró)
     }
 
 }

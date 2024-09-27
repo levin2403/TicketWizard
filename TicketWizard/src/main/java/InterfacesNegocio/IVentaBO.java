@@ -18,12 +18,12 @@ import java.util.List;
 public interface IVentaBO {
     
     
-   public List<VentaDTO> obtenerVentasPaginadas(int idPersona, int limit, 
-            int offset, int id_evento) throws BOException;
+   public List<VentaDTO> obtenerVentasPaginadas(int idPersona, int id_evento, int limit, 
+            int offset) throws BOException;
     
-   public List<VentaDTO> obtenerVentasPaginadasPorPrecio(int idPersona, 
-                BigDecimal precioMin, BigDecimal precioMax, int limit, 
-                int offset, int id_evento) throws BOException;
+   public List<VentaDTO> obtenerVentasPaginadasPorPrecio(int idPersona, int id_evento, 
+            BigDecimal precioMin, BigDecimal precioMax, int limit, 
+            int offset) throws BOException;
     
    public VentaDTO obtenerVentaApartada(int id_comprador) throws BOException;
    
