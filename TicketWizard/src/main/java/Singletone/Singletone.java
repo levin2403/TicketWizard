@@ -4,8 +4,10 @@
  */
 package Singletone;
 
+import DTOs.BoletoDTO;
 import DTOs.EventoDTO;
 import DTOs.PersonaDTO;
+import DTOs.VentaDTO;
 
 /**
  *
@@ -15,6 +17,16 @@ public class Singletone {
     
     private static PersonaDTO persona;
     private static EventoDTO evento;
+    private static VentaDTO venta;
+    private static BoletoDTO boleto;
+
+    public BoletoDTO getBoleto() {
+        return boleto;
+    }
+
+    public void setBoleto(BoletoDTO boleto) {
+        Singletone.boleto = boleto;
+    }
 
     public Singletone() {
     }
@@ -33,6 +45,14 @@ public class Singletone {
 
     public void setEvento(EventoDTO evento) {
         Singletone.evento = evento;
+    }
+
+    public VentaDTO getVenta() {
+        return venta;
+    }
+
+    public void setVenta(VentaDTO venta) {
+        Singletone.venta = venta;
     }
     
     

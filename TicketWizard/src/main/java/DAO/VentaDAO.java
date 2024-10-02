@@ -52,9 +52,11 @@ public class VentaDAO implements IVentaDAO{
             int offset) throws DAOException {
         List<Venta> ventas = new ArrayList<>();
         String sql = "SELECT v.* FROM Venta v "
-                   + "INNER JOIN Boleto b ON v.id_boleto = b.id "
-                   + "WHERE v.id_persona != ? AND b.id_evento = ? "
-                   + "LIMIT ? OFFSET ?";
+               + "INNER JOIN Boleto b ON v.id_boleto = b.id "
+               + "WHERE v.id_persona != ? AND b.id_evento = ? "
+               + "AND v.estado != 'APARTADO' "
+               + "LIMIT ? OFFSET ?";
+
 
         try (Connection conn = conexion.crearConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -106,10 +108,11 @@ public class VentaDAO implements IVentaDAO{
             int offset) throws DAOException {
         List<Venta> ventas = new ArrayList<>();
         String sql = "SELECT v.* FROM Venta v "
-                   + "INNER JOIN Boleto b ON v.id_boleto = b.id "
-                   + "WHERE v.id_persona != ? AND b.id_evento = ? "
-                   + "AND v.precio_venta BETWEEN ? AND ? "
-                   + "LIMIT ? OFFSET ?";
+               + "INNER JOIN Boleto b ON v.id_boleto = b.id "
+               + "WHERE v.id_persona != ? AND b.id_evento = ? "
+               + "AND v.precio_venta BETWEEN ? AND ? "
+               + "AND v.estado != 'APARTADO' "
+               + "LIMIT ? OFFSET ?";
 
         try (Connection conn = conexion.crearConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -196,15 +199,16 @@ public class VentaDAO implements IVentaDAO{
         return venta;
     }
 
+    
     /**
      * 
      * @param venta
      * @throws DAOException 
      */
     @Override
-    public void RegistrarVenta(Venta venta) throws DAOException {
+    public void RegistrarVenta(int id_persona, int id_boleto, BigDecimal precio) throws DAOException {
         Connection conn = null;
-        PreparedStatement pstmtVenta = null;
+        CallableStatement cstmt = null;
 
         try {
             // Obtener conexión utilizando la clase Conexion
@@ -213,63 +217,53 @@ public class VentaDAO implements IVentaDAO{
 
             // Verificar si la conexión es válida
             if (conn == null) {
-                logger.log(Level.SEVERE, "No se pudo establecer la conexión a "
-                        + "la base de datos.");
-                throw new DAOException("Error al establecer la conexión a la "
-                        + "base de datos.");
+                logger.log(Level.SEVERE, "No se pudo establecer la conexión a la base de datos.");
+                throw new DAOException("Error al establecer la conexión a la base de datos.");
             }
 
             // Deshabilitar auto-commit para gestionar la transacción manualmente
             conn.setAutoCommit(false);
 
-            // Insertar la nueva venta
-            String sqlInsertVenta = "INSERT INTO Venta (id_persona, id_boleto, "
-                    + "precio_venta, fecha_limite_venta, estado) "
-                                  + "VALUES (?, ?, ?, ?, ?)";
-            pstmtVenta = conn.prepareStatement(sqlInsertVenta);
+            // Llamada al stored procedure
+            String sqlCallSP = "{CALL InsertarVenta(?, ?, ?)}";
+            cstmt = conn.prepareCall(sqlCallSP);
 
-            // Configurar los parámetros de la venta
-            pstmtVenta.setInt(1, venta.getPersona().getId());          // id_persona
-            pstmtVenta.setInt(2, venta.getBoleto().getId());           // id_boleto
-            pstmtVenta.setBigDecimal(3, venta.getPrecio_reventa());    // precio_reventa
-            pstmtVenta.setDate(4, 
-                    new java.sql.Date(venta.getFecha_limite().getTime()));  // fecha_limite_venta
-            pstmtVenta.setString(5, venta.getEstado());
+            // Configurar los parámetros del stored procedure
+            cstmt.setInt(1, id_persona);          // p_id_persona
+            cstmt.setInt(2, id_boleto);           // p_id_boleto
+            cstmt.setBigDecimal(3, precio);    // p_precio_venta
 
-            // Ejecutar la inserción
-            pstmtVenta.executeUpdate();
+            // Ejecutar el stored procedure
+            cstmt.executeUpdate();
 
             // Confirmar la transacción si todo sale bien
             conn.commit();
-            logger.info("Venta registrada con éxito.");
+            logger.info("Venta registrada con éxito mediante stored procedure.");
 
         } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Error al registrar la venta: {0}", 
-                    e.getMessage());
+            logger.log(Level.SEVERE, "Error al registrar la venta: {0}", e.getMessage());
             if (conn != null) {
                 try {
                     // Si ocurre un error, se realiza el rollback
                     conn.rollback();
-                    logger.log(Level.INFO, "Se ha realizado un rollback de la "
-                            + "transacción.");
+                    logger.log(Level.INFO, "Se ha realizado un rollback de la transacción.");
                 } catch (SQLException ex) {
-                    logger.log(Level.SEVERE, "Error al realizar el rollback: "
-                            + "{0}", ex.getMessage());
+                    logger.log(Level.SEVERE, "Error al realizar el rollback: {0}", ex.getMessage());
                 }
             }
-            throw new DAOException("Error al registrar la venta.");
+            throw new DAOException("Error al registrar la venta mediante stored procedure.");
         } finally {
             // Cerrar recursos en el orden adecuado
             try {
-                if (pstmtVenta != null) pstmtVenta.close();
+                if (cstmt != null) cstmt.close();
                 if (conn != null) conn.setAutoCommit(true); // Restaurar el auto-commit
                 if (conn != null) conn.close();
             } catch (SQLException e) {
-                logger.log(Level.SEVERE, "Error al cerrar los recursos: "
-                        + "{0}", e.getMessage());
+                logger.log(Level.SEVERE, "Error al cerrar los recursos: {0}", e.getMessage());
             }
         }
     }
+
 
 
     /**

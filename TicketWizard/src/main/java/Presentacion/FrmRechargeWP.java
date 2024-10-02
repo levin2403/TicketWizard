@@ -58,15 +58,19 @@ public class FrmRechargeWP extends javax.swing.JFrame {
           
         if (desicion == 0) {
          //calculamos el nuevo saldo
-         BigDecimal nuevoSaldo = (BigDecimal)this.cbxCantidad.getSelectedItem();
+         String nuevoSaldo = (String)this.cbxCantidad.getSelectedItem();
+         
+         BigDecimal nuevoSaldo1 = new BigDecimal(nuevoSaldo);
+         
          BigDecimal saldoActual = single.getPersona().getSaldo();
-         BigDecimal saldo = saldoActual.add(nuevoSaldo);
+         BigDecimal saldo = saldoActual.add(nuevoSaldo1);
          
          String id = single.getPersona().getId();
             
          personaBO.actualizarSaldo(id, saldo);
          
          FrmModelMenu menu = new FrmModelMenu();
+         menu.updateMoney();
          menu.setVisible(true);
          this.dispose();
          
@@ -109,7 +113,7 @@ public class FrmRechargeWP extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Cantidad:");
 
-        cbxCantidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "100.0", "200.0", "300.0", "400.0", "500.0", " " }));
+        cbxCantidad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "200.0", "400.0", "600.0", "800.0", "1000.0", " ", " " }));
 
         btnRecargar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnRecargar.setText("Recargar");
@@ -242,42 +246,6 @@ public class FrmRechargeWP extends javax.swing.JFrame {
         this.btnCancelar.setForeground(Color.BLACK);
     }//GEN-LAST:event_btnCancelarMouseExited
 
-    /**
-     * @param args the command line arguments
-     */
-    
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmRechargeWP().setVisible(true);
-            }
-        });
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

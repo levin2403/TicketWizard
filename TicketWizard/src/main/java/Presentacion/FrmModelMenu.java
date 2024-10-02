@@ -4,8 +4,11 @@
  */
 package Presentacion;
 
+import Excepciones.BOException;
+import Negocio.PersonaBO;
 import Presentacion.Panels.PnlBuy;
 import Presentacion.Panels.PnlRecords;
+import Presentacion.Panels.PnlSavedSell;
 import Presentacion.Panels.PnlSelling;
 import Singletone.Singletone;
 import java.awt.BorderLayout;
@@ -14,6 +17,8 @@ import java.awt.Image;
 import java.math.BigDecimal;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -22,6 +27,7 @@ import javax.swing.ImageIcon;
 public class FrmModelMenu extends javax.swing.JFrame {
 
     Singletone single;
+    PersonaBO personaBO;
     
     public FrmModelMenu() {
         initComponents();
@@ -51,7 +57,8 @@ public class FrmModelMenu extends javax.swing.JFrame {
     private void initialConfig(){
         this.setLocationRelativeTo(this);
         this.single = new Singletone();
-        System.out.println("datos llegados del singletone: " + single.getPersona().toString());
+        System.out.println("datos llegados del singletone: " + single.
+                getPersona().toString());
         this.lblMoneyAmount.setText(single.getPersona().getSaldo().toString());
     }
     
@@ -89,8 +96,27 @@ public class FrmModelMenu extends javax.swing.JFrame {
         }
     }
     
-    public void refreshMoney(BigDecimal amount){
-        this.lblMoney.setText(amount.toString());
+    public void updateMoney(){
+        try{
+           PersonaBO persona = new PersonaBO();
+            BigDecimal amount = persona.consultarSaldo(single.getPersona().
+                    getId());
+            this.lblMoneyAmount.setText(amount.toString()); 
+        }
+        catch(BOException ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+        
+    }
+    
+    private void paintPanel(JPanel panel){
+        panel.setSize(860,530);
+        panel.setLocation(0,0);
+        
+        PnlWindow.removeAll();
+        PnlWindow.add(panel, BorderLayout.CENTER);
+        PnlWindow.revalidate();
+        PnlWindow.repaint();
     }
     
     
@@ -358,49 +384,25 @@ public class FrmModelMenu extends javax.swing.JFrame {
     private void lblComprarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblComprarMouseClicked
         PnlBuy comprar = new PnlBuy();
         
-        comprar.setSize(860,530);
-        comprar.setLocation(0,0);
-        
-        PnlWindow.removeAll();
-        PnlWindow.add(comprar, BorderLayout.CENTER);
-        PnlWindow.revalidate();
-        PnlWindow.repaint();
+        paintPanel(comprar); //paint the panel
     }//GEN-LAST:event_lblComprarMouseClicked
 
     private void lblVenderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVenderMouseClicked
         PnlSelling vender = new PnlSelling();
         
-        vender.setSize(860,530);
-        vender.setLocation(0,0);
-        
-        PnlWindow.removeAll();
-        PnlWindow.add(vender, BorderLayout.CENTER);
-        PnlWindow.revalidate();
-        PnlWindow.repaint();
+        paintPanel(vender); //paint the panel
     }//GEN-LAST:event_lblVenderMouseClicked
 
     private void lblHistorialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblHistorialMouseClicked
         PnlRecords historial = new PnlRecords();
         
-        historial.setSize(860,530);
-        historial.setLocation(0,0);
-        
-        PnlWindow.removeAll();
-        PnlWindow.add(historial, BorderLayout.CENTER);
-        PnlWindow.revalidate();
-        PnlWindow.repaint();
+        paintPanel(historial); //paint the panel
     }//GEN-LAST:event_lblHistorialMouseClicked
 
     private void lblApartadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblApartadosMouseClicked
-        PnlBuy apartados = new PnlBuy();
+        PnlSavedSell saved = new PnlSavedSell();
         
-        apartados.setSize(860,530);
-        apartados.setLocation(0,0);
-        
-        PnlWindow.removeAll();
-        PnlWindow.add(apartados, BorderLayout.CENTER);
-        PnlWindow.revalidate();
-        PnlWindow.repaint();
+        paintPanel(saved); 
     }//GEN-LAST:event_lblApartadosMouseClicked
 
     private void lblMoneyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMoneyMouseClicked
@@ -415,14 +417,6 @@ public class FrmModelMenu extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_lblUserMouseClicked
 
-    public static void main(String args[]) {
-       
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmModelMenu().setVisible(true);
-            }
-        });
-    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

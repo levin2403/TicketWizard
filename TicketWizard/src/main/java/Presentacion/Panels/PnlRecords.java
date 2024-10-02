@@ -4,6 +4,13 @@
  */
 package Presentacion.Panels;
 
+import Presentacion.FrmUpdatePerson;
+import java.awt.BorderLayout;
+import java.awt.Image;
+import java.net.URL;
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+
 /**
  *
  * @author skevi
@@ -15,6 +22,36 @@ public class PnlRecords extends javax.swing.JPanel {
      */
     public PnlRecords() {
         initComponents();
+        initialConfig();
+    }
+    
+    private void initialConfig(){
+        lblVentas.setIcon(createImageIcon("hand.png", 150, 170));
+        lblCompras.setIcon(createImageIcon("cart.png", 150, 170));
+    }
+    
+    private ImageIcon createImageIcon(String path, int x, int y) {
+        URL imgURL = FrmUpdatePerson.class.getResource("/icons/" + path);
+        if (imgURL != null) {
+            ImageIcon originalIcon = new ImageIcon(imgURL);
+            Image image = originalIcon.getImage().getScaledInstance(x, y, 
+                    Image.SCALE_SMOOTH);
+            return new ImageIcon(image);
+        } else {
+            System.err.println("No se pudo encontrar el archivo de imagen: " 
+                    + path);
+            return null;
+        }
+    }
+    
+    private void paintPanel(JPanel panel){
+        this.setSize(860,530);
+        this.setLocation(0,0);
+        
+        this.removeAll();
+        this.add(panel, BorderLayout.CENTER);
+        this.revalidate();
+        this.repaint();
     }
 
     /**
@@ -31,14 +68,14 @@ public class PnlRecords extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
 
-        lblCompras.setText("jLabel1");
+        lblCompras.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCompras.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblComprasMouseClicked(evt);
             }
         });
 
-        lblVentas.setText("jLabel1");
+        lblVentas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblVentas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblVentasMouseClicked(evt);
@@ -56,19 +93,15 @@ public class PnlRecords extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(483, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(42, 42, 42))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(163, 163, 163))))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(53, 53, 53)
-                    .addComponent(lblVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(472, Short.MAX_VALUE)))
+                .addContainerGap(602, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addGap(163, 163, 163))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(66, 66, 66)
+                .addComponent(lblVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(195, 195, 195)
@@ -79,15 +112,12 @@ public class PnlRecords extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(107, 107, 107)
-                .addComponent(lblCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addComponent(jLabel3)
                 .addContainerGap(104, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(105, 105, 105)
-                    .addComponent(lblVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(164, Short.MAX_VALUE)))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addContainerGap(396, Short.MAX_VALUE)
@@ -97,11 +127,27 @@ public class PnlRecords extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblVentasMouseClicked
-        // TODO add your handling code here:
+        PnlSalesHistory sales = new PnlSalesHistory();
+        
+        sales.setSize(860,530);
+        sales.setLocation(0,0);
+        
+        this.removeAll();
+        this.add(sales, BorderLayout.CENTER);
+        this.revalidate();
+        this.repaint();
     }//GEN-LAST:event_lblVentasMouseClicked
 
     private void lblComprasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblComprasMouseClicked
-        // TODO add your handling code here:
+        PnlShoppingHistory shoping = new PnlShoppingHistory();
+        
+        shoping.setSize(860,530);
+        shoping.setLocation(0,0);
+        
+        this.removeAll();
+        this.add(shoping, BorderLayout.CENTER);
+        this.revalidate();
+        this.repaint();
     }//GEN-LAST:event_lblComprasMouseClicked
 
 

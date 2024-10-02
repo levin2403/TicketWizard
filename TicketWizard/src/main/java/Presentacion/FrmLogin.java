@@ -5,6 +5,7 @@
 package Presentacion;
 
 import DTOs.PersonaDTO;
+import Excepciones.BOException;
 import Negocio.PersonaBO;
 import Presentacion.Component.AESEncrypter;
 import Presentacion.Component.RoundedBorder;
@@ -12,6 +13,8 @@ import Singletone.Singletone;
 import java.awt.Color;
 import java.awt.Image;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 /**
@@ -73,11 +76,10 @@ public class FrmLogin extends javax.swing.JFrame {
     
     
     //itll return a user
-    private void procesUser(){
+    private void procesUser() throws Exception{
         try{
             //obtenemos el correo
             String correo = this.txfCorreo.getText();
-            System.out.println("correo obtenido: " + correo);
             
             // Obtener la contraseña como un arreglo de caracteres
             char[] passwordChars = psfContrasena.getPassword();
@@ -87,37 +89,51 @@ public class FrmLogin extends javax.swing.JFrame {
             
             //cosultamos si el usuario existe por correo y traemos su informacion
             PersonaDTO persona = personaBO.consultar(correo);
-            System.out.println(persona.toString());
             
-            //encriptamos la contraseña tomando la llave secreta del usuario consultado
-            String  encrypted = aes.encrypt(contraseña, aes.stringToSecretKey(persona.getGeneratedKey()));
-            System.out.println(encrypted);
+                //encriptamos la contraseña tomando la llave secreta del usuario consultado
+                String  encrypted = aes.encrypt(contraseña, 
+                        aes.stringToSecretKey(persona.getGeneratedKey()));
+                System.out.println(encrypted);
+
+                if (encrypted.equalsIgnoreCase(persona.getContraseña())) {
+
+                    single.setPersona(persona);
+
+                    FrmModelMenu menu = new FrmModelMenu(); 
+                    menu.setVisible(true);
+                    this.dispose();
+                  
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "Contraseña incorrecta "
+                            + "porfavor intente de nuevo", 
+                        "Contraseña incorrecta", JOptionPane.ERROR_MESSAGE);
+                }
+
+                // Limpiar el arreglo de caracteres para mayor seguridad
+                java.util.Arrays.fill(passwordChars, '\0');
+               }
             
-            System.out.println("correo y contraseña enviados: " + correo + contraseña);
-            
-            if (personaBO.consultarContrasena(correo, encrypted)) {
-                
-                single.setPersona(persona);
-                
-                FrmModelMenu menu = new FrmModelMenu(); 
-                menu.setVisible(true);
-                this.dispose();
-            }
-            
-            // Limpiar el arreglo de caracteres para mayor seguridad
-            java.util.Arrays.fill(passwordChars, '\0');
-            
+        
+        catch(BOException e){
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
-        catch(Exception e){
-            
+        catch(NullPointerException npex){
+            JOptionPane.showMessageDialog(this, "El correo porporcionado "
+             + "es incorrecto, porfavor intente de nuevo", 
+             "Correo no encontrad", JOptionPane.ERROR_MESSAGE);
+            System.out.println(npex.getMessage());
         }
     }
 
-    private ImageIcon createImageIcon(String path, int x, int y, String extension) throws Exception {
-        URL imgURL = FrmLogin.class.getResource("/icons/" + path + "." + extension);
+    private ImageIcon createImageIcon(String path, int x, int y, 
+            String extension) throws Exception {
+        URL imgURL = FrmLogin.class.getResource("/icons/" + path + "." + 
+                extension);
         if (imgURL != null) {
             ImageIcon originalIcon = new ImageIcon(imgURL);
-            Image image = originalIcon.getImage().getScaledInstance(x, y, Image.SCALE_SMOOTH);
+            Image image = originalIcon.getImage().getScaledInstance(x, y, 
+                    Image.SCALE_SMOOTH);
             return new ImageIcon(image);
         } else {
             throw new Exception("No se pudo encontrar el archivo de imagen");
@@ -137,6 +153,7 @@ public class FrmLogin extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
         psfContrasena = new javax.swing.JPasswordField();
+        chbContrasena = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -185,6 +202,13 @@ public class FrmLogin extends javax.swing.JFrame {
         psfContrasena.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         psfContrasena.setForeground(new java.awt.Color(0, 0, 0));
 
+        chbContrasena.setText("Ver");
+        chbContrasena.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chbContrasenaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -197,7 +221,9 @@ public class FrmLogin extends javax.swing.JFrame {
                     .addComponent(txfCorreo)
                     .addComponent(jLabel2)
                     .addComponent(psfContrasena))
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chbContrasena)
+                .addContainerGap(15, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -225,7 +251,9 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(psfContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(psfContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chbContrasena))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addComponent(btnIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
@@ -248,7 +276,11 @@ public class FrmLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        procesUser();
+        try {
+            procesUser();
+        } catch (Exception ex) {
+            Logger.getLogger(FrmLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnIngresarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIngresarMouseEntered
@@ -265,6 +297,16 @@ public class FrmLogin extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel1MouseClicked
 
+    private void chbContrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chbContrasenaActionPerformed
+        if (chbContrasena.isSelected()) {
+            // Mostrar la contraseña en texto plano
+            psfContrasena.setEchoChar((char) 0);
+        } else {
+            // Ocultar la contraseña con un carácter de máscara
+            psfContrasena.setEchoChar('*');
+        }
+    }//GEN-LAST:event_chbContrasenaActionPerformed
+
     
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -276,6 +318,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIngresar;
+    private javax.swing.JCheckBox chbContrasena;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

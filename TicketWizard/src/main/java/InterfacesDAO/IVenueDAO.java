@@ -6,6 +6,7 @@ package InterfacesDAO;
 
 import Entidades.Venue;
 import Excepciones.DAOException;
+import java.util.List;
 
 /**
  *
@@ -14,4 +15,5 @@ import Excepciones.DAOException;
 public interface IVenueDAO {
     
     public Venue obtenerVenuePorId(int id) throws DAOException;
+    public List<Venue> obtenerListaVenues() throws DAOException;
 }

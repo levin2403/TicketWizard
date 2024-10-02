@@ -483,14 +483,7 @@ public class FrmUpdatePerson extends javax.swing.JFrame {
        actualizar();
     }//GEN-LAST:event_btnActualizarActionPerformed
 
-    
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FrmUpdatePerson().setVisible(true);
-            }
-        });
-    }
+   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;

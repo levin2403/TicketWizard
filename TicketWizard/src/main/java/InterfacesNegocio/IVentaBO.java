@@ -27,7 +27,8 @@ public interface IVentaBO {
     
    public VentaDTO obtenerVentaApartada(int id_comprador) throws BOException;
    
-   public void RegistrarVenta(VentaDTO venta) throws BOException;
+   public void RegistrarVenta(int id_persona, int id_boleto, BigDecimal precio) 
+           throws BOException;
    
    public void RealizarVentaApartada(PersonaDTO vendedor, PersonaDTO comprador, 
            BoletoDTO boleto, BigDecimal precio, String numero_serie) 

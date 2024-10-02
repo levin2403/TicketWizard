@@ -4,19 +4,89 @@
  */
 package Presentacion.Panels;
 
+import DTOs.HistorialCompraDTO;
+import Excepciones.BOException;
+import Negocio.HistorialCompraBO;
+import Singletone.Singletone;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author skevi
  */
 public class PnlShoppingHistory extends javax.swing.JPanel {
 
-    /**
-     * Creates new form PnlPurchaseHistory
-     */
+    private int limit;
+    private int offset;
+    
+    Singletone single;
+    HistorialCompraBO hcBO;
+    
     public PnlShoppingHistory() {
         initComponents();
+        this.hcBO = new HistorialCompraBO();
+        this.single = new Singletone(); 
+        
+        this.limit = 11;
+        this.offset = 0;
+        
+        tablaHistorialCompras();
+        
+        this.btnPrevio.setVisible(false);
     }
 
+    private void tablaHistorialCompras() {
+        try{
+        
+        int id = Integer.parseInt(single.getPersona().getId());
+            
+        List<HistorialCompraDTO> historialCompras =  hcBO.
+                obtenerHistorialComprasPaginado(id, limit, offset);
+            
+            if (historialCompras.size() < 11) {
+                this.btnSiguiente.setVisible(false);
+                this.lblPagina.setVisible(false);
+            }
+        
+        // Definir los nombres de las columnas de la tabla
+        String[] columnas = {"Boleto", "Fecha Compra", "Hora Compra", 
+            "Tipo Compra"};
+
+        // Crear un modelo de tabla con las columnas
+        DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0);
+
+        // Recorrer la lista de historial de compras
+        for (HistorialCompraDTO historialCompra : historialCompras) {
+            // Extraer los datos de cada objeto HistorialCompraDTO
+            String evento = historialCompra.getBoleto().getEvento().getNombre(); 
+            String fila = historialCompra.getBoleto().getFila();
+            String asiento  = historialCompra.getBoleto().getAsiento();
+            Date fechaCompra = historialCompra.getFecha_compra();
+            Time horaCompra = historialCompra.getHora_compra();
+            String tipoCompra = historialCompra.getTipo_compra();
+
+            // Crear una fila con los datos extraídos
+            Object[] object = {evento, fila, asiento, fechaCompra, horaCompra, 
+                tipoCompra};
+
+            // Agregar la fila al modelo de la tabla
+            modeloTabla.addRow(object);
+        }
+
+        // Asignar el modelo a la tabla (tblHistorialCompra)
+        tblCompras.setModel(modeloTabla);
+        }
+        catch(BOException ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
+
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,9 +99,9 @@ public class PnlShoppingHistory extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCompras = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        lblPagina = new javax.swing.JLabel();
+        btnPrevio = new javax.swing.JButton();
+        btnSiguiente = new javax.swing.JButton();
 
         tblCompras.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -49,15 +119,15 @@ public class PnlShoppingHistory extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Historial de compras");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("1");
+        lblPagina.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lblPagina.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblPagina.setText("1");
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton1.setText("Previo");
+        btnPrevio.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnPrevio.setText("Previo");
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton2.setText("Siguiente");
+        btnSiguiente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnSiguiente.setText("Siguiente");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -71,11 +141,11 @@ public class PnlShoppingHistory extends javax.swing.JPanel {
                 .addGap(28, 28, 28))
             .addGroup(layout.createSequentialGroup()
                 .addGap(289, 289, 289)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnPrevio, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -87,20 +157,20 @@ public class PnlShoppingHistory extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblPagina)
+                    .addComponent(btnPrevio, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(79, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnPrevio;
+    private javax.swing.JButton btnSiguiente;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblPagina;
     private javax.swing.JTable tblCompras;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,6 +6,7 @@ package DAO;
 
 import Conexion.Conexion;
 import Entidades.HistorialCompra;
+import Entidades.Tipo_boleto;
 import Excepciones.DAOException;
 import InterfacesDAO.IHistorialCompraDAO;
 import java.sql.Connection;
@@ -45,18 +46,19 @@ public class HistorialCompraDAO implements IHistorialCompraDAO{
      */        
     @Override
     public List<HistorialCompra> obtenerHistorialComprasPaginado(int id, 
-            int paginaActual, int registrosPorPagina) throws DAOException {
+            int limit, int offset) throws DAOException {
+        
         List<HistorialCompra> historial = new ArrayList<>();
-        int offset = (paginaActual - 1) * registrosPorPagina;
+        
 
-        String sql = "SELECT * FROM HistorialCompras WHERE id = ? LIMIT ? "
+        String sql = "SELECT * FROM HistorialCompra WHERE id_persona = ? LIMIT ? "
                 + "OFFSET ?";
         
         try (Connection conn = conexion.crearConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setInt(1, id);
-            pstmt.setInt(2, registrosPorPagina);
+            pstmt.setInt(2, limit);
             pstmt.setInt(3, offset);
 
             try (ResultSet rs = pstmt.executeQuery()) {
@@ -67,8 +69,10 @@ public class HistorialCompraDAO implements IHistorialCompraDAO{
                             obtenerPersonaPorId(rs.getInt("id_persona")));
                     compra.setBoleto(boletoDAO.
                             obtenerBoletoPorId(rs.getInt("id_boleto")));
-                    compra.setFecha_compra(rs.getDate("fecha_venta"));
-                    compra.setHora_compra(rs.getTime("hora_venta"));
+                    compra.setFecha_compra(rs.getDate("fecha_compra"));
+                    compra.setHora_compra(rs.getTime("hora_compra"));
+                    compra.setTipo_compra(Tipo_boleto.
+                            valueOf(rs.getString("tipo_compra")));
 
                     historial.add(compra);
                 }

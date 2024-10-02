@@ -21,8 +21,8 @@ public class PersonaCVR {
     }
     
     public Persona convertirAEntidad(PersonaDTO dto) throws BOException{
+        
         try{
-        // Convertir el ID de String a int
         int id = Integer.parseInt(dto.getId());
         return new Persona(
                 id,
@@ -42,7 +42,11 @@ public class PersonaCVR {
     
     // Método para convertir de Persona a PersonaDTO
     public PersonaDTO convertirADTO(Persona persona) throws BOException{
-        // Crear y devolver el DTO a partir de la entidad Persona
+        
+        if (persona == null) {
+            return null;
+        }
+        
         return new PersonaDTO(
                 String.valueOf(persona.getId()), // Convertir el ID de int a String
                 persona.getNombre(),

@@ -154,13 +154,14 @@
         <Component class="javax.swing.JComboBox" name="cbxCantidad">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="6">
-                <StringItem index="0" value="100.0"/>
-                <StringItem index="1" value="200.0"/>
-                <StringItem index="2" value="300.0"/>
-                <StringItem index="3" value="400.0"/>
-                <StringItem index="4" value="500.0"/>
+              <StringArray count="7">
+                <StringItem index="0" value="200.0"/>
+                <StringItem index="1" value="400.0"/>
+                <StringItem index="2" value="600.0"/>
+                <StringItem index="3" value="800.0"/>
+                <StringItem index="4" value="1000.0"/>
                 <StringItem index="5" value=" "/>
+                <StringItem index="6" value=" "/>
               </StringArray>
             </Property>
           </Properties>

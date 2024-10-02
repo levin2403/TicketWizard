@@ -22,6 +22,6 @@ public interface IPersonaBO {
     public void actualizarSaldo(String idPersona, BigDecimal nuevoSaldo) throws BOException;
     public boolean consultarPorCorreoYContrasena(String correo, String contrasena) throws BOException;
     public PersonaDTO obtenerPersonaPorId(int idPersona) throws BOException;
-    public BigDecimal consultarSaldo(int id) throws BOException; 
+    public BigDecimal consultarSaldo(String id) throws BOException; 
   
 }

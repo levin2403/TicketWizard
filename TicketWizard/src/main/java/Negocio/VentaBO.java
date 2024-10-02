@@ -92,9 +92,9 @@ public class VentaBO implements IVentaBO{
     }
 
     @Override
-    public void RegistrarVenta(VentaDTO venta) throws BOException {
+    public void RegistrarVenta(int id_persona, int id_boleto, BigDecimal precio) throws BOException {
         try{
-            ventaDAO.RegistrarVenta(ventaCVR.toEntityRegister(venta));
+            ventaDAO.RegistrarVenta(id_persona, id_boleto, precio);
         }
         catch(DAOException ex){
             throw new BOException(ex.getMessage());

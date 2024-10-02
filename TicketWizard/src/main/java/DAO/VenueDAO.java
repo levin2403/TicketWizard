@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -56,6 +58,31 @@ public class VenueDAO implements IVenueDAO{
             throw new DAOException("error al obtener el venue en dao", ex);
         }
         logger.info("venue obtenido con exito");
+        return venue;
+    }
+    
+    public List<Venue> obtenerListaVenues() throws DAOException{
+        List<Venue> venue = new ArrayList<>();
+        String sql = "SELECT * FROM Venue";
+
+        try (Connection conn = conexion.crearConexion();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Venue venues = new Venue();
+                venues.setId(rs.getInt("id"));
+                venues.setNombre(rs.getString("nombre"));
+                venues.setCiudad(rs.getString("ciudad"));
+                venues.setEstado(rs.getString("estado"));
+                venue.add(venues);
+            }
+        } catch (SQLException ex) {
+            logger.severe("Error al obtener el venue");
+            throw new DAOException("error al obtener los venues en dao", ex);
+        }
+        logger.info("venues obtenido con exito");
         return venue;
     }
     

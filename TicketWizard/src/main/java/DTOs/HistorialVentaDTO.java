@@ -14,7 +14,7 @@ import java.util.Date;
  */
 public class HistorialVentaDTO {
     
-    private int id;
+    private String id;
     private PersonaDTO vendedor;
     private PersonaDTO comprador;
     private BoletoDTO boleto;
@@ -36,7 +36,7 @@ public class HistorialVentaDTO {
         this.hora_venta = hora_venta;
     }
 
-    public HistorialVentaDTO(int id, PersonaDTO vendedor, PersonaDTO comprador, 
+    public HistorialVentaDTO(String id, PersonaDTO vendedor, PersonaDTO comprador, 
             BoletoDTO boleto, BigDecimal precio_venta, Date fecha_venta, 
             Time hora_venta) {
         this.id = id;
@@ -48,11 +48,11 @@ public class HistorialVentaDTO {
         this.hora_venta = hora_venta;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

@@ -31,11 +31,15 @@ public class PersonaBO implements IPersonaBO {
     @Override
     public PersonaDTO consultar(String correo) throws BOException {
         try {
-            // Consultar la entidad Persona desde el DAO
             Persona persona = personaDAO.consultar(correo);
-
-            // Convertir la entidad a DTO y devolverlo
-            return personaCVR.convertirADTO(persona);
+            if (persona == null) {
+                return null;
+            }
+            else{
+                // Convertir la entidad a DTO y devolverlo
+                return personaCVR.convertirADTO(persona);
+            }
+            
         } catch (DAOException ex) {
             throw new BOException("Error al consultar la persona: " + 
                     ex.getMessage());
@@ -126,9 +130,10 @@ public class PersonaBO implements IPersonaBO {
     }
 
     @Override
-    public BigDecimal consultarSaldo(int id) throws BOException {
+    public BigDecimal consultarSaldo(String id) throws BOException {
         try{
-            return personaDAO.consultarSaldo(id);
+            int persona = Integer.parseInt(id);
+            return personaDAO.consultarSaldo(persona);
         }catch(DAOException ex){
             throw new BOException(ex.getMessage());
         }

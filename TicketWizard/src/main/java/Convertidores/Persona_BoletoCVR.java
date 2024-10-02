@@ -1,0 +1,56 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Convertidores;
+
+import DTOs.Persona_BoletoDTO;
+import Entidades.Persona_Boleto;
+import Entidades.Tipo_boleto;
+import Excepciones.BOException;
+
+/**
+ *
+ * @author skevi
+ */
+public class Persona_BoletoCVR {
+    
+    private final BoletoCVR boletoCVR;
+
+    public Persona_BoletoCVR(){
+        this.boletoCVR = new BoletoCVR();
+    }
+    
+    public Persona_BoletoDTO toDTO(Persona_Boleto pb) throws BOException{
+        try{
+            return new Persona_BoletoDTO(
+                String.valueOf(pb.getId()),
+                boletoCVR.toDTO(pb.getBoleto()),
+                pb.getFecha_adquisicion(),
+                pb.getHora_adquisicion(),
+                pb.getTipo_adquisicion().name(),
+                pb.getEstado()
+            );
+        }
+        catch(BOException ex){
+            throw new BOException(ex.getMessage());
+        }
+    }
+    
+    public Persona_Boleto toEntity(Persona_BoletoDTO pbDTO) throws BOException{
+        try{
+            return new Persona_Boleto(
+                Integer.parseInt(pbDTO.getId()),
+                boletoCVR.toEntity(pbDTO.getBoleto()),
+                pbDTO.getFecha_adquisicion(),
+                pbDTO.getHora_adquisicion(),
+                Tipo_boleto.valueOf(pbDTO.getTipo_adquisicion()),
+                pbDTO.getEstado()    
+            );
+        }
+        catch(BOException ex){
+            throw new BOException(ex.getMessage());
+        }
+    }
+    
+}

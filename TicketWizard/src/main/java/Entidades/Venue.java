@@ -65,8 +65,7 @@ public class Venue {
 
     @Override
     public String toString() {
-        return "Venue{" + "id=" + id + ", nombre=" + nombre + ", ciudad=" + 
-                ciudad + ", estado=" + estado + '}';
+        return nombre + ", " +  ciudad + ", " + estado ;
     }
     
     

@@ -169,25 +169,23 @@ public class PersonaDAO implements  IPersonaDAO{
                     persona.setId(resultado.getInt("id"));
                     persona.setNombre(resultado.getString("nombre"));
                     persona.setContraseña(resultado.getString("contraseña"));
-                    persona.setFechaNacimiento(resultado.
-                            getDate("fecha_nacimiento"));
+                    persona.setFechaNacimiento(resultado.getDate("fecha_nacimiento"));
                     persona.setCorreo(resultado.getString("correo"));
                     persona.setSaldo(resultado.getBigDecimal("saldo"));
-                    persona.setGeneratedKey(resultado.
-                            getString("generated_key"));
+                    persona.setGeneratedKey(resultado.getString("generated_key"));
 
                     // Ahora obtenemos el domicilio asociado a la persona, si existe
                     int idDomicilio = resultado.getInt("id_domicilio");
                     if (idDomicilio > 0) {
-                        Domicilio domicilio = domicilioDAO.
-                                consultar(idDomicilio);
+                        Domicilio domicilio = domicilioDAO.consultar(idDomicilio);
                         persona.setDomicilio(domicilio);
                     }
-                    System.out.println(persona.toString());
+                    System.out.println(persona.toString()); 
+
                     return persona;
                 } else {
-                    throw new DAOException("No se encontró la persona con "
-                            + "el correo: " + correo);
+                    // Si no se encuentra, devolvemos null
+                    return null;
                 }
             }
 
@@ -195,6 +193,7 @@ public class PersonaDAO implements  IPersonaDAO{
             throw new DAOException("Error al consultar la persona", ex);
         }
     }
+
 
     /**
      * 

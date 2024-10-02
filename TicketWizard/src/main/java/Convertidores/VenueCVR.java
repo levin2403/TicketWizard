@@ -4,11 +4,9 @@
  */
 package Convertidores;
 
-import DAO.EventoDAO;
 import DTOs.VenueDTO;
 import Entidades.Venue;
 import Excepciones.BOException;
-import java.util.logging.Logger;
 
 /**
  *

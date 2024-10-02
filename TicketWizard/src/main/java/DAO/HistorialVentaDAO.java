@@ -47,7 +47,7 @@ public class HistorialVentaDAO implements IHistorialVentaDAO{
     public List<HistorialVenta> obtenerHistorialVentasPaginado(int id, 
             int limit, int offset) throws DAOException {
         List<HistorialVenta> historialVentas = new ArrayList<>();
-        String sql = "SELECT * FROM HistorialVenta WHERE id = ? LIMIT ? "
+        String sql = "SELECT * FROM HistorialVenta WHERE id_vendedor = ? LIMIT ? "
                 + "OFFSET ?";
 
         try (Connection conn = conexion.crearConexion(); 

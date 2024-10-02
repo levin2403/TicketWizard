@@ -14,7 +14,7 @@ public class BoletoGenerator {
 
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     
-    public static String generarNumeroSerie() {
+    public String generarNumeroSerie() {
         int longitud = 8;
         StringBuilder builder = new StringBuilder();
         Random random = new Random();
@@ -27,16 +27,16 @@ public class BoletoGenerator {
         return builder.toString();
     }
 
-    public static int generarNumeroControl(int min, int max) {
-        Random random = new Random();
-        return random.nextInt((max - min) + 1) + min;
-    }
-    
-    public static void main(String[] args) {
-        String numeroSerie = generarNumeroSerie();
-        int numeroControl = generarNumeroControl(1000, 9999);
-        
-        System.out.println("Número de serie generado: " + numeroSerie);
-        System.out.println("Número de control del asiento generado: " + numeroControl);
-    }
+//    public int generarNumeroControl(int min, int max) {
+//        Random random = new Random();
+//        return random.nextInt((max - min) + 1) + min;
+//    }
+//    
+//    public static void main(String[] args) {
+//        String numeroSerie = generarNumeroSerie();
+//        int numeroControl = generarNumeroControl(1000, 9999);
+//        
+//        System.out.println("Número de serie generado: " + numeroSerie);
+//        System.out.println("Número de control del asiento generado: " + numeroControl);
+//    }
 }

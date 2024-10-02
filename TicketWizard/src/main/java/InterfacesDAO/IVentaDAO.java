@@ -26,7 +26,8 @@ public interface IVentaDAO {
     
    public Venta obtenerVentaApartada(int id_comprador) throws DAOException;
    
-   public void RegistrarVenta(Venta venta) throws DAOException;
+   public void RegistrarVenta(int id_persona, int id_boleto, BigDecimal precio) 
+           throws DAOException;
    
    public void RealizarVentaApartada(Persona vendedor, Persona comprador, 
            Boleto boleto, BigDecimal precio, String numero_serie) 

@@ -4,17 +4,82 @@
  */
 package Presentacion.Panels;
 
+import DTOs.HistorialVentaDTO;
+import Excepciones.BOException;
+import Negocio.HistorialVentaBO;
+import Singletone.Singletone;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author skevi
  */
 public class PnlSalesHistory extends javax.swing.JPanel {
 
-    /**
-     * Creates new form PnlSalesHistory
-     */
+
+    private int limit;
+    private int offset;
+    private HistorialVentaBO hvBO;
+    Singletone single;
+    
     public PnlSalesHistory() {
         initComponents();
+        this.hvBO = new HistorialVentaBO();
+        this.single = new Singletone();
+        
+        this.limit = 11;
+        this.offset = 0;
+        setList();
+       
+        this.btnPrevio.setVisible(false);
+    }
+    
+    
+    private void setList(){
+       try{
+        int id = Integer.parseInt(single.getPersona().getId());
+        
+        List<HistorialVentaDTO> historialVentas = hvBO.
+                obtenerHistorialVentasPaginado(id, limit, offset);
+        
+           if (historialVentas.size() < 11) {
+               this.btnSiguiente.setVisible(false);
+               this.lblPagina.setVisible(false);
+           }
+        
+        // Definir los nombres de las columnas para la tabla
+        String[] columnas = {"Vendedor", "Comprador", "Boleto", "Precio Venta", "Fecha Venta", "Hora Venta"};
+
+        // Crear un modelo de tabla con las columnas
+        DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0);
+
+        // Recorrer la lista de historial de ventas
+        for (HistorialVentaDTO historialVenta : historialVentas) {
+            // Extraer los datos de cada objeto HistorialVentaDTO
+            String comprador = historialVenta.getComprador().getNombre(); 
+            String evento = historialVenta.getBoleto().getEvento().getNombre(); 
+            BigDecimal precioVenta = historialVenta.getPrecio_venta();
+            Date fechaVenta = (Date) historialVenta.getFecha_venta();
+            Time horaVenta = historialVenta.getHora_venta();
+
+            // Crear una fila con los datos extraídos
+            Object[] fila = {id, comprador, evento, precioVenta, fechaVenta, horaVenta};
+
+            // Agregar la fila al modelo de la tabla
+            modeloTabla.addRow(fila);
+        }
+
+        // Asignar el modelo a la tabla (tblHistorialVenta)
+        tblVentas.setModel(modeloTabla);
+       }
+       catch(BOException ex){
+           JOptionPane.showMessageDialog(this, ex.getMessage());
+       }
     }
 
     /**
@@ -29,8 +94,8 @@ public class PnlSalesHistory extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblVentas = new javax.swing.JTable();
         lblPagina = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnPrevio = new javax.swing.JButton();
+        btnSiguiente = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         tblVentas.setModel(new javax.swing.table.DefaultTableModel(
@@ -49,9 +114,9 @@ public class PnlSalesHistory extends javax.swing.JPanel {
         lblPagina.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblPagina.setText("1");
 
-        jButton1.setText("jButton1");
+        btnPrevio.setText("Previo");
 
-        jButton2.setText("jButton1");
+        btnSiguiente.setText("Siguiente");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Historial de ventas");
@@ -64,11 +129,11 @@ public class PnlSalesHistory extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(289, 289, 289)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnPrevio, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24)
                         .addComponent(lblPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,16 +152,16 @@ public class PnlSalesHistory extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblPagina)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnPrevio, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(89, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnPrevio;
+    private javax.swing.JButton btnSiguiente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblPagina;
